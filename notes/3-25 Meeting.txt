@@ -1,0 +1,21 @@
+User Testing Questions:
+
+-Let users make their own categories?
+-Use tags instead of categories?
+
+Ideas:
+
+-Add up/down votes to quiz itself
+-Option for timed/not timed questions upon submission
+    -and timed/not timed quizzes themselves, for studying
+-Make "play" button look clickable
+    -Add a circle around it
+-Let users join teams
+-Score questions based on time taken to answer
+
+Implementation:
+
+-modify createAnswer() to support timed out quiz answer
+-change social media links to actual sites
+
+

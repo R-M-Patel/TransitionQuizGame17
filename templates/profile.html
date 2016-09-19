@@ -1,0 +1,156 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['bar']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var curr = {{categoryScores|safe}};
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Category');
+        data.addColumn('number', 'Score');
+        for (i in curr)
+        {
+            data.addRows([[curr[i].categoryText, curr[i].score]]);
+        }
+
+        // Set chart options
+        var options = {
+                       bars : 'horizontal',
+                       vAxis : {minorGridlines : {count:5}},
+                       colors : ['#aaaaaa'],
+                       height: 500,
+                       width: 500,
+                       legend: {position : 'none'},
+                       titlePosition : 'none',
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new
+            google.charts.Bar(document.getElementById('barchart_material'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+
+  <body>
+	{% if user_email %}
+
+	<div class= "container col-lg-12s">
+            <br>
+            <br>
+            <br>
+			<div class="text-left"><he5>{{profile.username}}'s Profile Information:</he5></div>
+                <hr>
+                <div class="col-lg-3">
+                {% if profile.image_url %}
+                    <img src="/image?id={{profile.user_id}}" class="img-responsive smaller-image" >
+                {% else %}
+                    <img style="height: 100%; width: auto;" class="img-responsive smaller-image" src="/static/img/DrMarioadv.png">
+	            {% endif %}
+                <br>
+                </div>
+                <div class="col-lg-9">
+                    <label class="control-label">Name:</label> {{profile.name}}<br>
+                    <label class="control-label">Year:</label> {{profile.year}}<br>
+                    <label class="control-label">Interests:</label> {{profile.interests}}<br>
+                    <label class="control-label">Employer:</label> {{profile.employer}}<br>
+                    <label class="control-label">Bio:</label> {{profile.bio}}<br>
+                    <br><br><br>
+                </div>
+            {% if profile.user_id == user_id %}
+                <a class="btn btn-default pull-right" href="#editprofile" data-toggle="modal">Edit Profile Information</a>
+			{% endif %}
+            <br><br>
+	</div>
+    
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs/jq-2.1.4,dt-1.10.9/datatables.min.css"/>
+	<script type="text/javascript" src="https://cdn.datatables.net/r/bs/jq-2.1.4,dt-1.10.9/datatables.min.js"></script>
+	
+	<div class="modal fade" id="editprofile" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form role = "form"  method="post" class="form-horizontal" action="{{upload_url}}" enctype="multipart/form-data"> <!--Need to process the information-->
+					<div class="modal-header">
+						<he5>Edit Profile Information</he5>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for: "name" class="col-lg-2 control-label">Name: *</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" name="name" id="name" value="{{profile.name}}" maxlength=70 required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for: "Location" class="col-lg-2 control-label">Year: *</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" name="year" id="year" value="{{profile.year}}" maxlength=35 required>
+							</div>
+						</div>
+					    <div class="form-group">
+							<label for: "img" class="col-lg-2 control-label">Image: </label>
+							<div class="col-lg-10">
+								<input type="file" class="form-control" name="file" id="Location">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for: "Interests" class="col-lg-2 control-label">Interests: </label>
+							<div class="col-lg-10">
+								<textarea type="text" class="form-control" name="interests" id="interests" value="" maxlength=140 required>{{profile.interests}}</textarea>
+							</div>
+						</div>
+                        <div class="form-group">
+							<label for: "Interests" class="col-lg-2 control-label">Employer: </label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" name="employer" id="employer" value="{{profile.employer}}" maxlength=140>
+							</div>
+						</div>
+                        <div class="form-group">
+							<label for: "Interests" class="col-lg-2 control-label">Bio:</label>
+							<div class="col-lg-10">
+								<textarea type="text" class="form-control" name="bio" id="bio" value="" maxlength=140>{{profile.bio}}</textarea>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-default text-right" data-dismiss="modal">Close</a>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+    <!--Div that will hold the pie chart-->
+    <div class="container">
+        <hr>
+        <he5>Statistics:</he5><br><br>
+        {% if numScores > 2 %} 
+            <div  id="barchart_material"></div>
+        {% else %}
+            <span>No Scores Reported</span>
+        {% endif %}
+    </div>
+	<br><br><br>
+	{% else %}
+    <div class = "intro container">
+        <br><br><br>
+        <h1 style="position:absolute; top:50%; left:20%;">You Must Be Logged In to View This Page!</h1>
+    </div>
+	{% endif %}
+{% endblock %}
+
+

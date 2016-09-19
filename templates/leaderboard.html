@@ -1,0 +1,134 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    table {
+        width:100%;
+    }
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+        text-align: left;
+    }
+    table#leaderboard tr:nth-child(even) {
+        background-color: #eee;
+    }
+    table#leaderboard tr:nth-child(odd) {
+       background-color:#fff;
+    }
+    table#leaderboard th	{
+        background-color: black;
+        color: white;
+}
+</style>
+</head>
+<body>
+    </br></br></br></br>
+    <div class="container">
+        <div class="container col-lg-12">
+            <h3 style="text-align:center; display:inline">Leaderboard</h3>
+        </div>
+        <div class = "container col-lg-12"><hr></div>
+        <div class= "container col-lg-6" align="left">
+            Category: &nbsp
+            <select style="font-size:5" class="selectpicker" id="category" name="category" method="POST">
+                <option selected value="ALL">All</option>
+            </select>
+        </div>
+        <div class = "container col-lg-6" align="right">
+            Time Period: &nbsp
+            <select style="font-size:5" class="selectpicker" id="timePeriod" name="timePeriod" method="POST">
+                <option selected value="ALL">All Time</option>
+                <option value="Past Week">Past Week</option>
+                <option value="Past Month">Past Month</option>
+                <option value="Past Year">Past Year</option>
+            </select>
+        </div>
+        <div class = "container col-lg-12"><br></div>
+        <div class="container col-lg-12">
+            <table id="leaderboard">
+              <thead>
+                <th width='5%'>Rank</th>
+                <th>Name</th>
+                <th>Points</th>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#category').change(function(){
+            category = $('#category').val();
+            timePeriod = $('#timePeriod').val();
+            if (timePeriod == null){
+                timePeriod = "All";
+            }
+            $.ajax({
+                type: "POST",
+                url: "/getNewCatScores",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({"category":category, "time":timePeriod}),
+                success: function(text){
+                    $("#leaderboard tbody").empty();
+                    var data = JSON.parse(text);
+                    var rank = 1;
+                    $.each(data, function(index, el) {
+                        $('#leaderboard tbody').append("<tr><td>"+rank+"</td><td>"+index+"</td><td>"+el+"</td></tr>");
+                        rank++;
+                    });
+                },
+            });
+        });
+
+        $('#timePeriod').change(function(){
+            category = $('#category').val();
+            if (category == null){
+                category = "ALL";
+            }
+            timePeriod = $('#timePeriod').val();
+            $.ajax({
+                type: "POST",
+                url: "/getNewCatScores",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({"category":category, "time":timePeriod}),
+                success: function(text){
+                    $("#leaderboard tbody").empty();
+                    var data = JSON.parse(text);
+                    var rank = 1;
+                    $.each(data, function(index, el) {
+                        $('#leaderboard tbody').append("<tr><td>"+rank+"</td><td>"+index+"</td><td>"+el+"</td></tr>");
+                        rank++;
+                    });
+                },
+            });
+        });
+    });
+    $(document).ready(function(){
+        var scoreList =  {{list|safe}};
+        var rank = 1;
+        for (var prop in scoreList){
+          $('#leaderboard tbody').append("<tr><td>"+rank+"</td><td>"+prop+"</td><td>"+scoreList[prop]+"</td></tr>");
+          rank++;
+        }
+    });
+    $(document).ready(function() {
+        var curr = {{catList|safe}};
+        var option = $("#category");
+        $.each(curr, function(key, value) {
+            var Ivalue = "<option value='"+value.category+"'>" + value.category + "</option>";
+            option.append(Ivalue);
+        });
+    });
+    //alert(scoreList);
+</script>
+</html>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+<html>
+<head>
+    <title>Add a Question</title>
+</head>
+<body>
+{% if user_email %}
+    <br><br><br><br>
+    <div class = "container">
+        <h3>New Question Submission</h3>
+        <hr>
+        <form action="{{upload_urlQ}}" enctype="multipart/form-data" method="post"><font size = 5>
+            <div>
+            <span style="font-size:75%;">Select A Category:&nbsp;</span>
+            <select name="category"  id="catdropdown" method="POST" >
+            </select>
+            <a class="btn btn-link" href="#submitcat" data-toggle="modal">Suggest a Category</a>
+            </div>
+            <hr>
+            <div class="col-sm-6" style="display:table;">
+                <textarea type="text" name="questiontext" placeholder="Enter question here..."class="form-control" rows="6" METHOD=POST maxlength="144" id="questionText"required></textarea>
+            </div>
+            <div class="col-sm-4" style="list-style-type:none;display:table;">
+                    <input type="textarea" class="red-text" placeholder="Answer #1" method=POST name="answer1" maxlength="30" id="answer1" required></input>
+                    <input type="textarea" class="blue-text" placeholder="Answer #2" method=POST name="answer2" maxlength="30" id="answer2" required></input>
+                    <input type="textarea" class="green-text" placeholder="Answer #3" method=POST name="answer3" maxlength="30" id="answer3" required></input>
+                    <input type="textarea" class="yellow-text" placeholder="Answer #4" method=POST name="answer4" maxlength="30" id="answer4" required></input>
+            </div>
+            </div>
+            <div class="container">
+                <hr>
+            Import Image:
+            <input type="file" class="form-control" name="file" id="Location"></input>
+                Explanation:<br>
+                <textarea type="text" name="explanation" class="form-control" rows="5" maxlength="750"></textarea>
+                <hr>
+                Select the correct answer:</br>
+                <div class="col-sm-2">
+                    <button type="submit" style="width:100%;" name="answerid" value=1 class="submit-q-button-1" id="select1">1</button>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" style="width:100%;" name="answerid" value=2 class="submit-q-button-2" id="select2">2</button>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" style="width:100%;" name="answerid" value=3 class="submit-q-button-3" id="select3">3</button>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" style="width:100%;" name="answerid" value=4 class="submit-q-button-4" id="select4">4</button>
+                </div>
+        </form>
+    </div>
+    <!--Suggest category Modal-->
+    <div style="z-index:2147483646;" class="modal fade" id="submitcat" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+                <div class="modal-header">
+                    <he5>Category Suggestion</he5>
+                </div>
+                <div class="modal-body">
+                    Category Suggestion:<br><br>
+                    <input class="form-control" id="category" maxlength="30" required></input>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default text-right" data-dismiss="modal">Close</a>
+                    <button class="btn btn-primary" onclick="sendCategory()">Submit</button>
+                </div>
+			</div>
+		</div>
+	</div>
+    {% else %}
+    <div class = "intro container">
+        <br><br><br>
+        <h1 style="position:absolute; top:50%; left:20%;">You Must Be Logged In to View This Page!</h1>
+    </div>
+{% endif %}
+</body>
+<script>
+    $(document).ready(function() {
+        var curr = {{catList|safe}};
+        var option = $("#catdropdown");
+        $.each(curr, function(key, value) {
+            var Ivalue = "<option value='"+value.category+"'>" + value.category + "</option>";
+            option.append(Ivalue);
+        });
+    });
+    //AJAX
+    function sendCategory(){
+        var category = document.getElementById('category').value;
+        //clear report question text box
+        document.getElementById('category').value= "";
+        $.ajax({
+            type: "POST",
+            url: "/addCategory",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({"category": category}),
+            success : function(text){
+                if (text.exists == true){
+                    alert("Category already exists.");
+                }
+                else{
+                    $('#submitcat').modal('hide');
+                    confirm("Category suggestion added.");
+                }
+            }
+       });
+    }
+</script>
+</html>
+
+{% endblock %}

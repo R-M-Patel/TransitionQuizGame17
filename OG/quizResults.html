@@ -1,0 +1,58 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+<!DOCTYPE html>
+<html>
+<style>
+.alignleft {
+  float: left;
+  width:33.33333%;
+  text-align:left;
+  font-weight: bold;
+}
+.aligncenter {
+  float: left;
+  width:33.33333%;
+  text-align:center;
+  font-weight: bold;
+}
+.alignright {
+ float: left;
+ width:33.33333%;
+ text-align:right;
+ font-weight: bold;
+}​
+
+</style>
+<body>
+	<div class = "container " style="text-align:center">
+    </br></br></br></br><h3  style="text-align:center">You got 3 out of 4 questions correct!</h3>
+	<hr>
+	<span class="alignleft">Question</span>
+	<span class="aligncenter">Your Answer</span>
+	<span class="alignright">Points</span>
+</br>
+	<hr>
+	<span class="alignleft">1. Who is the coolest Pokemon?</span>
+	<span class="aligncenter" style="color:green;">Blastoise</span>
+	<span class="alignright" style="color:green;">+151</span>
+</br>
+	<hr>
+	<span class="alignleft">2. Who is the raddest Pokemon?</span>
+	<span class="aligncenter" style="color:green;">Blastoise</span>
+	<span class="alignright" style="color:green;">+151</span>
+	</br>
+	<hr>
+	<span class="alignleft">3. Who is the fasttttest Pokemon?</span>
+	<span class="aligncenter" style="color:green;">Blastoise</span>
+	<span class="alignright" style="color:green;">+151</span>
+	</br>
+	<hr>
+	<span class="alignleft">4. Who is the best Pokemon of the original 151?</span>
+	<span class="aligncenter" style="color:red;">Onyx</span>
+	<span class="alignright" style="color:red;">0</span>
+	</br>
+	<hr>
+	</div>
+</body>
+</html>
+{% endblock %}

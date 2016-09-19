@@ -1,0 +1,89 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    table {
+        width:100%;
+    }
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+        text-align: left;
+    }
+    table#leaderboard tr:nth-child(even) {
+        background-color: #eee;
+    }
+    table#leaderboard tr:nth-child(odd) {
+       background-color:#fff;
+    }
+    table#leaderboard th	{
+        background-color: black;
+        color: white;
+}
+</style>
+</head>
+<body>
+    </br></br></br></br>
+    <div class="container">
+        <div class="container col-lg-12">
+            <h3 style="text-align:center; display:inline">Categories</h3>
+            <hr>
+        </div>
+        <div class = "container col-lg-12"><br></div>
+        <div class="container col-lg-4"></div>
+        <div class="container col-lg-4">
+            In rotation:
+            <table id="acceptedBoard">
+              <thead>
+                <th width='20%'>Remove</th>
+                <th>Category</th>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <hr>
+            Out of rotation:
+            <table id="newBoard">
+              <thead>
+                <th width='20%'>Add</th>
+                <th width='20%'>Delete</th>
+                <th>Category</th>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+        </div>
+        <div class="container col-lg-4"></div>
+        <br>
+    </div>
+    <br>
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var curr = {{trueCatList|safe}};
+        var falseList = {{falseCatList|safe}};
+        $.each(curr, function(key, value) {
+            var newNo1 = "<form method='post' style='display:inline-block' class='horizontal-form' action='/removeNewCategory'>";
+            var newNo2 = "<input type='hidden' name='cat' value='"+value.category+"'></input>";
+            var newNo3 = "<button class='btn btn-danger' type='submit'>REMOVE</button></form>";
+            $('#acceptedBoard tbody').append("<tr><td>"+newNo1+newNo2+newNo3+"</td><td>"+value.category+"</td></tr>");
+        });
+        $.each(falseList, function(key, value) {
+            var newNo1 = "<form method='post' style='display:inline-block' class='horizontal-form' action='/addNewCategory'>";
+            var newNo2 = "<input type='hidden' name='cat' value='"+value.category+"'></input>";
+            var newNo3 = "<button class='btn btn-success' type='submit'>ADD</button></form>";
+            var newNo5 = "<form method='post' style='display:inline-block' class='horizontal-form' onsubmit=\"return confirm('Do you really want to delete this category?');\" action='/deleteCategory'>";
+            var newNo4 = "<button class='btn btn-danger' type='submit'>DELETE</button></form>";
+            $('#newBoard tbody').append("<tr><td>"+newNo1+newNo2+newNo3+"</td><td>"+newNo5+newNo2+newNo4+"</td><td>"+value.category+"</td></tr>");
+            console.log(newNo5);
+        });
+    });
+</script>
+</html>
+{% endblock %}

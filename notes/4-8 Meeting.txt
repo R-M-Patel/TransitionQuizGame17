@@ -1,0 +1,37 @@
+Priorities:
+
+1) Admin control of categories
+2) Add explanations to results page
+3) Leaderboard by time period
+
+Fixes:
+
+Extra points when hitting Enter on question page
+Social media links
+Show rules when choosing username
+
+New Features:
+
+Add "Play Game" to profile if no scores
+Add "Play Game" somewhere accessible all the time
+Show correct answer on results page
+    -make toggleable if possible
+"Retake Quiz" button
+Add link to user profile on leaderboard
+Add answers to database search
+Log for admins to review
+
+New Graph Ideas:
+
+global performace compared to individual performance
+progress over time
+
+Problems from user testing:
+
+-they clicked the correct answer before filling out the fields on question
+submit, and got mad
+- "Where do I take the quiz?"
+- "Where do I go from here?" on the results page
+- they wanted the "are you ready" box to be more appealing
+- NaN points for submitted questions
+

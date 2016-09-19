@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>Your Pictures Are Dumb</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/script0001.js">
+    </script>
+  </head>
+  <body>
+    <h1>Your Pictures Are Dumb</h1>
+    <a href="/">Main Page</a> |
+    {% if user_email %}
+    <a href="/upload">Upload an Image</a> | <a href="{{ logout_url }}">Sign Out</a>
+    {% else %}
+    <a href="{{ login_url }}">Sign In</a>
+    {% endif %}
+    <br><br>
+
+{% block bodycontent %}{% endblock %}
+
+  </body>
+</html>

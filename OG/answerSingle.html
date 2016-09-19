@@ -1,0 +1,80 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+<!DOCTYPE html>
+<html>
+<script type="text/javascript">
+    var timeLeft;
+    window.onload = function timer(){
+        timeLeft = 14;
+        var elem = document.getElementById('timer');
+
+        var timerId = setInterval(countdown, 1000);
+
+        function countdown() {
+          if (timeLeft == 0) {
+            clearTimeout(timerId);
+            document.getElementById('submit').click();
+          } else {
+            elem.innerHTML = "<p>" + timeLeft + "</p>";
+            timeLeft--;
+          }
+        }
+       
+        var count = document.getElementById('counter');
+        var counter = {{totalCount}};
+        counter+=1;
+        count.innerHTML = counter+".";
+    }
+    
+    function score(){
+        //this is where we can do the calculations for the score by grabbing
+        //the time variable and using that as part of it, as well as using
+        //information from the question_obj, or we can probably use jquery or
+        //something, attach onsubmit="score()" into the form
+    }
+</script>
+<body>
+	<div class = "container" style=" height: 240px; text-align:center; position:relative;">
+		<br><br><br>
+        <div style="text-align:center">Time Left</div>
+        <div id="timer" style="text-align:center"><p>15</p></div>
+        <h3 class= "col-lg-1" style="text-align:right" id="counter"></h3>
+        <h3 class="col-lg-11" style="text-align:center">{{question_obj.question}}</h3>
+    </div>
+    <div class = "container text-align-center">
+        <form id="answer" action=/submitAnswer method="post"><font size = 5>
+          <input type="hidden" name="hidden_questionid" value="{{question_obj.id}}">
+          <input type="hidden" name="hidden_correctCount" value="{{correctCount}}">
+          <input type="hidden" name="hidden_totalCount" value="{{totalCount}}">
+          <input type="hidden" name="hidden_score" value="{{score}}">
+         
+          <div class ="container">
+              <div class = "col-lg-3"></div>
+              <div class="col-lg-3">
+                  <button type="submit" name="userAnswer" value=1 class="submit-a-button-1">
+                  {{question_obj.answer1}}</button>
+              </div>
+              <div class="col-lg-3">
+                  <button type="submit" name="userAnswer" value=2 class="submit-a-button-2">
+                  {{question_obj.answer2}}</button>
+              </div>
+              <div class="col-lg-3"></div>
+          </div>
+          <div class ="container">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-3">
+                  <button type="submit" name="userAnswer" value=3 class="submit-a-button-3">
+                  {{question_obj.answer3}}</button>
+                  </div>
+              <div class="col-lg-3">
+                  <button type="submit" name="userAnswer" value=4 class="submit-a-button-4">
+                  {{question_obj.answer4}}</button>
+                  </div>
+              <div class="col-lg-3"></div>
+          </div>
+          <button type="hidden submit" id="submit" name="userAnswer" style="visibility: hidden" value=0></button>
+        </form>
+	</div>
+</body>
+</html>
+{% endblock %}

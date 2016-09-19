@@ -1,0 +1,348 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+<!DOCTYPE html>
+<html>
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="/static/js/w2ui-1.4.3.min.js"></script>
+<style>
+.alignleft {
+  float: left;
+  width:33.33333%;
+  text-align:left;
+  font-weight: bold;
+}
+.aligncenter {
+  float: left;
+  width:33.33333%;
+  text-align:center;
+  font-weight: bold;
+}
+.alignright {
+ float: left;
+ width:33.33333%;
+ text-align:right;
+ font-weight: bold;
+}
+</style>
+<script type="text/javascript">
+    var timeLeft;
+    var counter = -1;
+    var curr;
+    var timerId;
+    var ratingNum;
+    var ratingDiv;
+    var questkey;
+    var userid = "{{user_id}}";
+    var score = 0;
+    var totalScore = 0;
+    var maxTime = 15;
+    var userResults = [];
+    var correctCount = 0;
+    var numAnswered = 0;
+    function result(){  //none of these constructor values should remain after proper code executes
+        this.qTxt = "Question Text Goes Here";
+        this.uAns = "Timeout by default";
+        this.points = 0;
+        this.correct = false;
+    }
+    function runQuestion(){
+        try{
+            clearTimeout(timerId);
+            $("#getready").modal('hide');
+        }
+        catch(err){
+        }
+        timeLeft = 14;
+        var elem = document.getElementById('timer');
+        timerId = setInterval(function() {
+              elem.innerHTML = "<p>" + timeLeft + "</p>";
+              if (timeLeft == 0) {
+                clearTimeout(timerId);
+                submit(5);
+              } else {
+                    timeLeft--;
+              }
+            }, 1000);
+        var count = document.getElementById('counter'); //question number
+        counter+=1; //increments at each question
+        if( (counter) == "{{num}}"){
+            document.getElementById('content').innerHTML = "";
+            var cnt = 0;
+            var correctString = "You got ";
+            correctString = correctString.concat(correctCount);
+            correctString = correctString.concat(" out of ");
+            correctString = correctString.concat(counter);
+            correctString = correctString.concat(" questions correct.");
+            document.getElementById('correctBox').innerHTML = correctString;
+            var scoreString = "You scored ";
+            scoreString = scoreString.concat(totalScore);
+            scoreString = scoreString.concat(" points.");
+            document.getElementById('pointsBox').innerHTML = scoreString;
+            $('#quizResults').show();
+            /*while (cnt < counter+1){
+            }*/
+            //instead of sending the results off the page, just clear the page and construct the new one here,
+            //can have an already set up div here and just fill it in as well
+            //window.location.href = "/";
+            return;
+        }
+        count.innerHTML = "Total Score: " + totalScore; //prints out the question number
+        elem.innerHTML = "<p>" + 15 + "</p>";
+	$('#img').css("display","none");
+        //code for retrieving and printing the question
+        var quest = document.getElementById("question");
+        var ans1 = document.getElementById("answer1");
+        var ans2 = document.getElementById("answer2");
+        var ans3 = document.getElementById("answer3");
+        var ans4 = document.getElementById("answer4");
+	// curr[counter] == current question
+	// urlkey or image_urlQ
+        ratingDiv = document.getElementById("numVotes");
+        curr = {{question_list|safe}};
+	$('#img').attr("src","/imageQ?urlkey=" + curr[counter].urlkey);
+	if (curr[counter].image_urlQ != null){
+		$('#img').css("display","inline");
+	}
+        ratingNum = curr[counter].rating;
+        questkey = curr[counter].urlkey;
+        quest.innerHTML = (counter+1) + ") "  + curr[counter].question ;
+        ans1.innerHTML = curr[counter].answer1;
+        ans2.innerHTML = curr[counter].answer2;
+        ans3.innerHTML = curr[counter].answer3;
+        ans4.innerHTML = curr[counter].answer4;
+        ratingDiv.innerHTML = "Rating: " + ratingNum;
+        ratingDiv.style.color = "black";
+    }
+    function calcScore(timeRemaining,percentCorrect){
+        var value = 50;
+        value = value * (timeRemaining+1)/maxTime;
+        value = value * ((100-percentCorrect)/100);
+        value = +value.toFixed(1);
+        value+= 50;
+        value = value * 10;
+        return value;
+    }
+</script>
+
+<body>
+    <br><br><br><br>
+    <div class="container" id="content">
+        <div class = "container" style= "text-align:center; position:relative;">
+            <h4 id = "question" style="text-align:center"></h4>
+        </div>
+
+        <!--Quiz-->
+        <font size = 5>
+            <div class ="container">
+            <div class="large-lg-12 text-center">
+                    <img style="display:none;" id="img" src="" style= "text-align:center;" class="smaller-image"></img>
+            </div>
+            <div class = "col-lg-3"></div>
+                <div class="col-lg-3" style= "text-align:center; position:relative;">
+                    <button onclick="submit(1)" id="answer1" type="submit" name="userAnswer" value=1 class="submit-a-button-1"></button>
+                </div>
+                <div class="col-lg-3" style= "text-align:center; position:relative;">
+                    <button onclick="submit(2)" id="answer2" type="submit" name="userAnswer" value=2 class="submit-a-button-2"></button>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+            <div class ="container">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-3" style= "text-align:center; position:relative;">
+                    <button onclick="submit(3)" id="answer3" type="submit" name="userAnswer" value=3 class="submit-a-button-3"></button>
+                    </div>
+                <div class="col-lg-3" style= "text-align:center; position:relative;">
+                    <button onclick="submit(4)" id="answer4" type="submit" name="userAnswer" value=4 class="submit-a-button-4"></button>
+                    </div>
+                <div class="col-lg-3"></div>
+            </div>
+            <button type="hidden submit" id="submit" name="userAnswer" style="visibility: hidden" value=0></button>
+        </font>
+
+        <div class="container" id="timer" style="text-align:center"><p>15</p></div>
+        <div class="container" style="text-align:center"><h4 style="display:inline;" id="counter"></h4></div>
+    </div>
+    <!--Results Modal-->
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id ="results" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" id="title" style="text-align:center;">
+                    <span style="color:red" id="popupHead"></span>
+                </div>
+                <div class="modal-body">
+                    <div style=" font-size: 24px; line-height: 110%; text-align:left;">
+                        <h3 style="display:inline">Results: </h3>
+                        <ol id="list">
+                            <li style="color: #f44336;" id='popupAns1'></li>
+                            <li style="color: #f44336;" id='popupAns2'></li>
+                            <li style="color: #f44336;" id='popupAns3'></li>
+                            <li style="color: #f44336;" id='popupAns4'></li>
+                        </ol>
+                        <h3 style="display:inline">Explanation: </h3>
+                        <p id='explanation'></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="vote(1)" class="btn btn-success pull-left"><i class = "fa fa-arrow-up"></i></button>
+                    <button onclick="vote(0)" class="btn btn-danger pull-left"><i class = "fa fa-arrow-down"></i></button>
+                    <p style="display:inline" class="btn btn-link pull-left" id="numVotes"></p>
+                    <a class="btn btn-info text-left" id="report" href="#sendreport" style="text-align: right" data-toggle="modal"><i class="fa fa-flag" aria-hidden="true"></i></a>
+                    <button class="btn btn-primary text-right" id="nextquestionbutton" onclick="runNextQuestion()">Next Question</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Report Modal-->
+    <div style="z-index:2147483646;" class="modal fade" id="sendreport" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+                <div class="modal-header">
+                    <he5>Report Question</he5>
+                </div>
+                <div class="modal-body">
+                    Describe the problem:<br><br>
+                    <textarea class="form-control" rows="3" cols="40" id="comment" name="comment" maxlength="350" required ></textarea>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default text-right" data-dismiss="modal">Close</a>
+                    <button class="btn btn-primary" onclick="sendReport()">Submit</button>
+                </div>
+			</div>
+		</div>
+	</div>
+    <!--Get Ready Modal-->
+    <div style="z-index:2147483646;" class="modal fade" id="getready" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+                <div class="modal-header" style="text-align:center">
+                    {% if num != 0 %}
+                    <h1 style="display:inline">Are You Ready!?</h1>
+                    {% else %}
+                    <h1 style="display:inline">No Questions Found</h1>
+                    {% endif %}
+                </div>
+                <div class="modal-body" style="text-align:center">
+                    {% if num != 0 %}
+                    {% if num == 1 %}
+                        <span> We found {{num}} question. </span><br>
+                    {% else %}
+                        <span> We found {{num}} questions. </span><br>
+                    {% endif %}
+                    <button class="btn btn-link" style="color: green" onclick= "runQuestion()" id="gobutton"><br><h2>Start</h2></button>
+                    {% endif %}
+                    {% if num == 0 %}
+                    <a href = "/submitNew"><h2>Click Here to Submit New Questions</h2></a>
+                    {% endif %}
+                    <a href = "/"><h5 style="display:inline"><br>Return Home</h5></a>
+                    <br>
+                </div>
+			</div>
+		</div>
+	</div>
+
+    <div class = "container" id="quizResults" style="text-align:center; display:none">
+        <div class = "container">
+        <h2 id="correctBox" style="text-align:center"></h2>
+        <h4 id="pointsBox" style="text-align:center"></h4>
+        <span class="alignleft">Question</span>
+        <span class="aligncenter">Your Answer</span>
+        <span class="alignright">Points&nbsp;</span>
+        </br>
+    </div>
+	</div>
+</body>
+
+<script>
+    window.onload = $("#getready").modal({ backdrop: 'static',keyboard: false });
+    function vote(direction){
+        var urlkey = curr[counter].urlkey;
+        if (direction == 1){
+            $.ajax({
+                        type: "POST",
+                        url: "/addVoteQuiz",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({"urlkey": urlkey}),
+                        dataType: 'json',
+                        success : function(text){
+                            if (text.incced >0){
+                                ratingNum+=text.incced;
+                                ratingDiv.innerHTML = "Rating: " + ratingNum;
+                            }
+                            else{
+                                alert("You have already upvoted this.");
+                            }
+                        },
+                   });
+        }
+        if (direction == 0){
+            $.ajax({
+                        type: "POST",
+                        url: "/decVoteQuiz",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({"urlkey": urlkey}),
+                        success : function(text){
+                            if (text.decced > 0){
+                                ratingNum-=text.decced;
+                                ratingDiv.innerHTML = "Rating: " + ratingNum;
+                            }
+                            else{
+                                alert("You have already downvoted this.");
+                            }
+                        }
+                       });
+        }
+        return;
+    }
+    $.getScript("/static/js/submitQ.js", function(){});
+    function runNextQuestion(){
+        //hide and reset modal
+        $('#results').modal('hide');
+        var popAns1 = document.getElementById('popupAns1');
+        var popAns2 = document.getElementById('popupAns2');
+        var popAns3 = document.getElementById('popupAns3');
+        var popAns4 = document.getElementById('popupAns4');
+        //Set all of the styles back to normal
+        popAns1.style.color = "#f44336";
+        popAns2.style.color = "#f44336";
+        popAns3.style.color = "#f44336";
+        popAns4.style.color = "#f44336";
+        popAns1.style.fontWeight = "normal";
+        popAns2.style.fontWeight = "normal";
+        popAns3.style.fontWeight = "normal";
+        popAns4.style.fontWeight = "normal";
+        runQuestion();
+    }
+    //AJAX
+    function sendReport(){
+        $('#sendreport').modal('hide');
+        var comment = document.getElementById('comment').value;
+        //clear report question text box
+        document.getElementById('comment').value= "";
+        var urlkey = curr[counter].urlkey;
+        $.ajax({
+                    type: "POST",
+                    url: "/reportQuiz",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"comment": comment, "urlkey": urlkey})
+               });
+        confirm('Report Sent'); //maybe do something else here dunno what
+    }
+    function sendAnswer(userID, questKey, userAnswer, score){
+        try{
+                $.ajax({
+                    type: "POST",
+                    url: "/answerSingle",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"userID": userID, "qKey": questKey, "userSelection": userAnswer, "score": score})
+              });
+          }
+          catch(err){
+              window.alert(err.message);
+          }
+    }
+</script>
+</html>
+{% endblock %}

@@ -1,0 +1,300 @@
+Abilify (Aripirazole) can be classified as which of the following types of drugs?
+Antirheumatic
+Antidiabetic
+Antipsychotic
+Blood Modifier Agent
+3
+Copaxone can be used to treat which of the following diseases/symptoms?
+Type 1 Diabetes
+Multiple Sclerosis
+Migraines
+COPD
+2
+The generic name for Lyrica is?
+Oxycodone
+Diovan
+Ranibizumab
+Pregabalin
+4
+Oxycontin can be used for which of these symptoms?
+Anemia
+HIV/AIDS
+Cardiomyopathy
+None of the above
+4
+Imatinib Mesylate is not classified under which of these drug classes?
+Cardiovascular Agent
+Antineoplastic Agent
+Immunological Agent
+Tyrosine Kinase Inhibitor
+1
+Which of these drugs can be used to treat ADHD?
+Gleevec
+Vyvanse
+Viagra
+Xarelto
+2
+Namenda can be classified as which of the following?
+CNS agent
+NMDA Receptor Antagonist
+Both a and b
+Neither a or b
+3
+“Inhibits the M3 receptor on airway smooth muscle” is the summed up mechanism of action of which of these drugs?
+Januvia
+Spiriva Handihaler
+Lyrica
+Avastin
+2
+Lantus Solostar, Januvia, and Levemir are all used to treat what?
+HIV/AIDS
+Pain relief
+Diabetes
+Asthma
+3
+The brand name of Esomeprazole is what?
+Humira
+Crestor
+Lunesta
+Nexium
+4
+This drug treats rheumatoid arthritis along with other diseases
+Herception
+Humira
+Zetia
+Symbicort
+2
+Mu-opioid receptor partial agonist and a kappa-opioid receptor antagonist is the mechanism of action of what drug?
+Seroquel XR
+Humolog
+Rivaroxaban
+Suboxone
+4
+Xarelto can be classified as which of the following drug classes?
+Anticoagulant
+Antipsychotic
+CNS Agent
+Antiviral
+1
+What is the generic name of the drug used to treat breast cancer?
+Celecoxib
+Epoetin Alfa
+Trastuzumab
+Ezetimibe
+3
+Avastin is labled as the generic name?
+Neulasta
+Rituxan
+Januvia
+bevacisumab
+4
+Which of these drugs is used to treat depression?
+Cymbalta
+Spiriva
+Tylenol
+NyQuil
+1
+The mechanism of action is selective serotonin and norepinephrine reuptake inhibitor for which generic drug?
+Insulin
+Ibuprofin
+Duloxetine
+Rosuvastatin
+3
+What is the brand name of Fluticasone Propionate?
+Enbrel
+Remicade
+Nexium
+Advair Diskus
+4
+The generic name of Rituxan is?
+Rituximab
+Lantus Solostar
+DayQuil
+Viagra
+1
+This drug is used to treat erectile dysfunction
+Sildnenafil Citrate
+Viagra
+Humalog
+Both a and b
+4
+Which one of the following is not a route of administration?
+Intravenous (IV)
+Oral
+Topical
+Dissolution
+4
+A rectal suppository is used to treat a fever. This would represent what type of drug delivery?
+Parenteral and local
+Parenteral and systemic
+Enteral and local
+Enteral and systemic
+4
+Which one of the following medicines does not rely on topical drug delivery?
+Nasal spray
+Anti-dandruff shampoo
+Insulin pen
+Nicotine patch
+3
+Which one of the following is not a common dosage form for fentanyl?
+Vaporizer
+Lollipop
+Transdermal patch
+IV infusion
+1
+A pressure of 1 atm is equivalent to 101325 Pa. Alternatively, this can be expressed as which one of the following?
+1.01325 MPa
+0.101325 MPa
+1013.25 kPa
+10.1325 kPa
+1
+A volume of 10 dm3 may also be expressed as which one of the following?
+1 x 10-3 L
+10 L
+0.1 m3
+0.001 m3
+2
+Which one of the following intermolecular forces is the strongest?
+Hydrogen-bonding
+Keesom forces
+London forces
+Debye forces
+1
+Which one of the following is NOT true? Different polymorphs forms of a drug can have different:
+Melting points
+Molecular formulae
+Solubilities
+Crystal habits
+2
+Which one of the following is NOT a concentration unit?
+Mass per volume
+Molarity
+Milliequivalent
+Enthalpy
+4
+Which property measures the resistance of a liquid to flow?
+Density
+Viscosity
+Volume
+Solubility
+2
+What is the concentration of a 0.5 % (w/v) solution when expressed as mg mL-1?
+0.005 mg mL-1
+0.05 mg mL-1
+0.5 mg mL-1
+5 mg mL-1
+4
+Which of the following excipients may be used to limit the presence of microorganisms in a liquid formulation?
+Purified water
+Sodium lauryl sulphate
+Benzalkonium chloride
+Ascorbic acid
+3
+What is the role of xanthan gum within some liquid formulations?
+Regulate pH
+Control viscosity
+Enhance solubility
+Enhance stability
+2
+Which of the following liquid dosage forms requires a sterile formulation?
+Eye drops
+Spray applied to skin
+Shampoo
+Oral syrup
+1
+What is the name of the phase transition that occurs when a solid is converted directly into a gas (without going through the liquid phase)?
+Melting
+Boiling
+Condensing
+Sublimation
+4
+Which of the following solvents is the most suitable for determining partition coefficients which have relevance for drug transport across biological membranes?
+Liquid paraffin
+Butanol
+Heptane
+Octanol
+4
+Which of the following values for contact angle with water corresponds to a hydrophobic drug particle?
+45°
+120°
+0°
+None of the above
+2
+The Freundlich adsorption isotherm can be used to model:
+Multilayer adsorption
+Monolayer adsorption
+Both
+None of the above
+1
+Which of the following does not have an effect on adsorption from solution onto a solid adsorbent?
+Solubility level of solute
+Absorption capacity
+Temperature of adsorption medium
+Surface area of adsorbent
+2
+A surfactant with a very large Hydrophile-Lipophile Balance (HLB) value (e.g. 40) is expected to function as a:
+Anti-foaming agent
+Water in oil (w/o) emulsifier
+Oil in water (o/w) emulsifier
+Solubility enhancer
+4
+Which of the following drug delivery systems comprises a hydrophobic core and a hydrophilic surface?
+Liposomes
+Micelles
+Reverse micelles
+None of the above
+2
+Measuring zeta potential is useful in determining which property of a liquid formulation?
+Viscosity
+Stability
+Solubility
+Particle size
+2
+How might solid sodium carbonate be obtained from sodium carbonate solution?
+Centrifugation
+Filtration
+Evaporation
+It cannot be extracted
+3
+What is the best description of blood?
+Sol
+Foam
+Solution
+Aerosol
+1
+Which one of the following dispersions does not have liquid continuous phase?
+Nanosuspension
+Microemulsion
+Gel
+Foam
+3
+Which one of the following systems has the smallest sized domains in its dispersed phase?
+Nanoemulsion
+Coarse suspension
+Coarse emulsion
+Microemulsion
+4
+Which method for the production of dispersions involves the formation of particles from materials dissolved in true solutions?
+Bottom-up
+Top-down
+Milling
+High pressure homogenization
+1
+The scattering of light by coarse and colloidal dispersed systems is known as?
+Contrast matching
+DLVO theory
+Tyndall effect
+Creaming
+3
+Which of the following is not a mechanism for the separation of a physically unstable suspension of magnesium hydroxide in water?
+Flocculation
+Aggregation
+Ostwald ripening
+Hydrolysis
+4
+In the DLVO theory of colloids, normal thermal motion may be sufficient to overcome the energy barrier that leads to irreversible particle aggregation. The name of this energy barrier is which one of the following?
+Primary maximum
+Secondary maximum
+Primary minimum
+Secondary minimum
+1

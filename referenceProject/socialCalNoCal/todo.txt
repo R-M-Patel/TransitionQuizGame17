@@ -1,0 +1,11 @@
+Things We Need to Do Before Final Presentation:
+
+-Add Bob's work
+-Populate database
+-Set up carousel
+-Figure out how we are going to present
+the material
+-Fill out rest of front page with stuff
+-Add more to about page
+
+-DELETE OLD DATABASE OR NEW URL

@@ -1,0 +1,37 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+<!DOCTYPE html>
+<html>
+<body>
+	<div class = "container">
+		<br><br><br>
+
+        {% for question_obj in questionList %}
+        <hr>
+		<h3>{{question_obj.question}}</h3>
+
+		<ol>
+			<li class="red-text">{{question_obj.answer1}}</li>
+			<li class="blue-text">{{question_obj.answer2}}</li>
+			<li class="green-text">{{question_obj.answer3}}</li>
+			<li class="yellow-text">{{question_obj.answer4}}</li>
+		</ol>
+        <form action=/submitQuiz method="POST"></br>
+            <input type="radio" name="answer{{question_obj.id}}" value="1" class="red-text">
+            {{question_obj.answer1}}</button>
+        </br><input type="radio" name="answer{{question_obj.id}}" value="2" class="blue-text">
+            {{question_obj.answer2}}</button>
+        </br><input type="radio" name="answer{{question_obj.id}}" value="3" class="green-text">
+            {{question_obj.answer3}}</button>
+        </br><input type="radio" name="answer{{question_obj.id}}" value="4" class="yellow-text">
+            {{question_obj.answer4}}</button>
+        </form>
+        {% endfor %}
+
+        <form action=/submitQuiz ></br>
+            <input type="submit" name="submitbutton" value="Submit Quiz"></input>
+        </form>
+	</div>
+</body>
+</html>
+{% endblock %}
