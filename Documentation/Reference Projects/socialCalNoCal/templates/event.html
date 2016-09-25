@@ -1,0 +1,98 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+
+
+<br><br><br>
+
+<body>
+<div class="container">
+	<et>{{event.title}} :</et> <br>
+	<es>{{event.summary}}</es><br>
+	<ei>{{event.start_date}} @ {{event.start_time}}<br>
+	til<br>
+	{{event.end_date}} @ {{event.end_time}}<br>
+	<b>Max attendees:</b> {{event.attendance}}<br>
+	<b>Location:</b> {{event.location}}<br>
+	<b>Current Rating:</b> {% if event.votes > 0 %} +{{event.votes}}
+			{% else %} 0
+			{% endif %}<br>
+	<b>Additional Information:</b> 
+	<br>{{event.information}}</ei>
+	<br>
+	{% if user_email %} <!--dont want not signed in users to be able to vote-->
+	<table class="table borderless">
+		<tr>
+			<td>
+				<form method="post" class="horizontal-form" action="/UpVote">
+					<input type="hidden" name="id" value="{{event.event_number}}">
+					<input type="submit" class="btn btn-default" value="Upvote">
+				</form>
+			<br>
+				<form method="post" class="horizontal-form" action="/DownVote">
+					<input type="hidden" name="id" value="{{event.event_number}}">
+					<input type="submit" class="btn btn-default" value="DownVote">
+				</form>
+			</td>	
+			{% endif %}
+			{% if delete == 1 %}
+			<td>
+				<form method="get" class="horizontal-form" action="/edit">
+				<input type="hidden" name="id" value="{{event.event_number}}">
+					<input type="submit" class="btn btn-default" value="Edit this event">
+				</form>
+			</td>
+			<td>
+				<form method="post" class="horizontal-form" action="/DeleteEvent">
+					<input type="hidden" name="id" value="{{event.event_number}}">
+					<input type="submit" class="btn btn-default" value="Delete this event">
+				</form>
+			</td>
+			{% endif %}
+			<!--Permissions for admin only, if featured already, display unfeatured button-->
+			{% if is_admin == 1 %}
+			<td>
+				<form method="post" class="horizontal-form" action="/FeatureEvent">
+					<input type="hidden" name="id" value="{{event.event_number}}">
+					<input type="submit" class="btn btn-default" value="Toggle Featured: {{event.featured}}">
+				</form>
+			</td>
+			{% endif %}
+		</tr>	
+	</table>
+	<br>
+</div>
+<div class = "container">
+	<div class="panel panel-default" id="accordian">
+		<div class = "panel-heading">
+			<div class="panel-title text-center">
+				<a href="#collapse" style="text-decoration:none" data-toggle="collapse" data-parent="accordian">
+				<he5>Comments (click to hide)</he5>
+				</a>
+			</div>
+		</div>
+		<div id="collapse" class="panel-collapse collapse in">
+			<div class="panel-body">
+				{% for comment in comments %}
+				<un>{{comment.user}}:</un><br>
+				<nc>{{comment.text}}</nc><br>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% if user_email %}
+<div class ="container">
+<nc>Add New Comment:</nc>
+	<form method="post" action="/CommentHandler">
+	<input type="hidden" name="id" value="{{event.event_number}}">
+	<textarea class="form-control input-md" rows="5" style="font-size:14pt" name="comment" maxlength=140></textarea><br>
+	<input type="submit" class="btn btn-default" value="Submit Post">
+	</form>
+	<br>
+</div>
+{% endif %}
+
+</body>
+
+
+{% endblock %}

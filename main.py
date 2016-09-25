@@ -94,7 +94,7 @@ class SubmitPageHandler(webapp2.RequestHandler):
             'user_id': id,
             'admin' : is_admin
         }
-        render_template(self, 'newQuestionSubmit.html', page_params)
+        render_template(self, 'submitQuestion.html', page_params)
 
 #Gets all of the information submitted by the user about a new question
 class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
@@ -179,7 +179,7 @@ class ReviewSingleQuestion(blobstore_handlers.BlobstoreUploadHandler):
             'review': review,
             'admin' : is_admin
         }
-        render_template(self, 'questionReview.html', page_params)
+        render_template(self, 'reviewQuestion.html', page_params)
     def post(self):
         #try to upload an image
         try:
@@ -489,7 +489,7 @@ class categoryQuiz(webapp2.RequestHandler):
             'logout_url': users.create_logout_url('/'),
             'admin': is_admin,
             }
-        render_template(self, 'answerQuestionsCat.html', page_params)
+        render_template(self, 'quiz.html', page_params)
 
 #used for reporting a question from the review question page
 class reportHandler(webapp2.RequestHandler):
@@ -551,7 +551,7 @@ class LeaderBoard(webapp2.RequestHandler):
             'admin': is_admin,
             }
         render_template(self, 'leaderboard.html', page_params)
-        
+
 #AJAX Handler for Leaderboard
 #Updates the leaderboard when the dropdown boxes are changed
 #Sends back JSON object with updated list of usernames and their scores

@@ -1,0 +1,4 @@
+cron:
+- description: delete front page memcache
+  url: /tasks/delete_front_page_memcache
+  schedule: every 5 mins

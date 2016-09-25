@@ -1,0 +1,64 @@
+Files altered: (This should be correct. Sorry if I missed any)
+	Main.py
+	Models.py
+	event.html
+	table.html
+	frontpage.html
+	addEventPage.html
+	calendar.html (Bob)
+	_base.html (Bob)
+
+Frontpage.html
+	- Added code to display the top 5 voted events on the page
+	- Code is located at the bottom of the source file
+
+addEventPage.html
+	- Summary and Information did not have names set so I added names so I could work with them in main.py
+
+event.html
+	- Now displays an upvote/downvote button
+	- Voting WILL NOT work with old database data, need to make new test data to vote
+	- User can vote more than once for the sake of testing. I plan to change that for milestone 3 but for now I'm not entirely interested in making 10 different emails for testing sake
+	- Can not vote below 0
+
+	- Added comments, Comments will work with old database data
+	- If someone is not logged in it will display "Anonymous" instead of "None" as a username
+
+	- When a comment is made emails are now sent to the user who originally created the post. If a Anonymous person created the event then an email is not sent.
+	- You can see a string that mail is sending in the appengine debug log if you are testing locally on your computer. I have tested it with real email as well and it works.
+	- This feature may be revised or altered later to be better. Each appspot account has a 100 email limit unless you pay for it so this may not be a great feature in the long term
+	-IMPORTANT: Email may need to be changed when you test the program with a different app.yaml file. It should be good for the one up on github
+	"Any email address of the form anything@appname.appspotmail.com or anything@appalias.appspotmail.com"
+	https://cloud.google.com/appengine/docs/python/mail/
+
+	- You can also delete events now only if you are the original poster of the event
+
+table.html
+	- Sortable and searchable datatable for 100 events
+	- Click on the title to go the event
+
+calendar.html (Bob)
+  - Can pull events from any public google calendar
+	- Needs to look better, currently just setup to look at my calendar but eventually can be set to look at that of the logged in user, probably a public google calendar created by calendar.py
+	  of selected events for logged in user
+
+_base.html (Bob)
+  - Directed profile link to the calendar events page
+
+calendar.py (and client_secret.json) (Bob)
+  - Does authorization for calendar api and will eventually be used to pull events from database that the user selects and add them to a public calendar to be displayed in calendar.html
+	- Very incomplete, currently just setup to access logged in user's calendar and access 10 events for testing purposes 
+
+Main.py and Models.py
+	- Main.py is page handlers
+	- Models.py is database code
+	- Commented out some useless imports for now
+	- Implimented voting, comments and handlers for new pages and actions.
+	- You can now delete events
+	- Emails are now sent to the creator of an event when a comment is made on one of your events
+	- Added handler and mapping for calendar page (Bob)
+
+
+Everything should work as intended assuming near proper input. Just need to display it on page fancy like now and I think we should be good for milestone 2.
+
+There is no memcache in this as of right now and it would probably be super useful. Almost every page has a database call of somesort. That's next on the list of things to add.

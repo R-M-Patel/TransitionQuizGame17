@@ -1,0 +1,14 @@
+Thoughts while coding
+---------------------
+-limit number of new question submissions, prevent spamming
+-making sure users cannot review questions more than once.
+-uniquely pulling the questions from database, instead of most recent
+-limit input field size on questions
+-ability to add diagrams/pictures to questions
+-track who submitted the question
+-in reviewnewquestions function can change the number of questions pulled from db, decide on a number
+-make sure we make sure users are signed in to view certain pages.
+-change datalist to select box, or remove the input ability of the user
+-five hour time difference in datetime field of ndb
+-remove html from the NewQuestion method,
+-stopping going back and answering question again

@@ -1,0 +1,14 @@
+bootstrap
+
+main page:
+-featured events, carousel
+-upcomming events, query the database and display next 5 upcomming events
+-most popular, query database for most attended based upon
+
+events page:
+list of events, filterable by date, 
+click on event and takes to page with:
+table(https://datatables.net/download/):
+	name, summary, date, people on website who are attending(number), comments section
+
+http://beer-delivery-service-1084.appspot.com/beer
