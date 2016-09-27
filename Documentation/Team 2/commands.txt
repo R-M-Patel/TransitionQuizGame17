@@ -1,0 +1,12 @@
+urls
+default admin console
+http://localhost:8000
+
+will accept/reject questions in review
+http://localhost:8080/tasks/validate_questions
+
+will delete questions in review
+http://localhost:8080/tasks/delete_questions
+
+populate predefined questions from questions.txt (should not edit questions.txt) 
+http://localhost:8080/meanstackakalamestack
