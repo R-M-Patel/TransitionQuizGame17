@@ -260,8 +260,12 @@ def accRej(question):
 
     if question.down_votes-question.up_votes>=4:
         question.deleted=True
+    else:
+        question.deleted=False
     if question.up_votes-question.down_votes>=5:
         question.accepted=True
+    else:
+        question.accepted=False
     return question
     #return 0
 
