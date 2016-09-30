@@ -702,6 +702,17 @@ class deleteQuestion(webapp2.RequestHandler):
         #need this for some reason, for redirect in javascript to work
         self.redirect("/ReviewOldQuestions")
 
+class deleteNewQuestion(webapp2.RequestHandler):
+    def post(self):
+        id = self.request.get("id")
+        models.delete_question(id)
+        self.redirect("/ReviewNewQuestions")
+class acceptQuestion(webapp2.RequestHandler):
+    def post(self):
+        id = self.request.get("id")
+        models.accept_question(id)
+        self.redirect("/ReviewNewQuestions")
+
 class checkUsername(webapp2.RequestHandler):
     def post(self):
         self.response.headers.add_header('Access-Control-Allow-Origin', '*')
@@ -731,6 +742,8 @@ mappings = [
   ('/NewQuestion', NewQuestion),
   ('/ReviewQuestion', ReviewSingleQuestion),
   ('/deleteQuestion', deleteQuestion),
+  ('/deleteNewQuestion', deleteNewQuestion),
+  ('/acceptQuestion', acceptQuestion),
   ('/meanstackakalamestack', Setup),
   ('/ReviewNewQuestions', ReviewNewQuestions),
   ('/ReviewOldQuestions', ReviewOldQuestions),

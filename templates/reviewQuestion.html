@@ -48,14 +48,14 @@
             
         {% if not review.accepted %}
         <div class = "container col-lg-10">
-            <br><br><h4 style="display:inline;">Should this question be added?</h4><br>
-                <form method="post" style="display:inline-block" class="horizontal-form" action="/incrementVote">
+            <br><br><h4 style="display:inline;">What do you want to do to this question?</h4><br>
+                <form method="post" style="display:inline-block" class="horizontal-form" action="/acceptQuestion">
                     <input type="hidden" name="id" value="{{review.urlkey}}">
-                    <button class="btn btn-success" action="/incrementVote" type="submit">Yes</button>
+                    <button class="btn btn-success" action="/acceptQuestion" type="submit">Accept</button>
                 </form>
-                <form method="post" style="display:inline-block" class="horizontal-form" action="/decrementVote">
+                <form method="post" style="display:inline-block" class="horizontal-form" action="/deleteNewQuestion">
                     <input type="hidden" name="id" value="{{review.urlkey}}">
-                    <button class="btn btn-danger" action="/decrementVote" type="submit">No</button>
+                    <button class="btn btn-danger" action="/deleteNewQuestion" type="submit">Delete</button>
                 </form>
                 
         </div>

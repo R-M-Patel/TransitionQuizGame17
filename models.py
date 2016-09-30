@@ -278,7 +278,12 @@ def delete_question(key):
     question.deleted = True
     question.put()
     return
-
+def accept_question(id):
+    question =  getQuestionFromURL(id)
+    question.accepted = True
+    question.put()
+    return 0
+    
 def changeCategoryStatus(category, statusIn):
     cat = ndb.Key(Category, category).get()
     cat.accepted = statusIn
