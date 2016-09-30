@@ -229,9 +229,11 @@ def addVote(id,email):
         if check_if_down_voted(question.down_voters, email):
             question.down_voters.remove(email)
             question.down_votes-=1
-            question.put()
+            #question.put()
+            accRej(question).put()
             return 2
-        question.put()
+        #question.put()
+        accRej(question).put()
         return 1
     return 0
 
@@ -245,12 +247,25 @@ def decVote(id,email):
         if check_if_up_voted(question.up_voters, email):
             question.up_voters.remove(email)
             question.up_votes-=1
-            question.put()
+            #question.put()
+            accRej(question).put()
             return 2
-        question.put()
+        #question.put()
+        accRej(question).put()
         return 1
     return 0
 
+def accRej(question):
+    #question = getQuestionFromURL(id)
+
+    if question.down_votes-question.up_votes>=4:
+        question.deleted=True
+    if question.up_votes-question.down_votes>=5:
+        question.accepted=True
+    return question
+    #return 0
+
+    
 def delete_question_perm(key):
     return key.delete()
 

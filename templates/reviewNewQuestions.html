@@ -51,9 +51,46 @@
 	</table>
 </div>
 {% else %}
-<div class = "intro container">
-    <br><br><br>
-    <h1 style="position:absolute; top:50%; left:20%;">You Must Be An Admin to View This Page!</h1>
+<br><br><br>
+<div class="container">
+    <h2>Questions Under Review</h2>
+    <hr>
+</div>
+<div class="container table-responsive">
+	<table id="example" class="table table-bordered table-hover" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+                    <th>Question</th>
+					<th>Category</th>
+					<th>Score</th>
+					<th>Create Date</th>
+					<th>Creator</th>
+				</tr>
+			</thead>
+			
+			<tfoot>
+				<tr>
+                    <th>Question</th>
+					<th>Category</th>
+					<th>Score</th>
+					<th>Create Date</th>
+					<th>Creator</th>
+				</tr>
+			</tfoot>
+			
+			<tbody>
+
+			{% for question_obj in review %}
+					<tr.table-hover>
+						<th><a href="/ReviewQuestion?id={{question_obj.urlkey}}">{{question_obj.question}}</a></th>
+                        <th>{{question_obj.categoryText}}</th>
+						<th>{{question_obj.rating}}</th>
+						<th>{{question_obj.create_date}}</th>
+						<th>{{question_obj.creator}}</th>
+					</tr>
+			{% endfor %}
+			</tbody>
+	</table>
 </div>
 {% endif %}
 
