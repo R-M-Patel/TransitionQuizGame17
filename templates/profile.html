@@ -50,20 +50,18 @@
 	{% if user_email %}
 
 	<div class= "container col-lg-12s">
-            <br>
-            <br>
-            <br>
-			<div class="text-left"><he5>{{profile.username}}'s Profile Information:</he5></div>
+</br></br></br></br>
+			<div class="text-left" style="text-align: center;"><h2>{{profile.username}}'s Profile Information:</h2></div>
                 <hr>
-                <div class="col-lg-3">
+                <div class="col-sm-4">
                 {% if profile.image_url %}
-                    <img src="/image?id={{profile.user_id}}" class="img-responsive smaller-image" >
+                    <img src="/image?id={{profile.user_id}}" class="img-responsive" >
                 {% else %}
-                    <img style="height: 100%; width: auto;" class="img-responsive smaller-image" src="/static/img/DrMarioadv.png">
+                    <img class="img-responsive" src="/static/img/DrMarioadv.png">
 	            {% endif %}
                 <br>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-sm-8">
                     <label class="control-label">Name:</label> {{profile.name}}<br>
                     <label class="control-label">Year:</label> {{profile.year}}<br>
                     <label class="control-label">Interests:</label> {{profile.interests}}<br>
@@ -76,10 +74,10 @@
 			{% endif %}
             <br><br>
 	</div>
-    
+
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs/jq-2.1.4,dt-1.10.9/datatables.min.css"/>
 	<script type="text/javascript" src="https://cdn.datatables.net/r/bs/jq-2.1.4,dt-1.10.9/datatables.min.js"></script>
-	
+
 	<div class="modal fade" id="editprofile" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -133,12 +131,12 @@
 			</div>
 		</div>
 	</div>
-	
+
     <!--Div that will hold the pie chart-->
     <div class="container">
         <hr>
         <he5>Statistics:</he5><br><br>
-        {% if numScores > 2 %} 
+        {% if numScores > 2 %}
             <div  id="barchart_material"></div>
         {% else %}
             <span>No Scores Reported</span>
@@ -152,5 +150,3 @@
     </div>
 	{% endif %}
 {% endblock %}
-
-

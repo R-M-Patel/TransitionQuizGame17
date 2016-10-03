@@ -8,7 +8,7 @@
 {% if user_email %}
     <br><br><br><br>
     <div class = "container">
-        <h3>New Question Submission</h3>
+        <h2 style="text-align: center;">New Question Submission</h2>
         <hr>
         <form action="{{upload_urlQ}}" enctype="multipart/form-data" method="post"><font size = 5>
             <div>
@@ -18,38 +18,49 @@
             <a class="btn btn-link" href="#submitcat" data-toggle="modal">Suggest a Category</a>
             </div>
             <hr>
-            <div class="col-sm-6" style="display:table;">
-                <textarea type="text" name="questiontext" placeholder="Enter question here..."class="form-control" rows="6" METHOD=POST maxlength="144" id="questionText"required></textarea>
+            <div class="col-xs-12" >
+                <textarea type="text" name="questiontext" placeholder="Enter question here..."class="form-control" rows="6" METHOD=POST maxlength="144" id="questionText"required></textarea><br/>
             </div>
-            <div class="col-sm-4" style="list-style-type:none;display:table;">
-                    <input type="textarea" class="red-text" placeholder="Answer #1" method=POST name="answer1" maxlength="30" id="answer1" required></input>
-                    <input type="textarea" class="blue-text" placeholder="Answer #2" method=POST name="answer2" maxlength="30" id="answer2" required></input>
-                    <input type="textarea" class="green-text" placeholder="Answer #3" method=POST name="answer3" maxlength="30" id="answer3" required></input>
-                    <input type="textarea" class="yellow-text" placeholder="Answer #4" method=POST name="answer4" maxlength="30" id="answer4" required></input>
+            <div class="col-sm-3" style="text-align: center;">
+                <input type="textarea" class="red-text" style="width: 100%;" placeholder="Answer #1" method=POST name="answer1" maxlength="30" id="answer1" required></input>
             </div>
+            <div class="col-sm-3" style="text-align: center;">
+                <input type="textarea" class="blue-text" style="width: 100%;" placeholder="Answer #2" method=POST name="answer2" maxlength="30" id="answer2" required></input>
+            </div>
+            <div class="col-sm-3" style="text-align: center;">
+                <input type="textarea" class="green-text" style="width: 100%;" placeholder="Answer #3" method=POST name="answer3" maxlength="30" id="answer3" required></input>
+            </div>
+            <div class="col-sm-3" style="text-align: center;">
+                <input type="textarea" class="yellow-text" style="width: 100%;" placeholder="Answer #4" method=POST name="answer4" maxlength="30" id="answer4" required></input>
+            </div>
+
+
+
+
             </div>
             <div class="container">
                 <hr>
             Import Image:
-            <input type="file" class="form-control" name="file" id="Location"></input>
-                Explanation:<br>
+            <input type="file" class="form-control" name="file" id="Location"></input><br/>
+                Explanation:
                 <textarea type="text" name="explanation" class="form-control" rows="5" maxlength="750"></textarea>
                 <hr>
-                Select the correct answer:</br>
-                <div class="col-sm-2">
-                    <button type="submit" style="width:100%;" name="answerid" value=1 class="submit-q-button-1" id="select1">1</button>
+                Select the correct answer:<br/><br/>
+                <div class="col-sm-3">
+                    <button type="submit" style="width:100%; height: 100px;" name="answerid" value=1 class="submit-q-button-1" id="select1">1</button><br/><br/>
                 </div>
-                <div class="col-sm-2">
-                    <button type="submit" style="width:100%;" name="answerid" value=2 class="submit-q-button-2" id="select2">2</button>
+                <div class="col-sm-3">
+                    <button type="submit" style="width:100%; height: 100px;" name="answerid" value=2 class="submit-q-button-2" id="select2">2</button><br/><br/>
                 </div>
-                <div class="col-sm-2">
-                    <button type="submit" style="width:100%;" name="answerid" value=3 class="submit-q-button-3" id="select3">3</button>
+                <div class="col-sm-3">
+                    <button type="submit" style="width:100%; height: 100px;" name="answerid" value=3 class="submit-q-button-3" id="select3">3</button><br/><br/>
                 </div>
-                <div class="col-sm-2">
-                    <button type="submit" style="width:100%;" name="answerid" value=4 class="submit-q-button-4" id="select4">4</button>
+                <div class="col-sm-3">
+                    <button type="submit" style="width:100%; height: 100px;" name="answerid" value=4 class="submit-q-button-4" id="select4">4</button><br/><br/>
                 </div>
         </form>
     </div>
+    <br/>
     <!--Suggest category Modal-->
     <div style="z-index:2147483646;" class="modal fade" id="submitcat" role="dialog">
 		<div class="modal-dialog">
