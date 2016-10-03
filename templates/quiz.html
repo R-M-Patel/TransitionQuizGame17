@@ -54,11 +54,11 @@
             correctString = correctString.concat(correctCount);
             correctString = correctString.concat(" out of ");
             correctString = correctString.concat(counter);
-            correctString = correctString.concat(" questions correct.");
+            correctString = correctString.concat(" questions correct!");
             document.getElementById('correctBox').innerHTML = correctString;
             var scoreString = "You scored ";
             scoreString = scoreString.concat(totalScore);
-            scoreString = scoreString.concat(" points.");
+            scoreString = scoreString.concat(" points!");
             document.getElementById('pointsBox').innerHTML = scoreString;
             $('#quizResults').show();
             /*while (cnt < counter+1){
@@ -115,29 +115,30 @@
 
         <!--Quiz-->
         <font size = 5>
-            <div class ="container">
+          <div class ="container">
             <div class="large-lg-12 text-center">
-                    <img style="display:none;" id="img" src="" style= "text-align:center;" class="smaller-image"></img>
-            </div>
+                    <img style="display:none;" id="img" src="" style= "text-align:center;" class="smaller-image img-rounded"></img>
+            </div><br/>
+
             <div class = "col-lg-3"></div>
-                <div class="col-lg-3" style= "text-align:center; position:relative;">
-                    <button onclick="submit(1)" id="answer1" type="submit" name="userAnswer" value=1 class="submit-a-button-1"></button>
-                </div>
-                <div class="col-lg-3" style= "text-align:center; position:relative;">
-                    <button onclick="submit(2)" id="answer2" type="submit" name="userAnswer" value=2 class="submit-a-button-2"></button>
-                </div>
-                <div class="col-lg-3"></div>
+            <div class="col-lg-3" style= "text-align:center; position:relative;">
+                <button onclick="submit(1)" id="answer1" type="submit" name="userAnswer" value=1 class="btn btn-danger submit-a-button" style="border-radius: 15px;"></button><br/><br/>
             </div>
-            <div class ="container">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-3" style= "text-align:center; position:relative;">
-                    <button onclick="submit(3)" id="answer3" type="submit" name="userAnswer" value=3 class="submit-a-button-3"></button>
-                    </div>
-                <div class="col-lg-3" style= "text-align:center; position:relative;">
-                    <button onclick="submit(4)" id="answer4" type="submit" name="userAnswer" value=4 class="submit-a-button-4"></button>
-                    </div>
-                <div class="col-lg-3"></div>
+            <div class="col-lg-3" style= "text-align:center; position:relative;">
+                <button onclick="submit(2)" id="answer2" type="submit" name="userAnswer" value=2 class="btn btn-info submit-a-button" style="border-radius: 15px;"></button><br/><br/>
             </div>
+            <div class="col-lg-3"></div>
+          </div>
+          <div class ="container">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-3" style= "text-align:center; position:relative;">
+                <button onclick="submit(3)" id="answer3" type="submit" name="userAnswer" value=3 class="btn btn-success submit-a-button" style="border-radius: 15px;"></button><br/><br/>
+              </div>
+              <div class="col-lg-3" style= "text-align:center; position:relative;">
+                <button onclick="submit(4)" id="answer4" type="submit" name="userAnswer" value=4 class="btn btn-warning submit-a-button" style="border-radius: 15px;"></button>
+              </div>
+              <div class="col-lg-3"></div>
+          </div>
             <button type="hidden submit" id="submit" name="userAnswer" style="visibility: hidden" value=0></button>
         </font>
 
@@ -212,7 +213,7 @@
                     {% else %}
                         <span> We found {{num}} questions. </span><br>
                     {% endif %}
-                    <button class="btn btn-link" style="color: green" onclick= "runQuestion()" id="gobutton"><br><h2>Start</h2></button>
+                    <br/><button class="btn btn-success" style="border-radius: 25px;" onclick= "runQuestion()" id="gobutton"><h2 style="margin: 0px 0px 0px 0px;">Start</h2></button><br/>
                     {% endif %}
                     {% if num == 0 %}
                     <a href = "/submitNew"><h2>Click Here to Submit New Questions</h2></a>
@@ -229,7 +230,8 @@
         <h2 id="correctBox" style="text-align:center"></h2>
         <h4 id="pointsBox" style="text-align:center"></h4>
         <span class="alignleft">Question</span>
-        <span class="aligncenter">Your Answer</span>
+        <span class="aligncenterleft">Your Answer</span>
+        <span class="aligncenterright">Correct Answer</span>
         <span class="alignright">Points&nbsp;</span>
         </br>
     </div>
