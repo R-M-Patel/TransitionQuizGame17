@@ -111,61 +111,51 @@ p {
 	color: white;
 	width:100px;
 }
-.submit-a-button-1{
-	background-color: #f44336;
+
+.submit-a-button
+{
 	font-size: 16px;
-	border-radius: 8px;
-	border: none;
-	color: white;
 	width:240px;
 	height:100px;
+}
+
+.submit-a-button-1{
+	background-color: #f44336;
 }
 
 .submit-a-button-2{
 	background-color: #0266C8;
-	font-size: 16px;
-	border-radius: 8px;
-	border: none;
-	color: white;
-	width:240px;
-	height:100px;
 }
 
 .submit-a-button-3{
 	background-color: #00933B;
-	font-size: 16px;
-	border-radius: 8px;
-	border: none;
-	color: white;
-	width:240px;
-	height:100px;
 }
 
 .submit-a-button-4{
 	background-color: #F2B50F;
-	font-size: 16px;
-	border-radius: 8px;
-	border: none;
-	color: white;
-	width:240px;
-	height:100px;
 }
 
 .alignleft {
   float: left;
-  width:33.33333%;
+  width:40%;
   text-align:left;
   font-weight: bold;
 }
-.aligncenter {
+.aligncenterleft {
   float: left;
-  width:33.33333%;
+  width:20%;
   text-align:center;
   font-weight: bold;
 }
+.aligncenterright{
+	float: left;
+	width: 20%;
+	text-align: center;
+	font-weight: bold;
+}
 .alignright {
  float: left;
- width:33.33333%;
+ width:20%;
  text-align:right;
  font-weight: bold;
 }

@@ -61,7 +61,7 @@
                 {% else %}
                 <div id = "play">
                     <a href="#about" class="btn btn-circle page-scroll">
-                        <i class="fa fa-angle-double-down animated"></i>
+                        <i style="position: relative; left: -1px;" class="fa fa-angle-double-down animated"></i>
                     </a>
                 </div>
                 {% endif %}
@@ -79,7 +79,7 @@
                         <select style="color:black" id="category" name="category" method="POST"><!--maybe pull in all categories from python-->
                         </select>
                         <br><br>
-                        Select the Number of Questions:
+                        Number of Questions:
                         <select style="color:black" id="number" name="number" method="POST">
                             <option value=5>5</option>
                             <option value=10>10</option>
