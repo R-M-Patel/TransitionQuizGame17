@@ -4,7 +4,7 @@
     <!-- Header -->
     <title>PharmGenius</title>
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/img/mario_DrMarioPill.gif">
+    <link rel="icon" href="/static/img/logo.png">
 
     <!-- Styles -->
     <link rel="stylesheet" href="/static/css/style.css">
@@ -18,7 +18,7 @@
   </head>
 
   <body>
-  	<div class = "navbar navbar-inverse navbar-fixed-top">
+  	<div class = "navbar navbar-inverse navbar-fixed-top" style="height: auto;">
   		<div class = "container">
   			<a href = "/" class = "navbar-brand">PharmGenius</a>
   			<button class = "navbar-toggle" data-toggle= "collapse" data-target = ".navHeaderCollapse">
@@ -29,21 +29,21 @@
   			<div class = "collapse navbar-collapse navHeaderCollapse">
   				<ul class = "nav navbar-nav navbar-right">
   					{% if user_email %}
-              <li><a href="/" id="playNav">Quiz Me!</a></li>
+              <li><a href="/play" id="quizme" class="nav-button">Quiz Me!</a></li>
               <li></li><li></li>
-              <li><a href = "/leaderboard" id="leaderboard">Leaderboard</a></li>
-			        <li class = "dropdown">
-    						<a href = "/" class = "dropdown-toggle" data-toggle = "dropdown">Questions<b class = "caret"></b></a>
+              <li><a href="/leaderboard" id="leaderboard" class="nav-button">Leaderboard</a></li>
+			        <li class="dropdown">
+    						<a href="/" class="dropdown-toggle" data-toggle = "dropdown">Questions<b class = "caret"></b></a>
     						<ul class = "dropdown-menu">
     							<li><a href="/submitNew" id="submitNew">Submit A Question</a></li>
-    							<li><a href="/ReviewNewQuestions" id="ReviewNew">Review New Questions</a></li>
+    							<li><a href="/ReviewNewQuestions" id="ReviewNew" class="nav-button">Review New Questions</a></li>
                   {% if admin %}
-                  <li><a href="/ReviewOldQuestions" id="ReviewOld">View Question Database</a></li>
-                  <li><a href="/reviewCategories" id="reviewCats">View Category Database</a></li>
+                  <li><a href="/ReviewOldQuestions" id="ReviewOld" class="nav-button">View Question Database</a></li>
+                  <li><a href="/reviewCategories" id="reviewCats" class="nav-button">View Category Database</a></li>
                   {% endif %}
     						</ul>
 	           </li>
-			       <li><a href="/profile?id={{user_id}}">Profile</a></li>
+			       <li><a href="/profile?id={{user_id}}"><!--img src="/image?id={{profile.user_id}}" class="profile-small" &nbsp&nbsp(move these to before Profile)-->Profile</a></li>
 						{% endif %}
   					<li>
   						{% if user_email %}

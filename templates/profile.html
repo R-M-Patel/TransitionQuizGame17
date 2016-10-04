@@ -57,7 +57,7 @@
                 {% if profile.image_url %}
                     <img src="/image?id={{profile.user_id}}" class="img-responsive img-rounded" >
                 {% else %}
-                    <img class="img-responsive img-rounded" src="/static/img/DrMarioadv.png">
+                    <img class="img-responsive img-rounded" src="/static/img/profile.png">
 	            {% endif %}
                 <br>
                 </div>
@@ -70,7 +70,7 @@
                     <br><br><br>
                 </div>
             {% if profile.user_id == user_id %}
-                <a class="btn btn-default pull-right" href="#editprofile" data-toggle="modal">Edit Profile Information</a>
+                <a class="btn btn-default pull-right profile-button" href="#editprofile" data-toggle="modal">Edit Profile</a>
 			{% endif %}
             <br><br>
 	</div>
@@ -140,6 +140,9 @@
             <div  id="barchart_material"></div>
         {% else %}
             <span>No Scores Reported</span>
+            {% if profile.user_id == user_id %}
+                <a class="btn btn-default pull-right profile-button" href="/play">Take a Quiz</a>
+            {% endif %}
         {% endif %}
     </div>
 	<br><br><br>
