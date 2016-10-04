@@ -80,6 +80,25 @@
 			</div>
 		</div>
 	</div>
+
+  <!--Confirmation Modal-->
+  <div style="z-index:2147483646;" class="modal fade" id="confirm" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="text-align:center">
+          <h1 style="display:inline">Question Submitted Successfully!</h1>
+        </div>
+        <div class="modal-body" style="text-align:center">
+          <p>Questions must have a user rating of 5 or administrative permission to be active.</p>
+          <a class="btn btn-info" style="border-radius: 25px;" href="/ReviewNewQuestions" id=""><h2 class="link-button">Vote on Questions</h2></a><br/>
+        </div>
+        <div class="modal-footer" style="text-align: center;">
+          <a class="btn btn-success" style="border-radius: 25px;" data-dismiss="modal" id="ok"><h2 class="link-button">Continue</h2></a><br/>
+        </div>
+      </div>
+    </div>
+  </div>
+
     {% else %}
     <div class = "intro container">
         <br><br><br>
@@ -95,6 +114,12 @@
             var Ivalue = "<option value='"+value.category+"'>" + value.category + "</option>";
             option.append(Ivalue);
         });
+        // If coming from the Quiz Me! button
+        if(window.location.pathname+window.location.search == "/NewQuestion")
+        {
+          // Display the confirmation pop-up
+          window.onload = $("#confirm").modal({ backdrop: 'static',keyboard: false });
+        }
     });
     //AJAX
     function sendCategory(){

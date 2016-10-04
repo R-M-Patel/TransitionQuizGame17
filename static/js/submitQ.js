@@ -73,28 +73,42 @@ function submit(selection){
         newResLine1 = newResLine1.concat(counter+1);
         newResLine1 = newResLine1.concat(". ");
         newResLine1 = newResLine1.concat(newResult.qTxt);
+        if (curr[counter].explanation != 'None'){
+            newResLine1 = newResLine1.concat("</br><span style='color:#808080'>");
+            newResLine1 = newResLine1.concat(curr[counter].explanation);
+            newResLine1 = newResLine1.concat('</span>');
+        }
         if (newResult.correct){
-            var newResline2 = "</span><span class='aligncenter' style='color:green;'>";
+            var newResline2 = "</span><span class='aligncenterleft' style='color:green;'>";
             newResline2 = newResline2.concat(newResult.uAns);
             var newResline3 = "</span><span class='alignright' style='color:green;'>+";
             newResline3 = newResline3.concat(newResult.points);
             var newResline4 = "&nbsp;&nbsp;&nbsp;</span></br></div>";
         }
         else{
-            if (curr[counter].explanation != 'None'){
-                newResLine1 = newResLine1.concat("</br><span style='color:#808080'>");
-                newResLine1 = newResLine1.concat('Explanation: ');
-                newResLine1 = newResLine1.concat(curr[counter].explanation);
-                newResLine1 = newResLine1.concat('</span>');
-            }
-            var newResline2 = "</span><span class='aligncenter' style='color:red;'>";
+            var newResline2 = "</span><span class='aligncenterleft' style='color:red;'>";
             newResline2 = newResline2.concat(newResult.uAns);
             var newResline3 = "</span><span class='alignright' style='color:red;'>";
             newResline3 = newResline3.concat(newResult.points);
             var newResline4 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></br></div>";
         }
+
+        var newResLineAnswer = "</span><span class='aligncenterright'>";
+        if( "1" == curr[counter].answerid){
+            newResLineAnswer = newResLineAnswer.concat(a1);
+        }
+        else if( "2" == curr[counter].answerid){
+            newResLineAnswer = newResLineAnswer.concat(a2);
+        }
+        else if( "3" == curr[counter].answerid){
+            newResLineAnswer = newResLineAnswer.concat(a3);
+        }
+        else if( "4" == curr[counter].answerid){
+            newResLineAnswer = newResLineAnswer.concat(a4);
+        }
+
         var resultsTable = document.getElementById('quizResults');
-        resultsTable.innerHTML = resultsTable.innerHTML + newResLine1 + newResline2 + newResline3 + newResline4;
+        resultsTable.innerHTML = resultsTable.innerHTML + newResLine1 + newResline2 + newResLineAnswer + newResline3 + newResline4;
         //resultsTable.innerHTML = resultsTable.innerHTML + "tesssst";
         //userResults.push(newResult);
         popAns1.innerHTML = a1 + " (" + s1p + "%)";
@@ -131,10 +145,10 @@ function submit(selection){
         //send selection back to python
         if(selection == curr[counter].answerid){ //changes the header to green if correct
             header.innerHTML = "<h3 style='color:green; display:inline;'>Correct (+" + score + " pts)</h3>";
-            var snd = new Audio("/static/sounds/smw_message_block.wav");
-            snd.play();
+            //var snd = new Audio("/static/sounds/smw_message_block.wav");
+            //snd.play();
             $('#results').modal('show');
-            snd.currentTime=0;
+            //snd.currentTime=0;
             sendAnswer(userid,questkey,selection, score);
             //logic for score in here
         }
@@ -145,9 +159,9 @@ function submit(selection){
             else{
                 header.innerHTML = "<h3 style='color:red; display:inline;'>Incorrect (+0 pts)</h3>";
             }
-            var snd = new Audio("/static/sounds/smw_yoshi_spit.wav");
-            snd.play();
-            snd.currentTime=0;
+            //var snd = new Audio("/static/sounds/smw_yoshi_spit.wav");
+            //snd.play();
+            //snd.currentTime=0;
             $('#results').modal('show');
             sendAnswer(userid,questkey,selection, score);
         }

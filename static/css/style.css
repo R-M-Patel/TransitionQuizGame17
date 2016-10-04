@@ -181,3 +181,28 @@ table#leaderboard th	{
 		background-color: black;
 		color: white;
 }
+
+
+/* Sunder's Styles */
+.nav-button
+{
+	overflow: hidden;
+}
+
+.profile-small
+{
+	width: 25px;
+	height: 25px;
+	border-radius: 3px;
+}
+
+.profile-button
+{
+	width: 150px;
+}
+
+.link-button
+{
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}

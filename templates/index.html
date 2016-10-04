@@ -42,6 +42,13 @@
             option.innerHTML = curr[x].category;
             dropdown.appendChild(option);
         }
+
+        // If coming from the Quiz Me! button
+        if(window.location.pathname+window.location.search == "/play")
+        {
+          // Start with the on-back part
+          $('#on-play').click();
+        }
     });
 </script>
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">

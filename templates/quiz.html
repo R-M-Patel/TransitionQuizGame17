@@ -92,7 +92,7 @@
         ans2.innerHTML = curr[counter].answer2;
         ans3.innerHTML = curr[counter].answer3;
         ans4.innerHTML = curr[counter].answer4;
-        ratingDiv.innerHTML = "Rating: " + ratingNum;
+        ratingDiv.innerHTML = "&nbspRating: " + ratingNum;
         ratingDiv.style.color = "black";
     }
     function calcScore(timeRemaining,percentCorrect){
@@ -168,8 +168,9 @@
                 <div class="modal-footer">
                     <button onclick="vote(1)" class="btn btn-success pull-left"><i class = "fa fa-arrow-up"></i></button>
                     <button onclick="vote(0)" class="btn btn-danger pull-left"><i class = "fa fa-arrow-down"></i></button>
-                    <p style="display:inline" class="btn btn-link pull-left" id="numVotes"></p>
-                    <a class="btn btn-info text-left" id="report" href="#sendreport" style="text-align: right" data-toggle="modal"><i class="fa fa-flag" aria-hidden="true"></i></a>
+
+                    <p style="display:inline" class="pull-left" id="numVotes"></p>
+                    <a class="btn btn-info" id="report" href="#sendreport" data-toggle="modal"><i class="fa fa-flag" aria-hidden="true"></i></a>
                     <button class="btn btn-primary text-right" id="nextquestionbutton" onclick="runNextQuestion()">Next Question</button>
                 </div>
             </div>
@@ -208,15 +209,16 @@
                 </div>
                 <div class="modal-body" style="text-align:center">
                     {% if num != 0 %}
-                    {% if num == 1 %}
-                        <span> We found {{num}} question. </span><br>
+                      {% if num == 1 %}
+                          <span> We found {{num}} question. </span><br/>
+                      {% else %}
+                          <span> We found {{num}} questions. </span><br/>
+                      {% endif %}
+                      <br/><button class="btn btn-success" style="border-radius: 25px;" onclick= "runQuestion()" id="gobutton"><h2 class="link-button">Start</h2></button><br/>
                     {% else %}
-                        <span> We found {{num}} questions. </span><br>
-                    {% endif %}
-                    <br/><button class="btn btn-success" style="border-radius: 25px;" onclick= "runQuestion()" id="gobutton"><h2 style="margin: 0px 0px 0px 0px;">Start</h2></button><br/>
-                    {% endif %}
-                    {% if num == 0 %}
-                    <a href = "/submitNew"><h2>Click Here to Submit New Questions</h2></a>
+                    <br/><a href = "/submitNew" class="btn btn-info" style="border-radius: 25px;"><h2 class="link-button">Submit New Questions</h2></a><br/>
+                    <br/><a href = "/ReviewNewQuestions" class="btn btn-warning" style="border-radius: 25px;"><h2 class="link-button">Review New Questions</h2></a><br/>
+                    <br/><span> Questions must have a user rating of 5 or administrative permission to be active. </span><br/>
                     {% endif %}
                     <a href = "/"><h5 style="display:inline"><br>Return Home</h5></a>
                     <br>
@@ -229,6 +231,8 @@
         <div class = "container">
         <h2 id="correctBox" style="text-align:center"></h2>
         <h4 id="pointsBox" style="text-align:center"></h4>
+        <div class="col-xs-6"><a href="javascript:window.location.href=window.location.href" class="btn btn-success" style="border-radius: 25px;"><h3 class="link-button">Play Again</h3></a><br/><br/></div>
+        <div class="col-xs-6"><a href="/play" class="btn btn-info" style="border-radius: 25px;"><h3 class="link-button">New Quiz</h3></a><br/><br/></div>
         <span class="alignleft">Question</span>
         <span class="aligncenterleft">Your Answer</span>
         <span class="aligncenterright">Correct Answer</span>
@@ -252,7 +256,7 @@
                         success : function(text){
                             if (text.incced >0){
                                 ratingNum+=text.incced;
-                                ratingDiv.innerHTML = "Rating: " + ratingNum;
+                                ratingDiv.innerHTML = "&nbspRating: " + ratingNum;
                             }
                             else{
                                 alert("You have already upvoted this.");
@@ -269,7 +273,7 @@
                         success : function(text){
                             if (text.decced > 0){
                                 ratingNum-=text.decced;
-                                ratingDiv.innerHTML = "Rating: " + ratingNum;
+                                ratingDiv.innerHTML = "&nbspRating: " + ratingNum;
                             }
                             else{
                                 alert("You have already downvoted this.");
