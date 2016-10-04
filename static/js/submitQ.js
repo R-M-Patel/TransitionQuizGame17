@@ -63,7 +63,7 @@ function submit(selection){
             newResult.uAns = a3;
         }
         else if (selection == '4'){
-            newResult.uAns = a1;
+            newResult.uAns = a4;
         }
         else{
             newResult.uAns = 'Timeout';
