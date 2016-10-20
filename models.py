@@ -186,7 +186,24 @@ def createQuestion(category,question,answer1,answer2,answer3,answer4,answerid,ex
     question.urlkey = question.key.urlsafe()
     question.put()
     return question.key
-
+def createQuestion(category,question,answer1,answer2,answer3,answer4,answerid,explanation,creator,valid):
+    catKey = ndb.Key(Category, category)
+    question = Question(
+        category = catKey,
+        categoryText = catKey.get().category,
+        question=question,
+        answer1=answer1,
+        answer2=answer2,
+        answer3=answer3,
+        answer4=answer4,
+        answerid=answerid,
+        explanation=explanation,
+        creator=creator,
+        accepted=valid)
+    question.put()
+    question.urlkey = question.key.urlsafe()
+    question.put()
+    return question.key
 
 
 #MODIFIERS
