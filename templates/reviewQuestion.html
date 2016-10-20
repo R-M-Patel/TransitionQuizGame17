@@ -5,7 +5,6 @@
 <html>
 <br><br><br>
 <body>
-{% if admin %}
 	<div class = "container">
         {% if review.accepted %}
         <h3 style="display:inline;">Question:</h3>
@@ -47,25 +46,44 @@
             <hr>
             
         {% if not review.accepted %}
-        <div class = "container col-lg-10">
-            <br><br><h4 style="display:inline;">What do you want to do to this question?</h4><br>
-                <form method="post" style="display:inline-block" class="horizontal-form" action="/acceptQuestion">
-                    <input type="hidden" name="id" value="{{review.urlkey}}">
-                    <button class="btn btn-success" action="/acceptQuestion" type="submit">Accept</button>
-                </form>
-                <form method="post" style="display:inline-block" class="horizontal-form" action="/deleteNewQuestion">
-                    <input type="hidden" name="id" value="{{review.urlkey}}">
-                    <button class="btn btn-danger" action="/deleteNewQuestion" type="submit">Delete</button>
-                </form>
-                
-        </div>
+            {% if admin %}
+            <div class = "container col-lg-10">
+                <br><br><h4 style="display:inline;">What do you want to do to this question?</h4><br>
+                    <form method="post" style="display:inline-block" class="horizontal-form" action="/acceptQuestion">
+                        <input type="hidden" name="id" value="{{review.urlkey}}">
+                        <button class="btn btn-success" action="/acceptQuestion" type="submit">Accept</button>
+                    </form>
+                    <form method="post" style="display:inline-block" class="horizontal-form" action="/deleteNewQuestion">
+                        <input type="hidden" name="id" value="{{review.urlkey}}">
+                        <button class="btn btn-danger" action="/deleteNewQuestion" type="submit">Delete</button>
+                    </form>
+                    
+            </div>
+            {% else %}
+            <div class = "container col-lg-10">
+                <br><br><h4 style="display:inline;">Should this question be added?</h4><br>
+                    <form method="post" style="display:inline-block" class="horizontal-form" action="/incrementVote">
+                        <input type="hidden" name="id" value="{{review.urlkey}}">
+                        <button class="btn btn-success" action="/incrementVote" type="submit">Yes</button>
+                    </form>
+                    <form method="post" style="display:inline-block" class="horizontal-form" action="/decrementVote">
+                        <input type="hidden" name="id" value="{{review.urlkey}}">
+                        <button class="btn btn-danger" action="/decrementVote" type="submit">No</button>
+                    </form>
+                    
+            </div>
+            {% endif %}
         {% endif %}
         
         {% if review.accepted %}
         <div class="pull-right">
-            <a class="btn btn-primary" href="#editquestion" data-toggle="modal">Edit Question</a>&nbsp
-            <button class="btn btn-danger pull-right" onclick ="deleteQuestion()">Delete Question</button>
-        </button>
+            {% if admin %}
+                <a class="btn btn-primary" href="#editquestion" data-toggle="modal">Edit Question</a>&nbsp
+                <button class="btn btn-danger pull-right" onclick ="deleteQuestion()">Delete Question</button>
+                </button>
+            {% else %}
+                <a class="btn btn-primary" href="/ReviewOldQuestions" data-toggle="modal">Return</a>&nbsp
+            {% endif %}
         {% else %}
             <!--<a class="col-lg-2" id="report" href="#sendreport" style="text-align: right" data-toggle="modal"> Report Question </a>-->
         {% endif %}
@@ -162,164 +180,6 @@
 			</div>
 		</div>
 	</div>
-{% else %}
-	<div class = "container">
-        {% if review.accepted %}
-        <h3 style="display:inline;">Question:</h3>
-        {% else %}
-		<h3 style="display:inline;">New Question:</h3>
-        {% endif %}
-        <hr>
-            {% if review.image_urlQ %}
-            <div class = "col-lg-9">
-                <h4 style="display:inline;">{{review.question}}</h4><br>
-                <span class="red-text">{{review.answer1}}</span><br>
-                <span class="blue-text">{{review.answer2}}</span><br>
-                <span class="green-text">{{review.answer3}}</span><br>
-                <span class="yellow-text">{{review.answer4}}</span><br><br>
-            </div>
-            <div class= "col-lg-3">
-                <img src="/imageQ?urlkey={{review.urlkey}}" class=" smaller-image"></img>
-            </div>
-            <br>
-            <br>
-            {% else %}
-            <div class="col-lg-12">
-                <h4 style="display:inline;">{{review.question}}</h4><br>
-                <div class="container">
-                    <span class="red-text">{{review.answer1}}</span><br>
-                    <span class="blue-text">{{review.answer2}}</span><br>
-                    <span class="green-text">{{review.answer3}}</span><br>
-                    <span class="yellow-text">{{review.answer4}}</span><br><br>
-                </div>
-            </div>
-            {% endif %}
-            <div class="col-lg-12">
-                <h4 style="display:inline;">Explanation:</h4>
-                <p>{{review.explanation}}</p>
-                <h4 style="display:inline;">The answer is:</h4><br>
-                <span id="answer" class = "red-text"></span>
-            </div>
-            <div></div>
-            <hr>
-            
-        {% if not review.accepted %}
-        <div class = "container col-lg-10">
-            <br><br><h4 style="display:inline;">Should this question be added?</h4><br>
-                <form method="post" style="display:inline-block" class="horizontal-form" action="/incrementVote">
-                    <input type="hidden" name="id" value="{{review.urlkey}}">
-                    <button class="btn btn-success" action="/incrementVote" type="submit">Yes</button>
-                </form>
-                <form method="post" style="display:inline-block" class="horizontal-form" action="/decrementVote">
-                    <input type="hidden" name="id" value="{{review.urlkey}}">
-                    <button class="btn btn-danger" action="/decrementVote" type="submit">No</button>
-                </form>
-                
-        </div>
-        {% endif %}
-        
-        {% if review.accepted %}
-        <div class="pull-right">
-            <a class="btn btn-primary" href="#editquestion" data-toggle="modal">Edit Question</a>&nbsp
-            <button class="btn btn-danger pull-right" onclick ="deleteQuestion()">Delete Question</button>
-        </button>
-        {% else %}
-            <!--<a class="col-lg-2" id="report" href="#sendreport" style="text-align: right" data-toggle="modal"> Report Question </a>-->
-        {% endif %}
-    </div>
-    <!--Edit Question-->
-    <div class="modal fade" id="editquestion" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form role = "form"  method="post" class="form-horizontal" action="{{upload_urlQE}}" enctype="multipart/form-data"> <!--Need to process the information-->
-					<div class="modal-header">
-						<he5>Edit Question Information</he5>
-					</div>
-					<div class="modal-body">
-                        <div class="form-group">
-							<label class="col-lg-2 control-label">Question: </label>
-							<div class="col-lg-10">
-								<textarea type="text" class="form-control" name="questiontext" id="questiontext" maxlength=150 required>{{review.question}}</textarea>  
-							</div>
-						</div>
-                        <div class="form-group">
-							<label for: "img" class="col-lg-2 control-label">Image: </label>
-							<div class="col-lg-10">
-								<input type="file" class="form-control" name="file" id="Location">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label">Option 1: </label>
-							<div class="col-lg-10">
-								<input type="text" class="form-control" name="answer1" id="answer1" value="{{review.answer1}}" maxlength=35 required>
-							</div>
-						</div>
-                        <div class="form-group">
-							<label class="col-lg-2 control-label">Option 2: </label>
-							<div class="col-lg-10">
-								<input type="text" class="form-control" name="answer2" id="answer2" value="{{review.answer2}}" maxlength=35 required>
-							</div>
-						</div>
-                        <div class="form-group">
-							<label class="col-lg-2 control-label">Option 3: </label>
-							<div class="col-lg-10">
-								<input type="text" class="form-control" name="answer3" id="answer3" value="{{review.answer3}}" maxlength=35 required>
-							</div>
-						</div>
-                        <div class="form-group">
-							<label class="col-lg-2 control-label">Option 4: </label>
-							<div class="col-lg-10">
-								<input type="text" class="form-control" name="answer4" id="answer4" value="{{review.answer4}}" maxlength=35 required>
-							</div>
-						</div>
-                        <div class="form-group">
-							<label class="col-lg-2 control-label">Answer: </label>
-							<div class="col-lg-10">
-                                <select class="form-control" name="answerid" id="answerid" method="POST"><!--maybe pull in all categories from python-->
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-							</div>
-                        </div>
-                        <div class="form-group">
-							<label class="col-lg-2 control-label">Explanation: </label>
-							<div class="col-lg-10">
-								<textarea type="text" class="form-control" name="explanation" id="explanation">{{review.explanation}}</textarea>
-							</div>
-						</div>
-                        
-					<div class="modal-footer">
-						<a class="btn btn-default text-right" data-dismiss="modal">Close</a>
-						<button type="submit" class="btn btn-primary">Submit</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-    <!--Report Question (Might be redundant)-->
-	<div class="modal fade" id="sendreport" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form role = "form"  method="post" class="form-horizontal" action="/report?id={{review.urlkey}}">
-					<div class="modal-header">
-						<he5>Report Question</he5>
-					</div>
-					<div class="modal-body">
-						Describe the problem:<br><br>
-						<textarea class="form-control" rows="3" cols="40" name="comment" maxlength="350" required ></textarea>
-						<br>
-					</div>
-					<div class="modal-footer">
-						<a class="btn btn-default text-right" data-dismiss="modal">Close</a>
-						<button type="submit" class="btn btn-primary">Submit</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-{% endif %}
 </body>
 <script>
     window.onload = function() {
