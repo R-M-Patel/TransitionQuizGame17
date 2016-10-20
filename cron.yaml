@@ -1,8 +1,14 @@
-cron:
-- description: if question is upvoted enough, validates it
-  url: /tasks/validate_questions
-  schedule: every 1 mins
-  
-- description: if question was deleted in the last 24 hours
-  url: /tasks/delete_questions
-  schedule: every 24 hours
+#
+# These tasks no longer need to be run - questions are added/deleted automatically
+# I'm keeping the file here for now just in case
+#
+
+
+#cron:
+#- description: if question is upvoted enough, validates it
+#  url: /tasks/validate_questions
+#  schedule: every 1 mins
+#  
+#- description: if question was deleted in the last 24 hours
+#  url: /tasks/delete_questions
+#  schedule: every 24 hours
