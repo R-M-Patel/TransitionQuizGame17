@@ -178,6 +178,10 @@
                 else{
                     $('#submitcat').modal('hide');
                     confirm("Category Created.");
+                    var option = document.createElement("option");
+                    option.text = category;
+                    //document.getElementById('catdropdown').appendChild(category);
+                    document.getElementById('catdropdown').add(option);
                 }
             }
        });
