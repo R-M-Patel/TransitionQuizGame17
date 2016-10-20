@@ -95,7 +95,13 @@ def createCategory(categoryIn, acceptedIn=False):
     cat.accepted = acceptedIn
     cat.key = ndb.Key(Category, categoryIn)
     cat.put()
-
+    
+def adminCreateCategory(categoryIn, acceptedIn=True):
+    cat = Category()
+    cat.category = categoryIn
+    cat.accepted = acceptedIn
+    cat.key = ndb.Key(Category, categoryIn)
+    cat.put()
 
 #adds an Answer object to the Datastore, as a child of User 'userid'
 #updates Question with statistics

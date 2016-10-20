@@ -777,7 +777,18 @@ class addCategory(webapp2.RequestHandler):
             models.createCategory(data['category'])
         result['exists'] = exists
         self.response.out.write(json.dumps(result))
-
+        
+class adminAddCategory(webapp2.RequestHandler):
+    def post(self):
+        self.response.headers.add_header('Access-Control-Allow-Origin', '*')
+        self.response.headers['Content-Type'] = 'application/json'
+        data = json.loads(self.request.body)
+        result= {}
+        exists = models.checkCategory(data['category'])
+        if not exists:
+            models.adminCreateCategory(data['category'])
+        result['exists'] = exists
+        self.response.out.write(json.dumps(result))
 ###############################################################################
 mappings = [
   ('/', MainPageHandler),
@@ -807,6 +818,7 @@ mappings = [
   ('/checkUsername', checkUsername),
   ('/getNewCatScores', getNewCatScores),
   ('/addCategory', addCategory),
+  ('/adminAddCategory', adminAddCategory),
   ('/reviewCategories', reviewCategoryTable),
   ('/addNewCategory', addNewCategory),
   ('/removeNewCategory', removeNewCategory),

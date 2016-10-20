@@ -15,7 +15,11 @@
             <span style="font-size:75%;">Select A Category:&nbsp;</span>
             <select name="category"  id="catdropdown" method="POST" >
             </select>
+            {% if admin %}
+            <a class="btn btn-link" href="#submitcat" data-toggle="modal">Create a Category</a>
+            {% else %}
             <a class="btn btn-link" href="#submitcat" data-toggle="modal">Suggest a Category</a>
+            {% endif %}
             </div>
             <hr>
             <div class="col-xs-12" >
@@ -66,16 +70,32 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
                 <div class="modal-header">
+                    {% if admin %}
+                    <he5>Category Creation</he5>
+                    {% else %}
                     <he5>Category Suggestion</he5>
+                    {% endif %}
+                    
                 </div>
                 <div class="modal-body">
+                    {% if admin %}
+                    Category Creation:<br><br>
+                    {% else %}
                     Category Suggestion:<br><br>
+                    {% endif %}
+                    
                     <input class="form-control" id="category" maxlength="30" required></input>
                     <br>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-default text-right" data-dismiss="modal">Close</a>
+                    
+                    {% if admin %}
+                    <button class="btn btn-primary" onclick="adminSendCategory()">Submit</button>
+                    {% else %}
                     <button class="btn btn-primary" onclick="sendCategory()">Submit</button>
+                    {% endif %}
+                    
                 </div>
 			</div>
 		</div>
@@ -138,6 +158,26 @@
                 else{
                     $('#submitcat').modal('hide');
                     confirm("Category suggestion added.");
+                }
+            }
+       });
+    }
+    function adminSendCategory(){
+        var category = document.getElementById('category').value;
+        //clear report question text box
+        document.getElementById('category').value= "";
+        $.ajax({
+            type: "POST",
+            url: "/adminAddCategory",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({"category": category}),
+            success : function(text){
+                if (text.exists == true){
+                    alert("Category already exists.");
+                }
+                else{
+                    $('#submitcat').modal('hide');
+                    confirm("Category Created.");
                 }
             }
        });
