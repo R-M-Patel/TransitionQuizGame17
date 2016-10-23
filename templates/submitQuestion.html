@@ -12,12 +12,16 @@
         <hr>
         <form action="{{upload_urlQ}}" enctype="multipart/form-data" method="post"><font size = 5>
             <div>
-            <span style="font-size:75%;">Select A Category:&nbsp;</span>
-            <select name="category"  id="catdropdown" method="POST" >
-            </select>
-            <a class="btn btn-link" href="#submitcat" data-toggle="modal">Suggest a Category</a>
+              <span style="font-size:75%;">Select A Category:&nbsp;</span>
+              <select name="category"  id="catdropdown" method="POST" required>
+              </select>
+              <span style="font-size:75%;">Select A Subcategory:&nbsp;</span>
+              <select name="subcategory"  id="subdropdown" method="POST" required>
+              </select>
+              <a class="btn btn-link" href="#submitcat" data-toggle="modal">Suggest a Category</a>
             </div>
-            <hr>
+          </hr>
+          </br></br>
             <div class="col-xs-12" >
                 <textarea type="text" name="questiontext" placeholder="Enter question here..."class="form-control" rows="6" METHOD=POST maxlength="144" id="questionText"required></textarea><br/>
             </div>
@@ -69,8 +73,11 @@
                     <he5>Category Suggestion</he5>
                 </div>
                 <div class="modal-body">
-                    Category Suggestion:<br><br>
-                    <input class="form-control" id="category" maxlength="30" required></input>
+                    Main Category:<br><br>
+                    <input class="form-control" id="category" maxlength="30" type="text" pattern=".{1,}" required></input>
+                    <br>
+                    Subcategory:<br><br>
+                    <input class="form-control" id="subcategory" maxlength="30" type="text" pattern=".{1,}" required></input>
                     <br>
                 </div>
                 <div class="modal-footer">
@@ -110,9 +117,24 @@
     $(document).ready(function() {
         var curr = {{catList|safe}};
         var option = $("#catdropdown");
+        var suboption = $("#subdropdown");
+        var unique1 = [];
+        var unique2 = [];
         $.each(curr, function(key, value) {
-            var Ivalue = "<option value='"+value.category+"'>" + value.category + "</option>";
-            option.append(Ivalue);
+            cat = value.category.split(':')[0];
+            sub = value.category.split(':')[1];
+            var Ivalue = "<option value='"+cat+"'>" + cat + "</option>";
+            var Svalue = "<option value='"+sub+"'>" + sub + "</option>";
+            if($.inArray(cat, unique1) === -1)
+            {
+              unique1.push(cat);
+              option.append(Ivalue);
+            }
+            if($.inArray(sub, unique2) === -1)
+            {
+              unique2.push(sub);
+              suboption.append(Svalue);
+            }
         });
         // If coming from the Quiz Me! button
         if(window.location.pathname+window.location.search == "/NewQuestion")
@@ -123,24 +145,42 @@
     });
     //AJAX
     function sendCategory(){
-        var category = document.getElementById('category').value;
-        //clear report question text box
-        document.getElementById('category').value= "";
-        $.ajax({
-            type: "POST",
-            url: "/addCategory",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({"category": category}),
-            success : function(text){
-                if (text.exists == true){
-                    alert("Category already exists.");
-                }
-                else{
-                    $('#submitcat').modal('hide');
-                    confirm("Category suggestion added.");
-                }
-            }
-       });
+        var cat = document.getElementById('category').value;
+        var sub = document.getElementById('subcategory').value;
+        cat = cat.replace(/:/g, '');
+        sub = sub.replace(/:/, '');
+        var category = cat + ':' + sub;
+
+        if(cat !== null && cat.match(/^\s*$/) === null)
+        {
+          if(sub !== null && sub.match(/^\s*$/) === null)
+          {
+            //clear report question text box
+            document.getElementById('category').value= "";
+            document.getElementById('subcategory').value= "";
+            $.ajax({
+                type: "POST",
+                url: "/addCategory",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({"category": category}),
+                success : function(text){
+                    if (text.exists == true){
+                        alert("Category already exists.");
+                    }
+                    else{
+                        $('#submitcat').modal('hide');
+                        confirm("Category suggestion added.");
+                    }
+                  }
+              });
+          }
+          else {
+            alert("The subcategory is required!");
+          }
+        }
+        else {
+          alert("The main category is required!");
+        }
     }
 </script>
 </html>

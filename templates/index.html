@@ -35,12 +35,28 @@
             document.getElementById("dropdown").style.display = "none";
         });
         var curr = {{catList|safe}};
-        var dropdown = document.getElementById("category");
-        var option = document.createElement("option");
+        var dropdown1 = document.getElementById("category");
+        var dropdown2 = document.getElementById("subcategory");
+        var unique1 = [];
+        var unique2 = [];
         for (x = 0; x < curr.length; x++){
-            var option = document.createElement("option");
-            option.innerHTML = curr[x].category;
-            dropdown.appendChild(option);
+            var option1 = document.createElement("option");
+            var option2 = document.createElement("option");
+            var cat = curr[x].category.split(':')[0];
+            var sub = curr[x].category.split(':')[1];
+
+            if($.inArray(cat, unique1) === -1)
+            {
+              unique1.push(cat);
+              option1.innerHTML = cat;
+              dropdown1.appendChild(option1);
+            }
+            if($.inArray(sub, unique2) === -1)
+            {
+              unique2.push(sub);
+              option2.innerHTML = sub;
+              dropdown2.appendChild(option2);
+            }
         }
 
         // If coming from the Quiz Me! button
@@ -84,6 +100,10 @@
                     <div class ="container col-md-8 col-md-offset-2">
                         Select a Category:
                         <select style="color:black" id="category" name="category" method="POST"><!--maybe pull in all categories from python-->
+                        </select>
+                        <br><br>
+                        Select a Subcategory:
+                        <select style="color:black" id="subcategory" name="subcategory" method="POST"><!--maybe pull in all categories from python-->
                         </select>
                         <br><br>
                         Number of Questions:
