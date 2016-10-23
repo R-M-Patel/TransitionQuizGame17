@@ -125,7 +125,7 @@ class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
         explanation = self.request.get('explanation')
         if not explanation:
             explanation = "No Explanation Provided"
-        category = self.request.get('category')
+        category = self.request.get('category') + ":" + self.request.get('subcategory')
         question = self.request.get('questiontext')
         answer1 = self.request.get('answer1')
         answer2 = self.request.get('answer2')
@@ -523,7 +523,7 @@ class categoryQuiz(webapp2.RequestHandler):
                 }
                 render_template(self, 'createProfile.html' ,page_params)
                 return
-        category = self.request.get('category')
+        category = self.request.get('category') + ':' + self.request.get('subcategory')
         number = self.request.get('number')
         questions = models.getQuestionsCat(category,int(number))
         if questions is None:

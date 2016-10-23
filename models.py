@@ -78,6 +78,8 @@ class Score(ndb.Model):
 class Category(ndb.Model):
     category = ndb.StringProperty()
     accepted = ndb.BooleanProperty(default = False)
+    def as_list(self):
+        return self.category.split(':')
 
 #CREATORS
 ###############################################################################
@@ -171,7 +173,7 @@ def createQuestion(category,question,answer1,answer2,answer3,answer4,answerid,ex
     catKey = ndb.Key(Category, category)
     question = Question(
         category = catKey,
-        categoryText = catKey.get().category,
+        categoryText = category,
         question=question,
         answer1=answer1,
         answer2=answer2,
@@ -292,7 +294,7 @@ def accRej(question):
     return question
     #return 0
 
-    
+
 def delete_question_perm(key):
     return key.delete()
 
@@ -306,7 +308,7 @@ def accept_question(id):
     question.accepted = True
     question.put()
     return 0
-    
+
 def changeCategoryStatus(category, statusIn):
     cat = ndb.Key(Category, category).get()
     cat.accepted = statusIn
