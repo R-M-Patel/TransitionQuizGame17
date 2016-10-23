@@ -18,7 +18,11 @@
               <span style="font-size:75%;">Select A Subcategory:&nbsp;</span>
               <select name="subcategory"  id="subdropdown" method="POST" required>
               </select>
-              <a class="btn btn-link" href="#submitcat" data-toggle="modal">Suggest a Category</a>
+              {% if admin %}
+                <a class="btn btn-link" href="#submitcat" data-toggle="modal">Create a Category</a>
+              {% else %}
+                <a class="btn btn-link" href="#submitcat" data-toggle="modal">Suggest a Category</a>
+              {% endif %}
             </div>
           </hr>
           </br></br>
@@ -37,10 +41,6 @@
             <div class="col-sm-3" style="text-align: center;">
                 <input type="textarea" class="yellow-text" style="width: 100%;" placeholder="Answer #4" method=POST name="answer4" maxlength="30" id="answer4" required></input>
             </div>
-
-
-
-
             </div>
             <div class="container">
                 <hr>
@@ -69,21 +69,29 @@
     <div style="z-index:2147483646;" class="modal fade" id="submitcat" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
-                <div class="modal-header">
-                    <he5>Category Suggestion</he5>
-                </div>
-                <div class="modal-body">
-                    Main Category:<br><br>
-                    <input class="form-control" id="category" maxlength="30" type="text" pattern=".{1,}" required></input>
-                    <br>
-                    Subcategory:<br><br>
-                    <input class="form-control" id="subcategory" maxlength="30" type="text" pattern=".{1,}" required></input>
-                    <br>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-default text-right" data-dismiss="modal">Close</a>
-                    <button class="btn btn-primary" onclick="sendCategory()">Submit</button>
-                </div>
+        <div class="modal-header">
+            {% if admin %}
+              <he5>Category Creation</he5>
+            {% else %}
+              <he5>Category Suggestion</he5>
+            {% endif %}
+        </div>
+        <div class="modal-body">
+            Main Category:<br><br>
+            <input class="form-control" id="category" maxlength="30" type="text" required></input>
+            <br>
+            Subcategory:<br><br>
+            <input class="form-control" id="subcategory" maxlength="30" type="text" required></input>
+            <br>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-default text-right" data-dismiss="modal">Close</a>
+            {% if admin %}
+              <button class="btn btn-primary" onclick="adminSendCategory()">Submit</button>
+            {% else %}
+              <button class="btn btn-primary" onclick="sendCategory()">Submit</button>
+            {% endif %}
+        </div>
 			</div>
 		</div>
 	</div>
@@ -170,6 +178,51 @@
                     else{
                         $('#submitcat').modal('hide');
                         confirm("Category suggestion added.");
+                    }
+                  }
+              });
+          }
+          else {
+            alert("The subcategory is required!");
+          }
+        }
+        else {
+          alert("The main category is required!");
+        }
+    }
+
+    function adminSendCategory(){
+        var cat = document.getElementById('category').value;
+        var sub = document.getElementById('subcategory').value;
+        cat = cat.replace(/:/g, '');
+        sub = sub.replace(/:/, '');
+        var category = cat + ':' + sub;
+
+        if(cat !== null && cat.match(/^\s*$/) === null)
+        {
+          if(sub !== null && sub.match(/^\s*$/) === null)
+          {
+            //clear report question text box
+            document.getElementById('category').value= "";
+            document.getElementById('subcategory').value= "";
+            $.ajax({
+                type: "POST",
+                url: "/adminAddCategory",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({"category": category}),
+                success : function(text){
+                    if (text.exists == true){
+                        alert("Category already exists.");
+                    }
+                    else{
+                        $('#submitcat').modal('hide');
+                        confirm("Category suggestion added.");
+                        var option1 = document.createElement("option");
+                        var option2 = document.createElement("option");
+                        option1.text = cat;
+                        option2.text = sub;
+                        document.getElementById('catdropdown').add(option1);
+                        document.getElementById('subdropdown').add(option2);
                     }
                   }
               });
