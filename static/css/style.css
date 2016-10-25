@@ -206,3 +206,30 @@ table#leaderboard th	{
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 }
+
+span.cat
+{
+	font-size:75%;
+	width: auto;
+	text-align: right;
+}
+
+select.cat
+{
+	width: 100%;
+}
+
+input.upload-file
+{
+	height: auto;
+}
+
+hr
+{
+	border: 0;
+  clear:both;
+  display:block;
+  width: 96%;
+  background-color:#FFFF00;
+  height: 1px;
+}

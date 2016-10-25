@@ -97,7 +97,7 @@ def createCategory(categoryIn, acceptedIn=False):
     cat.accepted = acceptedIn
     cat.key = ndb.Key(Category, categoryIn)
     cat.put()
-    
+
 def adminCreateCategory(categoryIn, acceptedIn=True):
     cat = Category()
     cat.category = categoryIn
@@ -360,6 +360,23 @@ def getQuestionFromURL(key):
 def getQuestionsCat(category,number):
     q = Question.query(Question.category == ndb.Key(Category, category), Question.accepted ==
             True).fetch()
+    if len(q) == 0:
+        logging.critical("There aren't any questions. Have you populated the database?")
+        return None
+    shuffle(q)
+    results = list()
+    if len(q) >= number:
+        for i in range(0,number):
+            results.append(q[i])
+    else:
+        for item in q:
+            results.append(item)
+    return results
+
+#returns list of [number] Questions in [category] only by User [user]
+def getQuestionsCatUsr(category,number,user):
+    q = Question.query(Question.category == ndb.Key(Category, category), Question.accepted ==
+            True, Question.creator == user).fetch()
     if len(q) == 0:
         logging.critical("There aren't any questions. Have you populated the database?")
         return None

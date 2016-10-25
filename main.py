@@ -132,7 +132,7 @@ class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
         answer3 = self.request.get('answer3')
         answer4 = self.request.get('answer4')
         answerid = self.request.get('answerid')
-        
+
         try:
             upload_files = self.get_uploads()
             blob_info = upload_files[0]
@@ -173,7 +173,7 @@ class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
                         question,answer1,answer2,answer3,answer4,answerid,
                         explanation,creator,False)
 
-        self.redirect('/NewQuestion') 
+        self.redirect('/NewQuestion')
     def get(self):
         id = get_user_id()
         is_admin = 0
@@ -525,7 +525,12 @@ class categoryQuiz(webapp2.RequestHandler):
                 return
         category = self.request.get('category') + ':' + self.request.get('subcategory')
         number = self.request.get('number')
-        questions = models.getQuestionsCat(category,int(number))
+        mine = self.request.get('mine')
+        if mine == 'mine':
+            questions = models.getQuestionsCatUsr(category,int(number),models.getUser(id).username)
+        else:
+            questions = models.getQuestionsCat(category,int(number))
+
         if questions is None:
             num = 0
             jList = []
@@ -775,7 +780,7 @@ class acceptQuestionNoRedirect(webapp2.RequestHandler):
     def post(self):
         id = self.request.get("id")
         models.accept_question(id)
-        
+
 class checkUsername(webapp2.RequestHandler):
     def post(self):
         self.response.headers.add_header('Access-Control-Allow-Origin', '*')
@@ -796,7 +801,7 @@ class addCategory(webapp2.RequestHandler):
             models.createCategory(data['category'])
         result['exists'] = exists
         self.response.out.write(json.dumps(result))
-        
+
 class adminAddCategory(webapp2.RequestHandler):
     def post(self):
         self.response.headers.add_header('Access-Control-Allow-Origin', '*')
