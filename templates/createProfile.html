@@ -62,7 +62,7 @@
             </div>
             <div class="col-lg-6">
                 <span>Profile Picture: </span><br>
-                <input type="file" class="form-control" name="file" id="Location"></input>
+                <input type="file" class="form-control upload-file" name="file" id="Location"></input>
                 <br>
                 <hr>
             </div>
@@ -80,7 +80,7 @@
     </body>
     <script>
     $(document).ready(function() {
-        var x_timer;    
+        var x_timer;
         $("#username").keyup(function (e){
             clearTimeout(x_timer);
             var user_name = $(this).val();
