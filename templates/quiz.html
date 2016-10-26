@@ -32,8 +32,8 @@
             clearTimeout(timerId);
             $("#getready").modal('hide');
         }
-        catch(err){
-        }
+        catch(err){ }
+
         timeLeft = 14;
         var elem = document.getElementById('timer');
         timerId = setInterval(function() {
@@ -50,7 +50,7 @@
         if( (counter) == "{{num}}"){
             document.getElementById('content').innerHTML = "";
             var cnt = 0;
-            var correctString = "You got ";
+            var correctString = "";
             correctString = correctString.concat(correctCount);
             correctString = correctString.concat(" out of ");
             correctString = correctString.concat(counter);
@@ -88,10 +88,28 @@
         ratingNum = curr[counter].rating;
         questkey = curr[counter].urlkey;
         quest.innerHTML = (counter+1) + ") "  + curr[counter].question ;
-        ans1.innerHTML = curr[counter].answer1;
-        ans2.innerHTML = curr[counter].answer2;
-        ans3.innerHTML = curr[counter].answer3;
-        ans4.innerHTML = curr[counter].answer4;
+
+        // Put Quiz answers in a random order
+        var unique = [];
+        var options = [ans1, ans2, ans3, ans4];
+        var answers = [curr[counter].answer1, curr[counter].answer2, curr[counter].answer3, curr[counter].answer4];
+        while(unique.length != 4)
+        {
+          // Get random number between 0-3 (inclusive)
+          var rand = Math.floor(Math.random() * 4);
+
+          // If that number isn't already used
+          if($.inArray(rand, unique) === -1)
+          {
+            // Use it
+            //alert("Answer: " + answers[rand] + "     Submit: " + (rand+1));
+            options[unique.length].innerHTML = answers[rand];
+            options[unique.length].setAttribute("onclick", "javascript: submit("+ (rand+1) +");");
+            options[unique.length].value = rand+1;
+            unique.push(rand);
+          }
+        }
+
         ratingDiv.innerHTML = "&nbspRating: " + ratingNum;
         ratingDiv.style.color = "black";
     }
@@ -196,36 +214,37 @@
 			</div>
 		</div>
 	</div>
+
     <!--Get Ready Modal-->
     <div style="z-index:2147483646;" class="modal fade" id="getready" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-                <div class="modal-header" style="text-align:center">
-                    {% if num != 0 %}
-                    <h1 style="display:inline">Are You Ready!?</h1>
-                    {% else %}
-                    <h1 style="display:inline">No Questions Found</h1>
-                    {% endif %}
-                </div>
-                <div class="modal-body" style="text-align:center">
-                    {% if num != 0 %}
-                      {% if num == 1 %}
-                          <span> We found {{num}} question. </span><br/>
-                      {% else %}
-                          <span> We found {{num}} questions. </span><br/>
-                      {% endif %}
-                      <br/><button class="btn btn-success" style="border-radius: 25px;" onclick= "runQuestion()" id="gobutton"><h2 class="link-button">Start</h2></button><br/>
-                    {% else %}
-                    <br/><a href = "/submitNew" class="btn btn-info" style="border-radius: 25px;"><h2 class="link-button">Submit New Questions</h2></a><br/>
-                    <br/><a href = "/ReviewNewQuestions" class="btn btn-warning" style="border-radius: 25px;"><h2 class="link-button">Review New Questions</h2></a><br/>
-                    <br/><span> Questions must have a user rating of 5 or administrative permission to be active. </span><br/>
-                    {% endif %}
-                    <a href = "/"><h5 style="display:inline"><br>Return Home</h5></a>
-                    <br>
-                </div>
-			</div>
-		</div>
-	</div>
+  		<div class="modal-dialog">
+  			<div class="modal-content">
+          <div class="modal-header" style="text-align:center">
+              {% if num != 0 %}
+              <h1 style="display:inline">Are You Ready!?</h1>
+              {% else %}
+              <h1 style="display:inline">No Questions Found</h1>
+              {% endif %}
+          </div>
+          <div class="modal-body" style="text-align:center">
+              {% if num != 0 %}
+                {% if num == 1 %}
+                    <span> We found {{num}} question. </span><br/>
+                {% else %}
+                    <span> We found {{num}} questions. </span><br/>
+                {% endif %}
+                <br/><button class="btn btn-success" style="border-radius: 25px;" onclick= "runQuestion()" id="gobutton"><h2 class="link-button">Start</h2></button><br/>
+              {% else %}
+              <br/><a href = "/submitNew" class="btn btn-info" style="border-radius: 25px;"><h2 class="link-button">Submit New Questions</h2></a><br/>
+              <br/><a href = "/ReviewNewQuestions" class="btn btn-warning" style="border-radius: 25px;"><h2 class="link-button">Review New Questions</h2></a><br/>
+              <br/><span> Questions must have a user rating of 5 or administrative permission to be active. </span><br/>
+              {% endif %}
+              <a href = "/"><h5 style="display:inline"><br>Return Home</h5></a>
+              <br>
+          </div>
+  			</div>
+  		</div>
+  	</div>
 
     <div class = "container" id="quizResults" style="text-align:center; display:none">
         <div class = "container">
