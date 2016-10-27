@@ -19,4 +19,9 @@ indexes:
 - kind: Score
   ancestor: yes
   properties:
+  - name: categoryText
+
+- kind: Score
+  ancestor: yes
+  properties:
   - name: date
