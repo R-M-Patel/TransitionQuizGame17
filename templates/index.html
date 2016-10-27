@@ -45,20 +45,47 @@
             var cat = curr[x].category.split(':')[0];
             var sub = curr[x].category.split(':')[1];
 
-            if($.inArray(cat, unique1) === -1)
-            {
+            if($.inArray(cat, unique1) === -1){
               unique1.push(cat);
               option1.innerHTML = cat;
               dropdown1.appendChild(option1);
             }
-            if($.inArray(sub, unique2) === -1)
-            {
-              unique2.push(sub);
-              option2.innerHTML = sub;
-              dropdown2.appendChild(option2);
+            
+            if (dropdown1.selectedIndex != -1){
+                if(dropdown1.selectedOptions[0].value===cat){
+                    if($.inArray(sub, unique2) === -1){
+                        unique2.push(sub);
+                        option2.innerHTML = sub;
+                        dropdown2.appendChild(option2);
+                    }
+                }
             }
         }
-
+        dropdown1.addEventListener("change", function() {
+            var select;
+            var options = dropdown1.options;
+            var selectedOpt = dropdown1.selectedOptions;
+            var length = dropdown2.length;
+            var unique2 = [];
+            for (i = 0; i < length; i++) {
+                dropdown2[i] = null;
+            }
+            dropdown2.length=0;
+            if (options.selectedIndex != -1){
+                select=selectedOpt[0].value;
+                length = curr.length;
+                for(i = 0; i < length; i++) {
+                    var option2 = document.createElement("option");
+                   if(curr[i].category.split(':')[0]===select){
+                        if($.inArray(curr[i].category.split(':')[1], unique2) === -1){
+                            unique2.push(curr[i].category.split(':')[1]);
+                            option2.innerHTML = curr[i].category.split(':')[1];
+                            dropdown2.appendChild(option2);
+                        }
+                    }
+                }
+            }
+        });
         // If coming from the Quiz Me! button
         if(window.location.pathname+window.location.search == "/play")
         {
