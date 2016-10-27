@@ -33,36 +33,18 @@
             var cat = curr[i].categoryText.split(':')[0];
             var sub = curr[i].categoryText.split(':')[1];
             if($.inArray(cat, unique1) === -1){
-                
-                /*unique1.push(cat);
-                subIndex[[subIndex.length],[0]]=sub;
-                categoryIndex.push(cat);
-                data.addRows([[cat, curr[i].score, sub]]);
-                */
                 unique1.push(cat);
-                //categoryScores[unique1.length]=curr[i].score;
                 categoryScores[cat]=curr[i].score;
-                //data.addRows([[cat, curr[i].score, sub]]);
             }else{
-                
-                
-                //var index=$.inArray(cat, unique1);
-                //categoryScores[index]=categoryScores[index]+curr[i].score;
                 categoryScores[cat]=categoryScores[cat]+curr[i].score;
-                //subLen=subIndex[[index]].length;
-                //subIndex[[index],[subLen]]=sub;
-                //data.addRows(1);
-                //data.setCell([[subLen, index, curr[i].score]]);
-                //data.addRows([[cat, curr[i].score, sub]]);
-                
             }
-            //data.addRows([[cat, curr[i].score, sub]]);
-            //if(data.getValue(row,0))
-            //data.addRows([[curr[i].categoryText, curr[i].score]]);
+            //alert(data.valueOf);
         }
         for (i in unique1){
             data.addRows([[unique1[i], categoryScores[unique1[i]]]]);
         }
+        
+        
         // Set chart options
         var options = {
                        bars : 'horizontal',
@@ -72,6 +54,7 @@
                        width: 500,
                        legend: {position : 'none'},
                        titlePosition : 'none',
+                       isStacked: true
         };
 
         // Instantiate and draw our chart, passing in some options.
@@ -97,11 +80,6 @@
         
         var arr = [['SubCategory', 'Score']];
         
-        /*if(curCat == 'Life'){
-            arr.push(['Youtube', 700], ['DailyMotion', 300]);
-        }else if(curCat == 'Fire'){
-            arr.push(['Gmail', 600], ['Hotmail', 570]);
-        }*/
         
         for (i in curr){
             var cat = curr[i].categoryText.split(':')[0];
