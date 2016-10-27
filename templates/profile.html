@@ -99,8 +99,18 @@
                        titlePosition : 'none',
         };*/
         var chart = new
-            google.charts.Bar(document.getElementById('subchart_material'));
+            google.charts.Bar(document.getElementById('barchart_material'));
         //var chart = new google.visualization.BarChart(document.getElementById('subchart_material'));   
+        
+        google.visualization.events.addListener(chart, 'select', function(){
+            var selection=chart.getSelection();
+            if(selection.length == 1){
+                var row = selection[0].row;
+                var col = selection[0].column;
+                var cat = data.getValue(row,0);
+                drawChart();
+            }
+        })
         chart.draw(data, {});
     }
     </script>
