@@ -11,15 +11,15 @@
             <h2 style="display:inline">Leaderboard</h2>
         </div>
         <div class = "container col-xs-12"><hr></div>
-        <div class= "container col-xs-6" align="left">
+        <div class= "container col-md-6">
             Category: &nbsp
-            <select style="font-size:5" class="selectpicker" id="category" name="category" method="POST">
+            <select class="selectpicker cat" id="category" name="category" method="POST">
                 <option selected value="ALL">All</option>
             </select>
         </div>
-        <div class = "container col-xs-6" align="right">
+        <div class = "container col-md-6">
             Time: &nbsp
-            <select style="font-size:5" class="selectpicker" id="timePeriod" name="timePeriod" method="POST">
+            <select class="selectpicker cat" id="timePeriod" name="timePeriod" method="POST">
                 <option selected value="ALL">All Time</option>
                 <option value="Past Week">Past Week</option>
                 <option value="Past Month">Past Month</option>
@@ -28,7 +28,7 @@
         </div>
         <div class = "container col-xs-12"><br></div>
         <div class="container col-xs-12">
-            <table id="leaderboard">
+            <table id="leaderboard" class='leaderboard'>
               <thead>
                 <th width='5%'>Rank</th>
                 <th>Name</th>
@@ -59,7 +59,7 @@
                     var data = JSON.parse(text);
                     var rank = 1;
                     $.each(data, function(index, el) {
-                        $('#leaderboard tbody').append("<tr><td>"+rank+"</td><td>"+index+"</td><td>"+el+"</td></tr>");
+                        $('#leaderboard tbody').append("<tr><td class='centered'>"+rank+"</td><td>"+index+"</td><td>"+el+"</td></tr>");
                         rank++;
                     });
                 },
@@ -82,7 +82,7 @@
                     var data = JSON.parse(text);
                     var rank = 1;
                     $.each(data, function(index, el) {
-                        $('#leaderboard tbody').append("<tr><td>"+rank+"</td><td>"+index+"</td><td>"+el+"</td></tr>");
+                        $('#leaderboard tbody').append("<tr><td class='centered'>"+rank+"</td><td>"+index+"</td><td>"+el+"</td></tr>");
                         rank++;
                     });
                 },
@@ -93,7 +93,7 @@
         var scoreList =  {{list|safe}};
         var rank = 1;
         for (var prop in scoreList){
-          $('#leaderboard tbody').append("<tr><td>"+rank+"</td><td>"+prop+"</td><td>"+scoreList[prop]+"</td></tr>");
+          $('#leaderboard tbody').append("<tr><td class='centered'>"+rank+"</td><td>"+prop+"</td><td>"+scoreList[prop]+"</td></tr>");
           rank++;
         }
     });
@@ -101,7 +101,7 @@
         var curr = {{catList|safe}};
         var option = $("#category");
         $.each(curr, function(key, value) {
-            var Ivalue = "<option value='"+value.category+"'>" + value.category + "</option>";
+            var Ivalue = "<option value='"+value.category.split(':')[0]+"'>" + value.category.split(':')[0] + "</option>";
             option.append(Ivalue);
         });
     });

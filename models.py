@@ -480,7 +480,7 @@ def getAllUserScores(timePeriod = 0):
 #returns JSON list of every User's scores for category
 #defaults to all time
 def getAllUserScoresForCat(category, timePeriod = 0):
-    category = ndb.Key(Category, category)
+    #category = ndb.Key(Category, category)
     users = User.query()
     scoreList = dict()
     all = False
@@ -488,7 +488,7 @@ def getAllUserScoresForCat(category, timePeriod = 0):
         all = True
     for user in users:
         if all:
-            scores = Score.query(Score.category == category, ancestor = ndb.Key(User, user.user_id))
+            scores = Score.query(ndb.AND(Score.categoryText >= category, Score.categoryText <= category + 'z'), ancestor = ndb.Key(User, user.user_id))
         else:
             scores = Score.query(Score.date >= date.today() - datetime.timedelta(timePeriod), Score.category == category, ancestor = ndb.Key(User, user.user_id))
         counter = 0

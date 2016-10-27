@@ -681,9 +681,9 @@ class getNewCatScores(webapp2.RequestHandler):
         if time == "Past Week":
             days = 7
         if time == "Past Month":
-            days = 365
-        if time == "Past Year":
             days = 30
+        if time == "Past Year":
+            days = 365
         logging.warning(days)
         if (cat == 'ALL'):
             jAson = models.getAllUserScores(days)
