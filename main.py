@@ -292,7 +292,7 @@ class ReviewNewQuestions(webapp2.RequestHandler):
     def get(self):
         id = get_user_id()
         #just loops and prints every question from query
-        review = models.get_oldest_questions(False,False) #searches 1000 oldest invalid questions
+        review = models.get_oldest_questions(False,False,None) #searches 1000 oldest invalid questions
         is_admin = 0
         if users.is_current_user_admin():
             is_admin = 1
@@ -325,10 +325,14 @@ class ReviewOldQuestions(webapp2.RequestHandler):
     def get(self):
         id = get_user_id()
         #just loops and prints every question from query
-        review = models.get_oldest_questions(True,False)
+        review = models.get_oldest_questions(True,False,None)
         is_admin = 0
         if users.is_current_user_admin():
             is_admin = 1
+        else:
+            # If not admin, redirect to your questions
+            return self.redirect("/ReviewMyQuestions")
+
         if id is not None:
             q = models.check_if_user_exists(id)
             if q == None:
@@ -353,6 +357,41 @@ class ReviewOldQuestions(webapp2.RequestHandler):
         }
         render_template(self, 'viewDatabase.html', page_params)
 
+# Displays only the current user's questions
+class ReviewMyQuestions(webapp2.RequestHandler):
+    def get(self):
+        id = get_user_id()
+        #just loops and prints every question from query
+        review = models.get_oldest_questions(True,False,models.getUser(id).username)
+        submitted = models.get_oldest_questions(False,False,models.getUser(id).username)
+        is_admin = 0
+        if users.is_current_user_admin():
+            is_admin = 1
+        if id is not None:
+            q = models.check_if_user_exists(id)
+            if q == None:
+                page_params = {
+                    'upload_url': blobstore.create_upload_url('/profile'),
+                    'user_email': get_user_email(),
+                    'login_url': users.create_login_url(),
+                    'logout_url': users.create_logout_url('/'),
+                    'user_id': get_user_id(),
+                    'profile': models.getUser(id),
+                    'admin': is_admin
+                }
+                render_template(self, 'createProfile.html' ,page_params)
+                return
+        page_params = {
+            'user_email': get_user_email(),
+            'login_url': users.create_login_url(),
+            'logout_url': users.create_logout_url('/'),
+            'user_id': id,
+            'review': review,
+            'submitted' : submitted,
+            'admin' : is_admin
+        }
+        render_template(self, 'viewDatabase.html', page_params)
+
 #Created for populating the database with some answers,categories, and questions, for testing
 #purposes, necessary to run before anything else works when databse is empty. /meanstackakalamestack
 class Setup(webapp2.RequestHandler):
@@ -360,7 +399,7 @@ class Setup(webapp2.RequestHandler):
         if not users.is_current_user_admin(): #stops from running this if user is not admin
             self.redirect("/")
             return
-        if (len(models.get_oldest_questions(True,False)) > 3):
+        if (len(models.get_oldest_questions(True,False,None)) > 3):
             self.redirect("/")
             return
         models.populateQuestions()
@@ -828,6 +867,7 @@ mappings = [
   ('/meanstackakalamestack', Setup),
   ('/ReviewNewQuestions', ReviewNewQuestions),
   ('/ReviewOldQuestions', ReviewOldQuestions),
+  ('/ReviewMyQuestions', ReviewMyQuestions),
   ('/answerSingle',answerSingle),
   ('/report', reportHandler),
   ('/reportQuiz', reportQuizHandler),

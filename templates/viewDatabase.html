@@ -5,37 +5,42 @@
 <script type="text/javascript" src="../static/js/datatables.min.js"></script>
 <script>
 	$(document).ready(function() {
-        var table = $('#example').DataTable();
+        var table = $('#accepted').DataTable();
+				var table2 = $('#submitted').DataTable();
 } );
 </script>
-{% if admin %}
-<br><br><br>
-<div class="container">
-    <h2>Questions Database</h2>
+
+<br/><br/><br/><br/>
+<div class="container" style="text-align: center;">
+	{% if admin %}
+    <h2 style="display:inline">Questions Database</h2>
+	{% else %}
+		<h2 style="display:inline">Your Questions</h2>
+	{% endif %}
     <hr>
 </div>
 <div class="container">
-	<table id="example" class="table table-bordered table-hover" cellspacing="0" width="100%">
+	<table id="accepted" class="table table-bordered table-hover" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-                    <th>Question</th>
+          <th>Question</th>
 					<th>Category</th>
 					<th>Score</th>
 					<th>Create Date</th>
 					<th>Creator</th>
 				</tr>
 			</thead>
-			
+
 			<tfoot>
 				<tr>
-                    <th>Question</th>
+          <th>Question</th>
 					<th>Category</th>
 					<th>Score</th>
 					<th>Create Date</th>
 					<th>Creator</th>
 				</tr>
 			</tfoot>
-			
+
 			<tbody>
 
 			{% for question_obj in review %}
@@ -49,11 +54,45 @@
 			{% endfor %}
 			</tbody>
 	</table>
+
+	{% if submitted %}
+	<br>
+	<h2 style="text-align: center;"> Submitted Questions </h2>
+	<hr>
+	<table id="submitted" class="table table-bordered table-hover" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+          <th>Question</th>
+					<th>Category</th>
+					<th>Score</th>
+					<th>Create Date</th>
+					<th>Creator</th>
+				</tr>
+			</thead>
+
+			<tfoot>
+				<tr>
+          <th>Question</th>
+					<th>Category</th>
+					<th>Score</th>
+					<th>Create Date</th>
+					<th>Creator</th>
+				</tr>
+			</tfoot>
+
+			<tbody>
+
+			{% for question_obj in submitted %}
+					<tr.table-hover>
+						<th><a href="/ReviewQuestion?id={{question_obj.urlkey}}">{{question_obj.question}}</a></th>
+                        <th>{{question_obj.categoryText}}</th>
+						<th>{{question_obj.rating}}</th>
+						<th>{{question_obj.create_date}}</th>
+						<th>{{question_obj.creator}}</th>
+					</tr>
+			{% endfor %}
+			</tbody>
+	</table>
+	{% endif %}
 </div>
-{% else %}
-<div class = "intro container">
-    <br><br><br>
-    <h1 style="position:absolute; top:50%; left:20%;">You Must Be An Admin to View This Page!</h1>
-</div>
-{% endif %}
 {% endblock %}

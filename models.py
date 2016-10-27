@@ -410,8 +410,11 @@ def checkUsername(username):
     return False
 
 #return: (list) of questions, oldest first
-def get_oldest_questions(val,deleted):
-    query= Question.query(Question.accepted == val, Question.deleted == deleted)
+def get_oldest_questions(val,deleted,owner):
+    if owner is None:
+        query= Question.query(Question.accepted == val, Question.deleted == deleted)
+    else:
+        query= Question.query(Question.accepted == val, Question.deleted == deleted, Question.creator == owner)
     query.order(Question.create_date)
     return query.fetch()
 
