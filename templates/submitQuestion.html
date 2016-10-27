@@ -132,11 +132,19 @@
         var curr = {{catList|safe}};
         var option = $("#catdropdown");
         var suboption = $("#subdropdown");
+        var categoryList = document.getElementById("catdropdown");
+        var subcategoryList = document.getElementById("subdropdown");
         var unique1 = [];
         var unique2 = [];
+        var all=[[],[]];
         $.each(curr, function(key, value) {
-            cat = value.category.split(':')[0];
-            sub = value.category.split(':')[1];
+            var split=(value.category.split(':'));
+            //all[0].concat(split[0]);
+            //all[1].concat(split[1]);
+            all[all.length]=split;
+            //all=all+split;
+            var cat = value.category.split(':')[0];
+            var sub = value.category.split(':')[1];
             var Ivalue = "<option value='"+cat+"'>" + cat + "</option>";
             var Svalue = "<option value='"+sub+"'>" + sub + "</option>";
             if($.inArray(cat, unique1) === -1)
@@ -144,12 +152,65 @@
               unique1.push(cat);
               option.append(Ivalue);
             }
-            if($.inArray(sub, unique2) === -1)
-            {
-              unique2.push(sub);
-              suboption.append(Svalue);
+            if (option.selectedIndex != -1){
+                if(categoryList.selectedOptions[0].value===cat){
+                    if($.inArray(sub, unique2) === -1){
+                        unique2.push(sub);
+                        suboption.append(Svalue);
+                    }
+                }
+            }
+
+
+        });
+        categoryList.addEventListener("change", function() {
+            var select;
+            var options = categoryList.options;
+            var selectedOpt = categoryList.selectedOptions;
+
+            //var count = options.length;
+            var length = subcategoryList.length;
+            var unique2 = [];
+            for (i = 0; i < length; i++) {
+                subcategoryList[i] = null;
+            }
+            subcategoryList.length=0;
+            if (options.selectedIndex != -1){
+                select=selectedOpt[0].value;
+                length = all.length;
+                for(i = 0; i < length; i++) {
+                   if(all[i][0]===select){
+                        if($.inArray(all[i][1], unique2) === -1){
+                            unique2.push(all[i][1]);
+                            suboption.append("<option value='"+all[i][1]+"'>" + all[i][1] + "</option>");
+                        }
+                    }
+                }
             }
         });
+
+        /*categoryList.onchange(function(){
+            var length = suboption.length;
+            //alert("hi");
+            var unique2 = [];
+            for (i = 0; i < length; i++) {
+                suboption[i] = null;
+            }
+            suboption.length=0;
+            if option.selectedIndex != -1{
+                select=option.selectedIndex.text;
+                
+                var length = all.length;
+                for(i = 0; i < length; i++) {
+                    if(all[i]===select){
+                        if($.inArray(sub[i], unique2) === -1){
+                          unique2.push(sub);
+                          suboption.append(Svalue);
+                        }
+                    }
+                }
+            }
+        });*/
         // If coming from the Quiz Me! button
         if(window.location.pathname+window.location.search == "/NewQuestion")
         {
