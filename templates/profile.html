@@ -26,22 +26,21 @@
         var categoryIndex=[];
         var subIndex=[[],[]];
         var unique1 = [];
-        var categoryScores=[];
-        for (i in curr)
-        {
+        var category2Scores=[];
+        for (i in curr){
             
             var cat = curr[i].categoryText.split(':')[0];
             var sub = curr[i].categoryText.split(':')[1];
             if($.inArray(cat, unique1) === -1){
                 unique1.push(cat);
-                categoryScores[cat]=curr[i].score;
+                category2Scores[cat]=curr[i].score;
             }else{
-                categoryScores[cat]=categoryScores[cat]+curr[i].score;
+                category2Scores[cat]=category2Scores[cat]+curr[i].score;
             }
             //alert(data.valueOf);
         }
         for (i in unique1){
-            data.addRows([[unique1[i], categoryScores[unique1[i]]]]);
+            data.addRows([[unique1[i], category2Scores[unique1[i]]]]);
         }
         
         
@@ -67,29 +66,66 @@
                 var row = selection[0].row;
                 var col = selection[0].column;
                 var cat = data.getValue(row,0);
-                drawSubChart(cat);
+                //drawSubChart(cat);
+                drawSubChart(curr);
             }
         })
         chart.draw(data, options);
     }
-    function drawSubChart(curCat){
-        var curr = {{categoryScores|safe}};
+    function drawSubChart(curr){
+        // Create the data table.
+        //var curr = {{categoryScores|safe}};
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'SubCategory');
+        data.addColumn('string', 'Category');
         data.addColumn('number', 'Score');
-        
-        var arr = [['SubCategory', 'Score']];
-        
-        
+        //data.addColumn('array', 'Subcategory');
+        var categoryIndex=[];
+        var subCategories=[];
+        subCategories.push("category");
+        var unique1 = [];
+        var unique2 = [];
+        //var category2Scores=[];
         for (i in curr){
+            
             var cat = curr[i].categoryText.split(':')[0];
             var sub = curr[i].categoryText.split(':')[1];
-            if(curCat==cat){
-                data.addRows([[sub, curr[i].score]]);
+            if($.inArray(cat, unique1) === -1){
+                unique1.push(cat);
+                
+                //category2Scores[cat]=curr[i].score;
+            }else{
+                //category2Scores[cat]=category2Scores[cat]+curr[i].score;
+            }
+            if($.inArray(sub, unique2) === -1){
+                unique2.push(sub);
+                subCategories.push(sub);
             }
         }
-        //var data = new google.visualization.arrayToDataTable(arr);
-        /*var options = {
+        subCategories.push({ role: 'annotation' });
+        var cats=[];
+        cats.push(subCategories);
+        for (i in unique1){
+            var aCat=[];
+            aCat.push(unique1[i]);
+            for (j in unique2){
+                var currentScore=0;
+                for (k in curr){
+                    var cat = curr[k].categoryText.split(':')[0];
+                    var sub = curr[k].categoryText.split(':')[1];
+                    if(unique1[i]===cat&&unique2[j]===sub){
+                        currentScore=curr[k].score;
+                        break;
+                    }
+                }
+                aCat.push(currentScore);
+            }
+            aCat.push('');
+            cats.push(aCat);
+        }
+        var data = new google.visualization.arrayToDataTable(cats);
+        
+        // Set chart options
+        var options = {
                        bars : 'horizontal',
                        vAxis : {minorGridlines : {count:5}},
                        colors : ['#aaaaaa'],
@@ -97,11 +133,13 @@
                        width: 500,
                        legend: {position : 'none'},
                        titlePosition : 'none',
-        };*/
+                       isStacked: true
+        };
+
+        // Instantiate and draw our chart, passing in some options.
         var chart = new
             google.charts.Bar(document.getElementById('barchart_material'));
-        //var chart = new google.visualization.BarChart(document.getElementById('subchart_material'));   
-        
+            
         google.visualization.events.addListener(chart, 'select', function(){
             var selection=chart.getSelection();
             if(selection.length == 1){
@@ -111,7 +149,7 @@
                 drawChart();
             }
         })
-        chart.draw(data, {});
+        chart.draw(data, options);
     }
     </script>
   </head>
