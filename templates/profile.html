@@ -22,11 +22,28 @@
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Category');
         data.addColumn('number', 'Score');
-        for (i in curr)
-        {
-            data.addRows([[curr[i].categoryText, curr[i].score]]);
+        //data.addColumn('array', 'Subcategory');
+        var categoryIndex=[];
+        var subIndex=[[],[]];
+        var unique1 = [];
+        var category2Scores=[];
+        for (i in curr){
+            
+            var cat = curr[i].categoryText.split(':')[0];
+            var sub = curr[i].categoryText.split(':')[1];
+            if($.inArray(cat, unique1) === -1){
+                unique1.push(cat);
+                category2Scores[cat]=curr[i].score;
+            }else{
+                category2Scores[cat]=category2Scores[cat]+curr[i].score;
+            }
+            //alert(data.valueOf);
         }
-
+        for (i in unique1){
+            data.addRows([[unique1[i], category2Scores[unique1[i]]]]);
+        }
+        
+        
         // Set chart options
         var options = {
                        bars : 'horizontal',
@@ -36,13 +53,104 @@
                        width: 500,
                        legend: {position : 'none'},
                        titlePosition : 'none',
+                       isStacked: true
         };
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new
             google.charts.Bar(document.getElementById('barchart_material'));
+            
+        google.visualization.events.addListener(chart, 'select', function(){
+            var selection=chart.getSelection();
+            if(selection.length == 1){
+                var row = selection[0].row;
+                var col = selection[0].column;
+                var cat = data.getValue(row,0);
+                //drawSubChart(cat);
+                drawSubChart(curr);
+            }
+        })
         chart.draw(data, options);
-      }
+    }
+    function drawSubChart(curr){
+        // Create the data table.
+        //var curr = {{categoryScores|safe}};
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Category');
+        data.addColumn('number', 'Score');
+        //data.addColumn('array', 'Subcategory');
+        var categoryIndex=[];
+        var subCategories=[];
+        subCategories.push("category");
+        var unique1 = [];
+        var unique2 = [];
+        //var category2Scores=[];
+        for (i in curr){
+            
+            var cat = curr[i].categoryText.split(':')[0];
+            var sub = curr[i].categoryText.split(':')[1];
+            if($.inArray(cat, unique1) === -1){
+                unique1.push(cat);
+                
+                //category2Scores[cat]=curr[i].score;
+            }else{
+                //category2Scores[cat]=category2Scores[cat]+curr[i].score;
+            }
+            if($.inArray(sub, unique2) === -1){
+                unique2.push(sub);
+                subCategories.push(sub);
+            }
+        }
+        subCategories.push({ role: 'annotation' });
+        var cats=[];
+        cats.push(subCategories);
+        for (i in unique1){
+            var aCat=[];
+            aCat.push(unique1[i]);
+            for (j in unique2){
+                var currentScore=0;
+                for (k in curr){
+                    var cat = curr[k].categoryText.split(':')[0];
+                    var sub = curr[k].categoryText.split(':')[1];
+                    if(unique1[i]===cat&&unique2[j]===sub){
+                        currentScore=curr[k].score;
+                        break;
+                    }
+                }
+                aCat.push(currentScore);
+            }
+            aCat.push('');
+            cats.push(aCat);
+        }
+        var data = new google.visualization.arrayToDataTable(cats);
+        
+        // Set chart options
+        var options = {
+                       bars : 'horizontal',
+                       vAxis : {minorGridlines : {count:5}},
+                       colors : ['#aaaaaa'],
+                       height: 500,
+                       width: 500,
+                       legend: {position : 'none'},
+                       titlePosition : 'none',
+                       isStacked: true
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new
+            google.charts.Bar(document.getElementById('barchart_material'));
+            
+        google.visualization.events.addListener(chart, 'select', function(){
+            var selection=chart.getSelection();
+            if(selection.length == 1){
+                var row = selection[0].row;
+                var col = selection[0].column;
+                var cat = data.getValue(row,0);
+                drawChart();
+            }
+        })
+        chart.draw(data, options);
+    }
     </script>
   </head>
 
@@ -135,9 +243,11 @@
     <!--Div that will hold the pie chart-->
     <div class="container">
         <hr>
-        <he5>Statistics:</he5><br><br>
+        <he5>Statistics:</he5><br>
+        <he6>Press graph to switch between category and subcategory views:</he6><br><br>
         {% if numScores > 2 %}
             <div  id="barchart_material"></div>
+            <div  id="subchart_material"></div>
         {% else %}
             <span>No Scores Reported</span>
             {% if profile.user_id == user_id %}

@@ -17,6 +17,12 @@
                 <option selected value="ALL">All</option>
             </select>
         </div>
+        <div class= "container col-md-6">
+            Subcategory: &nbsp
+            <select class="selectpicker cat" id="subCategory" name="subCategory" method="POST">
+                <option selected value="ALL">All</option>
+            </select>
+        </div>
         <div class = "container col-md-6">
             Time: &nbsp
             <select class="selectpicker cat" id="timePeriod" name="timePeriod" method="POST">
@@ -100,10 +106,69 @@
     $(document).ready(function() {
         var curr = {{catList|safe}};
         var option = $("#category");
+        var suboption = $("#subCategory");
+        var subcategoryList = document.getElementById("subCategory");
+        var categoryList = document.getElementById("category");
+        var unique1 = [];
+        var unique2 = [];
+        var all=[[],[]];
         $.each(curr, function(key, value) {
-            var Ivalue = "<option value='"+value.category.split(':')[0]+"'>" + value.category.split(':')[0] + "</option>";
-            option.append(Ivalue);
+            var split=(value.category.split(':'));
+            //alert("pop");
+            all[all.length]=split;
+            var cat = value.category.split(':')[0];
+            var sub = value.category.split(':')[1];
+            //var Ivalue = "<option value='"+value.category+"'>" + value.category + "</option>";
+            var Ivalue = "<option value='"+cat+"'>" + cat + "</option>";
+            var Svalue = "<option value='"+sub+"'>" + sub + "</option>";
+            
+            if($.inArray(cat, unique1) === -1)
+            {                
+                unique1.push(cat);
+                option.append(Ivalue);
+            }
+            if($.inArray(sub, unique2) === -1){
+                unique2.push(sub);
+                suboption.append(Svalue);
+            }
+            /*if (option.selectedIndex != -1){
+                if(categoryList.selectedOptions[0].value===cat){
+                    if($.inArray(sub, unique2) === -1){
+                        unique2.push(sub);
+                        suboption.append(Svalue);
+                    }
+                }
+            }*/
+            //option.append(Ivalue);
         });
+        categoryList.addEventListener("change", function() {
+            var select;
+            var options = categoryList.options;
+            var selectedOpt = categoryList.selectedOptions;
+
+            //var count = options.length;
+            var length = subcategoryList.length;
+            var unique2 = [];
+            
+            for (i = 0; i < length; i++) {
+                subcategoryList[i] = null;
+            }
+            subcategoryList.length=0;
+            suboption.append("<option value='All'>All</option>");
+            if (options.selectedIndex != -1){
+                select=selectedOpt[0].value;
+                length = all.length;
+                for(i = 0; i < length; i++) {
+                   if(all[i][0]===select){
+                        if($.inArray(all[i][1], unique2) === -1){
+                            unique2.push(all[i][1]);
+                            suboption.append("<option value='"+all[i][1]+"'>" + all[i][1] + "</option>");
+                        }
+                    }
+                }
+            }
+        });
+
     });
     //alert(scoreList);
 </script>
