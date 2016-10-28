@@ -122,20 +122,19 @@
             aCat.push('');
             cats.push(aCat);
         }
-        var data = new google.visualization.arrayToDataTable(cats);
+        var data =  google.visualization.arrayToDataTable(cats);
         
         // Set chart options
         var options = {
                        bars : 'horizontal',
                        vAxis : {minorGridlines : {count:5}},
-                       colors : ['#aaaaaa'],
                        height: 500,
                        width: 500,
                        legend: {position : 'none'},
                        titlePosition : 'none',
                        isStacked: true
         };
-
+        
         // Instantiate and draw our chart, passing in some options.
         var chart = new
             google.charts.Bar(document.getElementById('barchart_material'));
@@ -149,7 +148,7 @@
                 drawChart();
             }
         })
-        chart.draw(data, options);
+        chart.draw(data, google.charts.Bar.convertOptions(options));
     }
     </script>
   </head>
