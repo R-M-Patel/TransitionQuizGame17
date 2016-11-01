@@ -129,7 +129,7 @@
 {% endif %}
 </body>
 <script>
-    $(document).ready(function() {
+    $(window).load(function() {
         var curr = {{catList|safe}};
         var option = $("#catdropdown");
         var suboption = $("#subdropdown");
@@ -224,7 +224,7 @@
         var cat = document.getElementById('category').value;
         var sub = document.getElementById('subcategory').value;
         cat = cat.replace(/:/g, '');
-        sub = sub.replace(/:/, '');
+        sub = sub.replace(/:/g, '');
         var category = cat + ':' + sub;
 
         if(cat !== null && cat.match(/^\s*$/) === null)
@@ -263,7 +263,7 @@
         var cat = document.getElementById('category').value;
         var sub = document.getElementById('subcategory').value;
         cat = cat.replace(/:/g, '');
-        sub = sub.replace(/:/, '');
+        sub = sub.replace(/:/g, '');
         var category = cat + ':' + sub;
 
         if(cat !== null && cat.match(/^\s*$/) === null)
@@ -289,8 +289,19 @@
                         var option2 = document.createElement("option");
                         option1.text = cat;
                         option2.text = sub;
-                        document.getElementById('catdropdown').add(option1);
-                        document.getElementById('subdropdown').add(option2);
+
+                        // Add the cat/sub to the list of all cat/subs
+                        all[all.length] = category.split(':');
+
+                        // If the main category is the selected category
+                        if($("#catdropdown option:selected").text() === cat)
+                          // Add the subcategory
+                          document.getElementById('subdropdown').add(option2);
+
+                        // If the main category isn't in the category dropdown
+                        else if($("#catdropdown option[value='"+ cat +"']").length == 0)
+                          // Add it
+                          document.getElementById('catdropdown').add(option1);
                     }
                   }
               });
@@ -302,6 +313,8 @@
         else {
           alert("The main category is required!");
         }
+        window.location.replace("/submitNewQuestion");
+        //window.location.reload(true);
     }
 </script>
 </html>
