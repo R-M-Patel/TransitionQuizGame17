@@ -66,7 +66,7 @@ function submit(selection){
             newResult.uAns = a4;
         }
         else{
-            newResult.uAns = 'Timeout';
+            newResult.uAns = '<i class="fa fa-clock-o" aria-hidden="true"> </i> Timeout';
         }
         newResult.points = score;
         var newResLine1 = "<div class='container'><hr><span class='alignleft'>";
