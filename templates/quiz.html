@@ -221,19 +221,20 @@
   			<div class="modal-content">
           <div class="modal-header" style="text-align:center">
               {% if num != 0 %}
-              <h1 style="display:inline">Are You Ready!?</h1>
+              <h1 style="display:inline">Are You Ready?</h1>
               {% else %}
-              <h1 style="display:inline">No Questions Found</h1>
+              <h1 style="display:inline">No Questions Found!</h1>
               {% endif %}
           </div>
           <div class="modal-body" style="text-align:center">
               {% if num != 0 %}
                 {% if num == 1 %}
-                    <span> We found {{num}} question. </span><br/>
+                    <span> {{num}} Questions Found!</span><br/>
                 {% else %}
-                    <span> We found {{num}} questions. </span><br/>
+                    <span> {{num}} Questions Found!</span><br/>
                 {% endif %}
                 <br/><button class="btn btn-success" style="border-radius: 25px;" onclick= "runQuestion()" id="gobutton"><h2 class="link-button">Start</h2></button><br/>
+                <br/><span> You have 15 seconds to click on the button with the correct answer. </span><br/>
               {% else %}
               <br/><a href = "/submitNew" class="btn btn-info" style="border-radius: 25px;"><h2 class="link-button">Submit New Questions</h2></a><br/>
               <br/><a href = "/ReviewNewQuestions" class="btn btn-warning" style="border-radius: 25px;"><h2 class="link-button">Review New Questions</h2></a><br/>
@@ -256,7 +257,7 @@
         <span class="aligncenterleft">Your Answer</span>
         <span class="aligncenterright">Correct Answer</span>
         <span class="alignright">Points&nbsp;</span>
-        </br>
+        <br/>
     </div>
 	</div>
 </body>

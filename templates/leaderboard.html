@@ -15,13 +15,13 @@
             Category: &nbsp
             <select class="selectpicker cat" id="category" name="category" method="POST">
                 <option selected value="ALL">All</option>
-            </select>
+            </select><br/><br/>
         </div>
         <div class= "container col-md-6">
             Subcategory: &nbsp
             <select class="selectpicker cat" id="subCategory" name="subCategory" method="POST">
                 <option selected value="ALL">All</option>
-            </select>
+            </select><br/><br/>
         </div>
         <div class = "container col-md-6">
             Time: &nbsp
@@ -30,7 +30,7 @@
                 <option value="Past Week">Past Week</option>
                 <option value="Past Month">Past Month</option>
                 <option value="Past Year">Past Year</option>
-            </select>
+            </select><br/><br/>
         </div>
         <div class = "container col-xs-12"><br></div>
         <div class="container col-xs-12">
@@ -75,12 +75,12 @@
         });
         //autochange table based on subcat change
         $('#subCategory').change(function(){
-            var selectedOpt = document.getElementById("subCategory").selectedOptions[0].value;        
+            var selectedOpt = document.getElementById("subCategory").selectedOptions[0].value;
             category = $('#subCategory').val();
             if(selectedOpt=="All"){
                 category = $('#category').val();
             }
-            
+
             timePeriod = $('#timePeriod').val();
             if (timePeriod == null){
                 timePeriod = "All";
@@ -102,7 +102,7 @@
                 },
             });
         });
-        
+
         $('#timePeriod').change(function(){
             category = $('#category').val();
             if (category == null){
@@ -152,9 +152,9 @@
             //var Ivalue = "<option value='"+value.category+"'>" + value.category + "</option>";
             var Ivalue = "<option value='"+cat+"'>" + cat + "</option>";
             var Svalue = "<option value='"+sub+"'>" + sub + "</option>";
-            
+
             if($.inArray(cat, unique1) === -1)
-            {                
+            {
                 unique1.push(cat);
                 option.append(Ivalue);
             }
@@ -180,7 +180,7 @@
             //var count = options.length;
             var length = subcategoryList.length;
             var unique2 = [];
-            
+
             for (i = 0; i < length; i++) {
                 subcategoryList[i] = null;
             }

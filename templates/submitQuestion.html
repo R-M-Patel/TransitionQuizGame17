@@ -25,12 +25,12 @@
             </div>
 
             <div class="col-xs-12" style="text-align:center;">
-              {% if admin %}
-                <a class="btn btn-primary" style="margin: 15px;" href="#submitcat" data-toggle="modal">Create a Category / Subcategory</a>
-              {% else %}
+<!--              {% if admin %}
+-->                <a class="btn btn-primary" style="margin: 15px;" href="#submitcat" data-toggle="modal">Create a Category / Subcategory</a>
+<!--              {% else %}
                 <a class="btn btn-success" style="margin: 15px;" href="#submitcat" data-toggle="modal">Suggest a Category / Subcategory</a>
               {% endif %}
-            </div>
+-->            </div>
             <hr>
             <div class="col-xs-12" >
                 <textarea type="text" name="questiontext" placeholder="Enter question here..."class="form-control" rows="6" METHOD=POST maxlength="144" id="questionText"required></textarea><br/>
@@ -76,12 +76,12 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
         <div class="modal-header">
-            {% if admin %}
-              <he5>Category Creation</he5>
-            {% else %}
+<!--            {% if admin %}
+-->              <he5>Category Creation</he5>
+<!--            {% else %}
               <he5>Category Suggestion</he5>
             {% endif %}
-        </div>
+-->        </div>
         <div class="modal-body">
             Main Category:<br><br>
             <input class="form-control" id="category" maxlength="30" type="text" required></input>
@@ -92,12 +92,12 @@
         </div>
         <div class="modal-footer">
             <a class="btn btn-default text-right" data-dismiss="modal">Close</a>
-            {% if admin %}
-              <button class="btn btn-primary" onclick="adminSendCategory()">Submit</button>
-            {% else %}
+<!--            {% if admin %}
+-->              <button class="btn btn-primary" onclick="adminSendCategory()">Submit</button>
+<!--            {% else %}
               <button class="btn btn-primary" onclick="sendCategory()">Submit</button>
             {% endif %}
-        </div>
+-->        </div>
 			</div>
 		</div>
 	</div>
@@ -110,8 +110,9 @@
           <h1 style="display:inline">Question Submitted Successfully!</h1>
         </div>
         <div class="modal-body" style="text-align:center">
-          <p>Questions must have a user rating of 5 or administrative permission to be active.</p>
+<!--          <p>Questions must have a user rating of 5 or administrative permission to be active.</p>
           <a class="btn btn-info" style="border-radius: 25px;" href="/ReviewNewQuestions" id=""><h2 class="link-button">Vote on Questions</h2></a><br/>
+-->     <p>Questions are automatically accepted for beta testers.  After PharmGenius is live, you will have to vote on questions before they become active.</p>
         </div>
         <div class="modal-footer" style="text-align: center;">
           <a class="btn btn-success" style="border-radius: 25px;" data-dismiss="modal" id="ok"><h2 class="link-button">Continue</h2></a><br/>
@@ -199,7 +200,7 @@
             suboption.length=0;
             if option.selectedIndex != -1{
                 select=option.selectedIndex.text;
-                
+
                 var length = all.length;
                 for(i = 0; i < length; i++) {
                     if(all[i]===select){
