@@ -5,6 +5,8 @@ import models
 import time
 import json
 
+import time
+
 from google.appengine.api import images
 from google.appengine.api import mail
 from google.appengine.api import users
@@ -115,6 +117,11 @@ class SubmitPageHandler(webapp2.RequestHandler):
             'admin' : is_admin
         }
         render_template(self, 'submitQuestion.html', page_params)
+
+class SubmitCategoryHandler(webapp2.RequestHandler):
+    def get(self):
+        time.sleep(1);
+        self.redirect("/submitNew")
 
 #Gets all of the information submitted by the user about a new question
 class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
@@ -858,6 +865,7 @@ mappings = [
   ('/play', QuizMe),
   ('/profile', ProfileHandler),
   ('/submitNew', SubmitPageHandler),
+  ('/submitNewQuestion', SubmitCategoryHandler),
   ('/NewQuestion', NewQuestion),
   ('/ReviewQuestion', ReviewSingleQuestion),
   ('/deleteQuestion', deleteQuestion),
