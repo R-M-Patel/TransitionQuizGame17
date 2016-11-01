@@ -49,6 +49,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        //autochange table based on cat change
         $('#category').change(function(){
             category = $('#category').val();
             timePeriod = $('#timePeriod').val();
@@ -65,13 +66,43 @@
                     var data = JSON.parse(text);
                     var rank = 1;
                     $.each(data, function(index, el) {
+                        //alert(text);
                         $('#leaderboard tbody').append("<tr><td class='centered'>"+rank+"</td><td>"+index+"</td><td>"+el+"</td></tr>");
                         rank++;
                     });
                 },
             });
         });
-
+        //autochange table based on subcat change
+        $('#subCategory').change(function(){
+            var selectedOpt = document.getElementById("subCategory").selectedOptions[0].value;        
+            category = $('#subCategory').val();
+            if(selectedOpt=="All"){
+                category = $('#category').val();
+            }
+            
+            timePeriod = $('#timePeriod').val();
+            if (timePeriod == null){
+                timePeriod = "All";
+            }
+            $.ajax({
+                type: "POST",
+                url: "/getNewCatScores",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({"category":category, "time":timePeriod}),
+                success: function(text){
+                    $("#leaderboard tbody").empty();
+                    var data = JSON.parse(text);
+                    var rank = 1;
+                    $.each(data, function(index, el) {
+                        //alert(text);
+                        $('#leaderboard tbody').append("<tr><td class='centered'>"+rank+"</td><td>"+index+"</td><td>"+el+"</td></tr>");
+                        rank++;
+                    });
+                },
+            });
+        });
+        
         $('#timePeriod').change(function(){
             category = $('#category').val();
             if (category == null){
@@ -127,10 +158,10 @@
                 unique1.push(cat);
                 option.append(Ivalue);
             }
-            if($.inArray(sub, unique2) === -1){
+            /*if($.inArray(sub, unique2) === -1){
                 unique2.push(sub);
                 suboption.append(Svalue);
-            }
+            }*/
             /*if (option.selectedIndex != -1){
                 if(categoryList.selectedOptions[0].value===cat){
                     if($.inArray(sub, unique2) === -1){
@@ -162,7 +193,8 @@
                    if(all[i][0]===select){
                         if($.inArray(all[i][1], unique2) === -1){
                             unique2.push(all[i][1]);
-                            suboption.append("<option value='"+all[i][1]+"'>" + all[i][1] + "</option>");
+                            var aString=all[i][0]+":"+all[i][1];
+                            suboption.append("<option value='"+aString+"'>" + all[i][1] + "</option>");
                         }
                     }
                 }
