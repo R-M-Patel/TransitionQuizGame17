@@ -114,13 +114,19 @@
         ratingDiv.style.color = "black";
     }
     function calcScore(timeRemaining,percentCorrect){
-        var value = 50;
+        // New Scoring System:
+        // Score = +100
+        return 100;
+
+        // Old Scoring System
+        /*var value = 50;
         value = value * (timeRemaining+1)/maxTime;
         value = value * ((100-percentCorrect)/100);
         value = +value.toFixed(1);
         value+= 50;
         value = value * 10;
         return value;
+        */
     }
 </script>
 

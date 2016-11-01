@@ -50,7 +50,7 @@
               option1.innerHTML = cat;
               dropdown1.appendChild(option1);
             }
-            
+
             if (dropdown1.selectedIndex != -1){
                 if(dropdown1.selectedOptions[0].value===cat){
                     if($.inArray(sub, unique2) === -1){
@@ -142,9 +142,10 @@
                               <option value=25>25</option>
                           </select>
                         </span>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Only your Questions:
+                        <br><br>
+                        <div>Only your Questions:
                           <input type="checkbox" name="mine" value="mine">
-                        </span>
+                        </div>
                         <br><br>
                         <button style="color:black" type='submit' id="startQuiz">Start Quiz</button>
                     </div>
