@@ -121,11 +121,11 @@
     </div>
   </div>
 
-    {% else %}
-    <div class = "intro container">
-        <br><br><br>
-        <h1 style="position:absolute; top:50%; left:20%;">You Must Be Logged In to View This Page!</h1>
-    </div>
+{% else %}
+  <div class = "intro container">
+      <br><br><br>
+      <h1 style="position:absolute; top:50%; left:20%;">You Must Be Logged In to View This Page!</h1>
+  </div>
 {% endif %}
 </body>
 <script>
@@ -313,8 +313,9 @@
         else {
           alert("The main category is required!");
         }
-        window.location.replace("/submitNewQuestion");
-        //window.location.reload(true);
+        // Wait one second before refreshing the page
+        // NOTE: Allows ajax to be sent first
+        setTimeout(function(){window.location.replace("/submitNewQuestion");}, 1000);
     }
 </script>
 </html>
