@@ -28,7 +28,7 @@
         var unique1 = [];
         var category2Scores=[];
         for (i in curr){
-            
+
             var cat = curr[i].categoryText.split(':')[0];
             var sub = curr[i].categoryText.split(':')[1];
             if($.inArray(cat, unique1) === -1){
@@ -42,8 +42,8 @@
         for (i in unique1){
             data.addRows([[unique1[i], category2Scores[unique1[i]]]]);
         }
-        
-        
+
+
         // Set chart options
         var options = {
                        bars : 'horizontal',
@@ -59,7 +59,7 @@
         // Instantiate and draw our chart, passing in some options.
         var chart = new
             google.charts.Bar(document.getElementById('barchart_material'));
-            
+
         google.visualization.events.addListener(chart, 'select', function(){
             var selection=chart.getSelection();
             if(selection.length == 1){
@@ -86,12 +86,12 @@
         var unique2 = [];
         //var category2Scores=[];
         for (i in curr){
-            
+
             var cat = curr[i].categoryText.split(':')[0];
             var sub = curr[i].categoryText.split(':')[1];
             if($.inArray(cat, unique1) === -1){
                 unique1.push(cat);
-                
+
                 //category2Scores[cat]=curr[i].score;
             }else{
                 //category2Scores[cat]=category2Scores[cat]+curr[i].score;
@@ -122,8 +122,8 @@
             aCat.push('');
             cats.push(aCat);
         }
-        var data =  google.visualization.arrayToDataTable(cats);
-        
+        var data = new google.visualization.arrayToDataTable(cats);
+
         // Set chart options
         var options = {
                        bars : 'horizontal',
@@ -134,11 +134,11 @@
                        titlePosition : 'none',
                        isStacked: true
         };
-        
+
         // Instantiate and draw our chart, passing in some options.
         var chart = new
             google.charts.Bar(document.getElementById('barchart_material'));
-            
+
         google.visualization.events.addListener(chart, 'select', function(){
             var selection=chart.getSelection();
             if(selection.length == 1){

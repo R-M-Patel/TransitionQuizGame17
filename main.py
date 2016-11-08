@@ -120,7 +120,7 @@ class SubmitPageHandler(webapp2.RequestHandler):
 
 class SubmitCategoryHandler(webapp2.RequestHandler):
     def get(self):
-        #time.sleep(1);
+        #time.sleep(1)
         self.redirect("/submitNew")
 
 #Gets all of the information submitted by the user about a new question
