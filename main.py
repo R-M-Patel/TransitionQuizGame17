@@ -148,39 +148,39 @@ class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
             # if the uploaded file is an image
             if type in ['image/jpeg', 'image/png', 'image/gif', 'image/webp']:
                 image = blob_info.key()
-                if users.is_current_user_admin():
-                    questionID = models.createQuestion(category,
-                            question,answer1,answer2,answer3,answer4,answerid,
-                            explanation,creator,True,image)
-                else:
-                    questionID = models.createQuestion(category,
-                            question,answer1,answer2,answer3,answer4,answerid,
-                            explanation,creator,False,image)
+                #if users.is_current_user_admin():
+                questionID = models.createQuestion(category,
+                        question,answer1,answer2,answer3,answer4,answerid,
+                        explanation,creator,True,image)
+                #else:
+                #    questionID = models.createQuestion(category,
+                #            question,answer1,answer2,answer3,answer4,answerid,
+                #            explanation,creator,False,image)
 
             # if the uploaded file is not an image
             else:
-                if users.is_current_user_admin():
-                    questionID = models.createQuestion(category,
-                            question,answer1,answer2,answer3,answer4,answerid,
-                            explanation,creator,True)
-                else:
-                    questionID = models.createQuestion(category,
-                            question,answer1,answer2,answer3,answer4,answerid,
-                            explanation,creator,False)
+                #if users.is_current_user_admin():
+                questionID = models.createQuestion(category,
+                        question,answer1,answer2,answer3,answer4,answerid,
+                        explanation,creator,True)
+                #else:
+                #    questionID = models.createQuestion(category,
+                #            question,answer1,answer2,answer3,answer4,answerid,
+                #            explanation,creator,False)
             self.redirect('/NewQuestion')
 
         # no image to upload
         except IndexError:
-            if users.is_current_user_admin():
-                questionID = models.createQuestion(category,
-                        question,answer1,answer2,answer3,answer4,answerid,
-                        explanation,creator,True)
-            else:
-                questionID = models.createQuestion(category,
-                        question,answer1,answer2,answer3,answer4,answerid,
-                        explanation,creator,False)
-
+            #if users.is_current_user_admin():
+            questionID = models.createQuestion(category,
+                    question,answer1,answer2,answer3,answer4,answerid,
+                    explanation,creator,True)
+            #else:
+            #    questionID = models.createQuestion(category,
+            #            question,answer1,answer2,answer3,answer4,answerid,
+            #            explanation,creator,False)
         self.redirect('/NewQuestion')
+
     def get(self):
         id = get_user_id()
         is_admin = 0
