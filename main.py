@@ -608,7 +608,7 @@ class reportHandler(webapp2.RequestHandler):
         question = self.request.get("id")
         body = body + "\n\nVisit the question here: aecs1980qg.appspot.com/ReviewQuestion?id=" + question
         subject = "A question has been reported"
-        mail.send_mail(sender_address , "bogdanbg24@gmail.com" , subject, body)
+        mail.send_mail(sender_address , "pharmacyinnovationlab@gmail.com" , subject, body)
         self.redirect("/ReviewNewQuestions")
 
 #used for reporting a question in the quiz
@@ -623,7 +623,7 @@ class reportQuizHandler(webapp2.RequestHandler):
         question = data['urlkey']
         body = body + "\n\nVisit the question here: aecs1980qg.appspot.com/ReviewQuestion?id=" + question
         subject = "A question has been reported"
-        mail.send_mail(sender_address , "bogdanbg24@gmail.com" , subject, body)
+        mail.send_mail(sender_address , "pharmacyinnovationlab@gmail.com" , subject, body)
 
 #Grabs all of the users scores for all time and sends JSON object to html
 class LeaderBoard(webapp2.RequestHandler):
