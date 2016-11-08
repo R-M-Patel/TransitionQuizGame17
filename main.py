@@ -148,39 +148,39 @@ class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
             # if the uploaded file is an image
             if type in ['image/jpeg', 'image/png', 'image/gif', 'image/webp']:
                 image = blob_info.key()
-                if users.is_current_user_admin():
-                    questionID = models.createQuestion(category,
-                            question,answer1,answer2,answer3,answer4,answerid,
-                            explanation,creator,True,image)
-                else:
-                    questionID = models.createQuestion(category,
-                            question,answer1,answer2,answer3,answer4,answerid,
-                            explanation,creator,False,image)
+                #if users.is_current_user_admin():
+                questionID = models.createQuestion(category,
+                        question,answer1,answer2,answer3,answer4,answerid,
+                        explanation,creator,True,image)
+                #else:
+                #    questionID = models.createQuestion(category,
+                #            question,answer1,answer2,answer3,answer4,answerid,
+                #            explanation,creator,False,image)
 
             # if the uploaded file is not an image
             else:
-                if users.is_current_user_admin():
-                    questionID = models.createQuestion(category,
-                            question,answer1,answer2,answer3,answer4,answerid,
-                            explanation,creator,True)
-                else:
-                    questionID = models.createQuestion(category,
-                            question,answer1,answer2,answer3,answer4,answerid,
-                            explanation,creator,False)
+                #if users.is_current_user_admin():
+                questionID = models.createQuestion(category,
+                        question,answer1,answer2,answer3,answer4,answerid,
+                        explanation,creator,True)
+                #else:
+                #    questionID = models.createQuestion(category,
+                #            question,answer1,answer2,answer3,answer4,answerid,
+                #            explanation,creator,False)
             self.redirect('/NewQuestion')
 
         # no image to upload
         except IndexError:
-            if users.is_current_user_admin():
-                questionID = models.createQuestion(category,
-                        question,answer1,answer2,answer3,answer4,answerid,
-                        explanation,creator,True)
-            else:
-                questionID = models.createQuestion(category,
-                        question,answer1,answer2,answer3,answer4,answerid,
-                        explanation,creator,False)
-
+            #if users.is_current_user_admin():
+            questionID = models.createQuestion(category,
+                    question,answer1,answer2,answer3,answer4,answerid,
+                    explanation,creator,True)
+            #else:
+            #    questionID = models.createQuestion(category,
+            #            question,answer1,answer2,answer3,answer4,answerid,
+            #            explanation,creator,False)
         self.redirect('/NewQuestion')
+
     def get(self):
         id = get_user_id()
         is_admin = 0
@@ -608,7 +608,6 @@ class reportHandler(webapp2.RequestHandler):
         question = self.request.get("id")
         body = body + "\n\nVisit the question here: aecs1980qg.appspot.com/ReviewQuestion?id=" + question
         subject = "A question has been reported"
-        mail.send_mail(sender_address , "bogdanbg24@gmail.com" , subject, body)
         self.redirect("/ReviewNewQuestions")
 
 #used for reporting a question in the quiz
@@ -623,7 +622,6 @@ class reportQuizHandler(webapp2.RequestHandler):
         question = data['urlkey']
         body = body + "\n\nVisit the question here: aecs1980qg.appspot.com/ReviewQuestion?id=" + question
         subject = "A question has been reported"
-        mail.send_mail(sender_address , "bogdanbg24@gmail.com" , subject, body)
 
 #Grabs all of the users scores for all time and sends JSON object to html
 class LeaderBoard(webapp2.RequestHandler):
