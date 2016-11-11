@@ -190,9 +190,16 @@ table#leaderboard th	{
 
 .profile-small
 {
+	height: inherit;
+	border-radius: 3px;
+}
+
+span.profile-container
+{
+	overflow: hidden;
 	width: 25px;
 	height: 25px;
-	border-radius: 3px;
+
 }
 
 .profile-button
@@ -232,6 +239,13 @@ td.centered
 table.leaderboard
 {
 		font-size: 1.5em;
+}
+
+img.logo
+{
+	float: left;
+	margin-top: 10px;
+	margin-right: 10px;
 }
 
 /*div.loader

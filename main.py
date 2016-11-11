@@ -603,11 +603,11 @@ class categoryQuiz(webapp2.RequestHandler):
 #used for reporting a question from the review question page
 class reportHandler(webapp2.RequestHandler):
     def post(self):
-        body = "Comment:\n" + self.request.get("comment")
+        body = "Comment:\n\n" + self.request.get("comment")
         sender_address = get_user_email() #not sure if we want to do this
         question = self.request.get("id")
         body = body + "\n\nVisit the question here: aecs1980qg.appspot.com/ReviewQuestion?id=" + question
-        subject = "A question has been reported"
+        subject = "[PHARMGENIUS][QUESTION]"
         mail.send_mail(sender_address , "pharmacyinnovationlab@gmail.com" , subject, body)
         self.redirect("/ReviewNewQuestions")
 
@@ -618,11 +618,23 @@ class reportQuizHandler(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         data = json.loads(self.request.body)
         comment = data['comment']
-        body = "Comment:\n" + comment
+        body = "Comment:\n\n" + comment
         sender_address = get_user_email() #not sure if we want to do this
         question = data['urlkey']
         body = body + "\n\nVisit the question here: aecs1980qg.appspot.com/ReviewQuestion?id=" + question
-        subject = "A question has been reported"
+        subject = "[PHARMGENIUS][QUESTION]"
+        mail.send_mail(sender_address , "pharmacyinnovationlab@gmail.com" , subject, body)
+
+#used for reporting a bug or suggestion (from the navbar)
+class reportBugHandler(webapp2.RequestHandler):
+    def post(self):
+        self.response.headers.add_header('Access-Control-Allow-Origin', '*')
+        self.response.headers['Content-Type'] = 'application/json'
+        data = json.loads(self.request.body)
+        message = data['message']
+        body = "Bug / Suggestion:\n\n" + message
+        sender_address = get_user_email() #not sure if we want to do this
+        subject = "[PHARMGENIUS][BUG/SUGGESTION]"
         mail.send_mail(sender_address , "pharmacyinnovationlab@gmail.com" , subject, body)
 
 #Grabs all of the users scores for all time and sends JSON object to html
@@ -879,6 +891,7 @@ mappings = [
   ('/answerSingle',answerSingle),
   ('/report', reportHandler),
   ('/reportQuiz', reportQuizHandler),
+  ('/reportBug', reportBugHandler),
   ('/incrementVote' , addVote),
   ('/decrementVote', decVote),
   ('/addVoteQuiz', addVoteQuiz),
