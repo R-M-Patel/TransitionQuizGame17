@@ -151,34 +151,33 @@ class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
                 #if users.is_current_user_admin():
                 questionID = models.createQuestion(category,
                         question,answer1,answer2,answer3,answer4,answerid,
-                        explanation,creator,True,image)
+                        explanation,creator,id,True,image)
                 #else:
                 #    questionID = models.createQuestion(category,
                 #            question,answer1,answer2,answer3,answer4,answerid,
-                #            explanation,creator,False,image)
+                #            explanation,creator,id,False,image)
 
             # if the uploaded file is not an image
             else:
                 #if users.is_current_user_admin():
                 questionID = models.createQuestion(category,
                         question,answer1,answer2,answer3,answer4,answerid,
-                        explanation,creator,True)
+                        explanation,creator,id,True)
                 #else:
                 #    questionID = models.createQuestion(category,
                 #            question,answer1,answer2,answer3,answer4,answerid,
-                #            explanation,creator,False)
+                #            explanation,creator,id,False)
             self.redirect('/NewQuestion')
 
         # no image to upload
         except IndexError:
             #if users.is_current_user_admin():
             questionID = models.createQuestion(category,
-                    question,answer1,answer2,answer3,answer4,answerid,
-                    explanation,creator,True)
+                    question,answer1,answer2,answer3,answer4,answerid,explanation,creator,id,True)
             #else:
             #    questionID = models.createQuestion(category,
             #            question,answer1,answer2,answer3,answer4,answerid,
-            #            explanation,creator,False)
+            #            explanation,creator,id,False)
         self.redirect('/NewQuestion')
 
     def get(self):

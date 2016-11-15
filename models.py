@@ -45,6 +45,7 @@ class Question(ndb.Model):
     answer4 = ndb.StringProperty()
     answerid = ndb.StringProperty()
     creator = ndb.StringProperty(default="user")
+    creatorID=ndb.StringProperty(default=0)
     correctAnswers = ndb.IntegerProperty(default=0)
     incorrectAnswers = ndb.IntegerProperty(default=0)
     answer1Selections = ndb.IntegerProperty(default=0)
@@ -85,6 +86,7 @@ class Category(ndb.Model):
 ###############################################################################
 #id is generated in main via Google's User class
 #DIFFERENT FROM GOOGLES USER
+
 def createUser(id):
     user = User()
     user.user_id = id
@@ -169,7 +171,7 @@ def createScore(userid, category, points):
 
 
 #creates and stores question in database
-def createQuestion(category,question,answer1,answer2,answer3,answer4,answerid,explanation,creator,valid,image_urlQ = None):
+def createQuestion(category,question,answer1,answer2,answer3,answer4,answerid,explanation,creator,creatorID,valid,image_urlQ = None):
     catKey = ndb.Key(Category, category)
     question = Question(
         category = catKey,
@@ -182,17 +184,18 @@ def createQuestion(category,question,answer1,answer2,answer3,answer4,answerid,ex
         answerid=answerid,
         explanation=explanation,
         creator=creator,
+        creatorID=creatorID,
         accepted=valid,
         image_urlQ=image_urlQ)
     question.put()
     question.urlkey = question.key.urlsafe()
     question.put()
     return question.key
-def createQuestion(category,question,answer1,answer2,answer3,answer4,answerid,explanation,creator,valid):
+def createQuestion(category,question,answer1,answer2,answer3,answer4,answerid,explanation,creator,creatorID,valid):
     catKey = ndb.Key(Category, category)
     question = Question(
         category = catKey,
-        categoryText = catKey.get().category,
+        categoryText = category,
         question=question,
         answer1=answer1,
         answer2=answer2,
@@ -201,6 +204,7 @@ def createQuestion(category,question,answer1,answer2,answer3,answer4,answerid,ex
         answerid=answerid,
         explanation=explanation,
         creator=creator,
+        creatorID=creatorID,
         accepted=valid)
     question.put()
     question.urlkey = question.key.urlsafe()
