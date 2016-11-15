@@ -129,6 +129,7 @@ class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
         id = get_user_id()
         q = models.getUser(id)
         creator = q.username
+        creatorId=id
         explanation = self.request.get('explanation')
         if not explanation:
             explanation = "No Explanation Provided"
@@ -151,22 +152,22 @@ class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
                 #if users.is_current_user_admin():
                 questionID = models.createQuestion(category,
                         question,answer1,answer2,answer3,answer4,answerid,
-                        explanation,creator,id,True,image)
+                        explanation,creator,creatorId,True,image)
                 #else:
                 #    questionID = models.createQuestion(category,
                 #            question,answer1,answer2,answer3,answer4,answerid,
-                #            explanation,creator,id,False,image)
+                #            explanation,creator,creatorId,False,image)
 
             # if the uploaded file is not an image
             else:
                 #if users.is_current_user_admin():
                 questionID = models.createQuestion(category,
                         question,answer1,answer2,answer3,answer4,answerid,
-                        explanation,creator,id,True)
+                        explanation,creator,creatorId,True)
                 #else:
                 #    questionID = models.createQuestion(category,
                 #            question,answer1,answer2,answer3,answer4,answerid,
-                #            explanation,creator,id,False)
+                #            explanation,creator,creatorId,False)
             self.redirect('/NewQuestion')
 
         # no image to upload

@@ -82,7 +82,7 @@
                 <button class="btn btn-danger pull-right" onclick ="deleteQuestion()">Delete Question</button>
                 </button>
             {% else %}
-                {% if user_id == 0 %}
+                {% if id == review.creatorId %}
                     <a class="btn btn-primary" href="#editquestion" data-toggle="modal">Edit Question</a>&nbsp
                     <button class="btn btn-danger pull-right" onclick ="deleteQuestion()">Delete Question</button>
                     </button>
