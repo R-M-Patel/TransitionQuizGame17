@@ -84,6 +84,9 @@
 -->        </div>
         <div class="modal-body">
             Main Category:<br><br>
+            <select class="mainCat" name="newCatDropdown" id="newcatdropdown" method="POST" required>
+                <option value='cat'>Add a new Main Category</option>;
+            </select>
             <input class="form-control" id="category" maxlength="30" type="text" required></input>
             <br>
             Subcategory:<br><br>
@@ -132,8 +135,10 @@
     $(window).load(function() {
         var curr = {{catList|safe}};
         var option = $("#catdropdown");
+        var newoption = $("#newcatdropdown");
         var suboption = $("#subdropdown");
         var categoryList = document.getElementById("catdropdown");
+        var newCategoryList = document.getElementById("newcatdropdown");
         var subcategoryList = document.getElementById("subdropdown");
         var unique1 = [];
         var unique2 = [];
@@ -144,14 +149,15 @@
             //all[1].concat(split[1]);
             all[all.length]=split;
             //all=all+split;
-            var cat = value.category.split(':')[0];
-            var sub = value.category.split(':')[1];
+            var cat = value.category.split(':')[0].trim();
+            var sub = value.category.split(':')[1].trim();
             var Ivalue = "<option value='"+cat+"'>" + cat + "</option>";
             var Svalue = "<option value='"+sub+"'>" + sub + "</option>";
             if($.inArray(cat, unique1) === -1)
             {
               unique1.push(cat);
               option.append(Ivalue);
+              newoption.append(Ivalue);
             }
             if (option.selectedIndex != -1){
                 if(categoryList.selectedOptions[0].value===cat){
@@ -161,9 +167,8 @@
                     }
                 }
             }
-
-
         });
+        
         categoryList.addEventListener("change", function() {
             var select;
             var options = categoryList.options;
@@ -212,6 +217,25 @@
                 }
             }
         });*/
+        
+        //code for adding a category dropdown
+        newCategoryList.addEventListener("change", function() {
+            var select;
+            var options = newCategoryList.options;
+            var selectedOpt = newCategoryList.selectedOptions;
+
+
+            if (options.selectedIndex != -1){
+                if(options.selectedIndex != 0){
+                    select=selectedOpt[0].value;
+                    document.getElementById('category').value=select;
+                    document.getElementById("category").style.visibility = "hidden";
+                }else{
+                    document.getElementById("category").style.visibility = "visible";
+                    document.getElementById('category').value="";
+                }
+            }
+        });
         // If coming from the Quiz Me! button
         if(window.location.pathname+window.location.search == "/NewQuestion")
         {
@@ -221,10 +245,12 @@
     });
     //AJAX
     function sendCategory(){
-        var cat = document.getElementById('category').value;
-        var sub = document.getElementById('subcategory').value;
+        var cat = document.getElementById('category').value.trim();
+        var sub = document.getElementById('subcategory').value.trim();
         cat = cat.replace(/:/g, '');
         sub = sub.replace(/:/g, '');
+        cat=cat.charAt(0).toUpperCase()+cat.slice(1);
+        sub=sub.charAt(0).toUpperCase()+sub.slice(1);
         var category = cat + ':' + sub;
 
         if(cat !== null && cat.match(/^\s*$/) === null)
@@ -260,10 +286,12 @@
     }
 
     function adminSendCategory(){
-        var cat = document.getElementById('category').value;
-        var sub = document.getElementById('subcategory').value;
+        var cat = document.getElementById('category').value.trim();
+        var sub = document.getElementById('subcategory').value.trim();
         cat = cat.replace(/:/g, '');
         sub = sub.replace(/:/g, '');
+        cat=cat.charAt(0).toUpperCase()+cat.slice(1);
+        sub=sub.charAt(0).toUpperCase()+sub.slice(1);
         var category = cat + ':' + sub;
 
         if(cat !== null && cat.match(/^\s*$/) === null)
