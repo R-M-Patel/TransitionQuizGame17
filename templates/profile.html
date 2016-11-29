@@ -49,8 +49,8 @@
                        bars : 'horizontal',
                        vAxis : {minorGridlines : {count:5}},
                        colors : ['#aaaaaa'],
-                       height: 500,
-                       width: 500,
+                       height: 'auto',
+                       width: 'auto',
                        legend: {position : 'none'},
                        titlePosition : 'none',
                        isStacked: true
@@ -128,8 +128,8 @@
         var options = {
                        bars : 'horizontal',
                        vAxis : {minorGridlines : {count:5}},
-                       height: 500,
-                       width: 500,
+                       height: 'atuo',
+                       width: 'atuo',
                        legend: {position : 'none'},
                        titlePosition : 'none',
                        isStacked: true
@@ -243,7 +243,7 @@
     <div class="container">
         <hr>
         <he5>Statistics:</he5><br>
-        <he6>Press graph to switch between category and subcategory views:</he6><br><br>
+        <he6>Click on the graph to switch between category and subcategory views:</he6><br><br>
         {% if numScores > 2 %}
             <div  id="barchart_material"></div>
             <div  id="subchart_material"></div>

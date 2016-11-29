@@ -5,8 +5,8 @@
 <script type="text/javascript" src="../static/js/datatables.min.js"></script>
 <script>
 	$(document).ready(function() {
-        var table = $('#accepted').DataTable();
-				var table2 = $('#submitted').DataTable();
+        var table = $('#accepted').DataTable({responsive:true});
+				var table2 = $('#submitted').DataTable({responsive:true});
 } );
 </script>
 
@@ -26,9 +26,6 @@
           <th>Question</th>
 					<th>Category</th>
 					<th>Subcategory</th>
-					<th>Score</th>
-					<th>Create Date</th>
-					<th>Creator</th>
 				</tr>
 			</thead>
 
@@ -37,9 +34,6 @@
           <th>Question</th>
 					<th>Category</th>
 					<th>Subcategory</th>
-					<th>Score</th>
-					<th>Create Date</th>
-					<th>Creator</th>
 				</tr>
 			</tfoot>
 
@@ -57,10 +51,6 @@
 						document.write("{{question_obj.categoryText}}".split(':')[1]);
 						document.write("</th>");
 						</script>
-
-						<th>{{question_obj.rating}}</th>
-						<th>{{question_obj.create_date}}</th>
-						<th>{{question_obj.creator}}</th>
 					</tr>
 			{% endfor %}
 			</tbody>
@@ -76,9 +66,6 @@
           <th>Question</th>
 					<th>Category</th>
 					<th>Subcategory</th>
-					<th>Score</th>
-					<th>Create Date</th>
-					<th>Creator</th>
 				</tr>
 			</thead>
 
@@ -87,9 +74,6 @@
           <th>Question</th>
 					<th>Category</th>
 					<th>Subcategory</th>
-					<th>Score</th>
-					<th>Create Date</th>
-					<th>Creator</th>
 				</tr>
 			</tfoot>
 
@@ -107,10 +91,6 @@
 						document.write("{{question_obj.categoryText}}".split(':')[1]);
 						document.write("</th>");
 						</script>
-
-						<th>{{question_obj.rating}}</th>
-						<th>{{question_obj.create_date}}</th>
-						<th>{{question_obj.creator}}</th>
 					</tr>
 			{% endfor %}
 			</tbody>
