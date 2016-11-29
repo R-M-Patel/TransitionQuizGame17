@@ -20,9 +20,6 @@
           <th>Question</th>
 					<th>Category</th>
 					<th>Subcategory</th>
-					<th>Score</th>
-					<th>Create Date</th>
-					<th>Creator</th>
 				</tr>
 			</thead>
 
@@ -31,9 +28,6 @@
           <th>Question</th>
 					<th>Category</th>
 					<th>Subcategory</th>
-					<th>Score</th>
-					<th>Create Date</th>
-					<th>Creator</th>
 				</tr>
 			</tfoot>
 
@@ -51,10 +45,6 @@
 						document.write("{{question_obj.categoryText}}".split(':')[1]);
 						document.write("</th>");
 						</script>
-
-						<th>{{question_obj.rating}}</th>
-						<th>{{question_obj.create_date}}</th>
-						<th>{{question_obj.creator}}</th>
 					</tr>
 			{% endfor %}
 			</tbody>

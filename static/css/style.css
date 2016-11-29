@@ -199,7 +199,6 @@ span.profile-container
 	overflow: hidden;
 	width: 25px;
 	height: 25px;
-
 }
 
 .profile-button
@@ -246,6 +245,29 @@ img.logo
 	float: left;
 	margin-top: 10px;
 	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.take-quiz
+{
+	position:absolute;
+	top:-200px;
+	display:none;
+}
+
+/* min-width: 768px == col-sm-xx */
+/* This media query is for the "Take a Quiz" form */
+@media (min-width: 768px)
+{
+	.quiz-text
+	{
+		text-align: right;
+	}
+
+	.quiz-select
+	{
+		text-align: left;
+	}
 }
 
 /*div.loader
