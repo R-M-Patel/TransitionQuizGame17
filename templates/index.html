@@ -42,8 +42,8 @@
         for (x = 0; x < curr.length; x++){
             var option1 = document.createElement("option");
             var option2 = document.createElement("option");
-            var cat = curr[x].category.split(':')[0];
-            var sub = curr[x].category.split(':')[1];
+            var cat = curr[x].category.split(':')[0].trim();
+            var sub = curr[x].category.split(':')[1].trim();
 
             if($.inArray(cat, unique1) === -1){
               unique1.push(cat);

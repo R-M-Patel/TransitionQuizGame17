@@ -87,8 +87,8 @@
         //var category2Scores=[];
         for (i in curr){
 
-            var cat = curr[i].categoryText.split(':')[0];
-            var sub = curr[i].categoryText.split(':')[1];
+            var cat = curr[i].categoryText.split(':')[0].trim();
+            var sub = curr[i].categoryText.split(':')[1].trim();
             if($.inArray(cat, unique1) === -1){
                 unique1.push(cat);
 
@@ -110,11 +110,11 @@
             for (j in unique2){
                 var currentScore=0;
                 for (k in curr){
-                    var cat = curr[k].categoryText.split(':')[0];
-                    var sub = curr[k].categoryText.split(':')[1];
+                    var cat = curr[k].categoryText.split(':')[0].trim();
+                    var sub = curr[k].categoryText.split(':')[1].trim();
                     if(unique1[i]===cat&&unique2[j]===sub){
-                        currentScore=curr[k].score;
-                        break;
+                        currentScore=currentScore+curr[k].score;
+                        //break;
                     }
                 }
                 aCat.push(currentScore);
