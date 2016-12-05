@@ -185,7 +185,7 @@ table#leaderboard th	{
 /* Sunder's Styles */
 .nav-button
 {
-	overflow: hidden;
+height:auto;
 }
 
 .profile-small
