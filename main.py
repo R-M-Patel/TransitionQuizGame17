@@ -572,6 +572,7 @@ class categoryQuiz(webapp2.RequestHandler):
         category = self.request.get('category') + ':' + self.request.get('subcategory')
         number = self.request.get('number')
         mine = self.request.get('mine')
+        timed = self.request.get('timed')
         if mine == 'mine':
             questions = models.getQuestionsCatUsr(category,int(number),models.getUser(id).username)
         else:
@@ -593,6 +594,7 @@ class categoryQuiz(webapp2.RequestHandler):
             'user_id': get_user_id(),
             'num': num,
             'question_list' : jList,
+            'timed' : timed,
             'user_email': get_user_email(),
             'login_url': users.create_login_url(),
             'logout_url': users.create_logout_url('/'),

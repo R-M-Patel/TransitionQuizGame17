@@ -17,7 +17,7 @@
     var userid = "{{user_id}}";
     var score = 0;
     var totalScore = 0;
-    var maxTime = 15;
+    var maxTime = {{ timed }};
     var userResults = [];
     var correctCount = 0;
     var numAnswered = 0;
@@ -34,16 +34,19 @@
         }
         catch(err){ }
 
-        timeLeft = 14;
+        timeLeft = {{ timed }} - 1;
         var elem = document.getElementById('timer');
         timerId = setInterval(function() {
-              elem.innerHTML = "<p>" + timeLeft + "</p>";
-              if (timeLeft == 0) {
-                clearTimeout(timerId);
-                submit(5);
-              } else {
-                    timeLeft--;
-              }
+              elem.innerHTML = "<p>" + {% ifequal timed '0' %} "&#x221E;" {% else %} timeLeft {% endifequal %} + "</p>";
+              {% ifequal timed '0' %}
+              {% else %}
+                if (timeLeft <= 0) {
+                  clearTimeout(timerId);
+                  submit(5);
+                } else {
+                      timeLeft--;
+                }
+              {% endifequal %}
             }, 1000);
         var count = document.getElementById('counter'); //question number
         counter+=1; //increments at each question
@@ -69,7 +72,7 @@
             return;
         }
         count.innerHTML = "Total Score: " + totalScore; //prints out the question number
-        elem.innerHTML = "<p>" + 15 + "</p>";
+        elem.innerHTML = "<p>" + {% ifequal timed '0' %} "&#x221E;" {% else %} {{ timed }} {% endifequal %} + "</p>";
 	$('#img').css("display","none");
         //code for retrieving and printing the question
         var quest = document.getElementById("question");
@@ -166,7 +169,8 @@
             <button type="hidden submit" id="submit" name="userAnswer" style="visibility: hidden" value=0></button>
         </font>
 
-        <div class="container" id="timer" style="text-align:center"><p>15</p></div>
+        <!-- &#x221E == The Infinity Symbol -->
+        <div class="container" id="timer" style="text-align:center"><p>{% ifequal timed '0' %} &#x221E; {% else %} {{ timed }} {% endifequal %}</p></div>
         <div class="container" style="text-align:center"><h4 style="display:inline;" id="counter"></h4></div>
     </div>
     <!--Results Modal-->
@@ -240,7 +244,7 @@
                     <span> {{num}} Questions Found!</span><br/>
                 {% endif %}
                 <br/><button class="btn btn-success" style="border-radius: 25px;" onclick= "runQuestion()" id="gobutton"><h2 class="link-button">Start</h2></button><br/>
-                <br/><span> You have 15 seconds to click on the button with the correct answer. </span><br/>
+                <br/><span> You have {% ifequal timed '0' %} unlimited time {% else %} {{ timed }} seconds {% endifequal %} to click on the button with the correct answer. </span><br/>
               {% else %}
               <br/><a href = "/submitNew" class="btn btn-info" style="border-radius: 25px;"><h2 class="link-button">Submit New Questions</h2></a><br/>
               <br/><a href = "/ReviewNewQuestions" class="btn btn-warning" style="border-radius: 25px;"><h2 class="link-button">Review New Questions</h2></a><br/>
