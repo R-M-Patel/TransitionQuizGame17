@@ -7,16 +7,18 @@
 	$(document).ready(function() {
         var table = $('#accepted').DataTable({responsive:true});
 				var table2 = $('#submitted').DataTable({responsive:true});
+
+				if(window.location.pathname+window.location.search == "/ReviewMyQuestions")
+        {
+					document.getElementById("pageTitle").innerHTML = "Your Questions";
+				}
 } );
 </script>
 
 <br/><br/><br/><br/>
 <div class="container" style="text-align: center;">
-	{% if admin %}
-    <h2 style="display:inline">Questions Database</h2>
-	{% else %}
-		<h2 style="display:inline">Your Questions</h2>
-	{% endif %}
+    <h2 id="pageTitle" style="display:inline;">Question Database</h2>
+		<p style="font-size:0.9em;margin-top:10px;">Use the search bar to find specific Questions / Categories / Subcategories.</p>
     <hr>
 </div>
 <div class="container">
