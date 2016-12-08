@@ -336,9 +336,11 @@ class ReviewOldQuestions(webapp2.RequestHandler):
         is_admin = 0
         if users.is_current_user_admin():
             is_admin = 1
-        else:
+        #else:
             # If not admin, redirect to your questions
-            return self.redirect("/ReviewMyQuestions")
+            # NOTE: non-admins can now view this page
+            #return self.redirect("/ReviewMyQuestions")
+
 
         if id is not None:
             q = models.check_if_user_exists(id)
