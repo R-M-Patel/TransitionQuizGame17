@@ -4,7 +4,6 @@ import webapp2
 import models
 import time
 import json
-
 import time
 
 from google.appengine.api import images
@@ -22,9 +21,10 @@ def render_template(handler, templatename, templatevalues={}):
   path = os.path.join(os.path.dirname(__file__), 'templates/' + templatename)
   html = template.render(path, templatevalues)
   handler.response.out.write(html)
-
-
 ###############################################################################
+
+# Returns the current user's email if one is logged in
+# Returns None if logged out
 def get_user_email():
     result = None
     user = users.get_current_user()
@@ -32,6 +32,8 @@ def get_user_email():
         result = user.email()
     return result
 
+# Returns the current user's id if one is logged in
+# Returns None if logged out
 def get_user_id():
     result = None
     user = users.get_current_user()
@@ -39,6 +41,11 @@ def get_user_id():
         result = user.user_id()
     return result
 
+###############################################################################
+# BEGIN PAGE HANDLERS
+###############################################################################
+
+# Home Page
 class MainPageHandler(webapp2.RequestHandler):
     def get(self):
         id = get_user_id()
@@ -57,26 +64,7 @@ class MainPageHandler(webapp2.RequestHandler):
         }
         render_template(self, 'index.html', page_params)
 
-# This is an exact copy of the home page, but under the URL /play
-# index.html's script will choose between play and get started
-class QuizMe(webapp2.RequestHandler):
-    def get(self):
-        id = get_user_id()
-        is_admin = 0
-        if users.is_current_user_admin():
-            is_admin = 1
-        logging.warning(models.getCategoryList())
-        newList = models.getCategoryList()
-        page_params = {
-            'catList': newList,
-            'user_email': get_user_email(),
-            'login_url': users.create_login_url('/firstLogin'),
-            'logout_url': users.create_logout_url('/'),
-            'user_id': id,
-            'admin' : is_admin
-        }
-        render_template(self, 'index.html', page_params)
-
+# Login Page
 class LoginPageHandler(webapp2.RequestHandler):
     def get(self):
         id = get_user_id()
@@ -86,6 +74,7 @@ class LoginPageHandler(webapp2.RequestHandler):
         else:
             self.redirect('/')
 
+# Submit a Question Page
 class SubmitPageHandler(webapp2.RequestHandler):
     def get(self):
         id = get_user_id()
@@ -118,12 +107,12 @@ class SubmitPageHandler(webapp2.RequestHandler):
         }
         render_template(self, 'submitQuestion.html', page_params)
 
+# After submitting a category, redirects to the Submit a Question Page
 class SubmitCategoryHandler(webapp2.RequestHandler):
     def get(self):
-        #time.sleep(1)
         self.redirect("/submitNew")
 
-#Gets all of the information submitted by the user about a new question
+# Gets all of the information submitted by the user about a new question
 class NewQuestion(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
         id = get_user_id()
@@ -878,7 +867,7 @@ class adminAddCategory(webapp2.RequestHandler):
 ###############################################################################
 mappings = [
   ('/', MainPageHandler),
-  ('/play', QuizMe),
+  ('/play', MainPageHandler),
   ('/profile', ProfileHandler),
   ('/submitNew', SubmitPageHandler),
   ('/submitNewQuestion', SubmitCategoryHandler),
