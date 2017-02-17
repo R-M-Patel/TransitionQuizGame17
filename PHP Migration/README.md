@@ -9,7 +9,9 @@ To install and run on a local machine:
 	- Copy both the includes folder and public folder to the root directory of your local server
 	- navigate to localhost/public/index.php
 
-Database connectivity is not yet set up. You can change how the main site looks by changing the
-$username variable in index.php from a username to the empty string ("") and back.
+Database connectivity is not yet set up. Also, the > play button does not bring you to the dropdowns yet.
+You can change how the main site looks by changing the $username variable in index.php from a username 
+to the empty string ("") and back. This will update the navigation links on the navbar just like on the live
+site.
 
 This should provide some proof of concept and a blueprint for moving forward with the project.
