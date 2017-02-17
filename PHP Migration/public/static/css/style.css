@@ -1,0 +1,298 @@
+#report:hover{
+	cursor: pointer;
+	color: #6666ff;
+}
+
+et{
+	font-size: 24pt;
+	font-weight: bold;
+}
+es{
+	font-size: 20pt;
+	font-style: italic;
+	border-bottom: 1px solid #000;
+}
+eI{
+	font-size:16pt;
+}
+he5 {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 18pt;
+	font-weight: bold;
+}
+
+un{
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14pt;
+	font-weight: bold;
+}
+nc{
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 12pt;
+}
+textarea{
+	resize: none;
+}
+#myCarousel {
+	height: 300;
+	width: 500;
+	overflow: hidden;
+}
+
+p {
+  font-size: 16px;
+  font-family: Monospace;
+}
+
+.blue-text {
+  color: #0266C8;
+  font-size: large;
+}
+
+.green-text {
+  color: #00933B;
+  font-size: large;
+}
+
+.yellow-text {
+  color: #F2B50F;
+  font-size: large;
+}
+
+.red-text {
+  color: #F90101;
+  font-size: large;
+}
+
+.blue-border {
+    border-color: #0266C8;
+    border-width: 5px;
+    border-style: solid;
+    border-radius: 50%;
+}
+
+.smaller-image {
+    width: 250px;
+}
+
+.submit-q-button-1{
+	background-color: #f44336;
+	font-size: 16px;
+	border-radius: 8px;
+	border: none;
+	color: white;
+	width:100px;
+}
+
+.submit-q-button-2{
+	background-color: #0266C8;
+	font-size: 16px;
+	border-radius: 8px;
+	border: none;
+	color: white;
+	width:100px;
+}
+
+.submit-q-button-3{
+	background-color: #00933B;
+	font-size: 16px;
+	border-radius: 8px;
+	border: none;
+	color: white;
+	width:100px;
+
+}
+
+.submit-q-button-4{
+	background-color: #F2B50F;
+	font-size: 16px;
+	border-radius: 8px;
+	border: none;
+	color: white;
+	width:100px;
+}
+
+.submit-a-button
+{
+	font-size: 16px;
+	width:240px;
+	height:100px;
+}
+
+.submit-a-button-1{
+	background-color: #f44336;
+}
+
+.submit-a-button-2{
+	background-color: #0266C8;
+}
+
+.submit-a-button-3{
+	background-color: #00933B;
+}
+
+.submit-a-button-4{
+	background-color: #F2B50F;
+}
+
+.alignleft {
+  float: left;
+  width:40%;
+  text-align:left;
+  font-weight: bold;
+}
+.aligncenterleft {
+  float: left;
+  width:20%;
+  text-align:center;
+  font-weight: bold;
+}
+.aligncenterright{
+	float: left;
+	width: 20%;
+	text-align: center;
+	font-weight: bold;
+}
+.alignright {
+ float: left;
+ width:20%;
+ text-align:right;
+ font-weight: bold;
+}
+
+table {
+		width:100%;
+}
+table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+}
+th, td {
+		text-align: left;
+}
+table#leaderboard tr:nth-child(even) {
+		background-color: rgb(200, 200, 200);
+}
+table#leaderboard tr:nth-child(odd) {
+	 background-color:#fff;
+}
+table#leaderboard th	{
+		background-color: black;
+		color: white;
+}
+
+
+/* Sunder's Styles */
+.nav-button
+{
+height:auto;
+}
+
+.profile-small
+{
+	height: inherit;
+	border-radius: 3px;
+}
+
+span.profile-container
+{
+	overflow: hidden;
+	width: 25px;
+	height: 25px;
+}
+
+.profile-button
+{
+	width: 150px;
+}
+
+.link-button
+{
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+span.cat
+{
+	font-size:75%;
+	width: auto;
+	text-align: right;
+}
+
+select.cat
+{
+	width: 100%;
+}
+
+input.upload-file
+{
+	height: auto;
+}
+
+td.centered
+{
+	text-align: center;
+	width: auto;
+}
+
+table.leaderboard
+{
+		font-size: 1.5em;
+}
+
+img.logo
+{
+	float: left;
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.take-quiz
+{
+	position:absolute;
+	top:-200px;
+	display:none;
+}
+
+/* min-width: 768px == col-sm-xx */
+/* This media query is for the "Take a Quiz" form */
+@media (min-width: 768px)
+{
+	.quiz-text
+	{
+		text-align: right;
+	}
+
+	.quiz-select
+	{
+		text-align: left;
+	}
+}
+
+/*div.loader
+{
+	border: 16px solid #f3f3f3;
+	border-top: 16px solid #3498db;
+	border-radius: 50%;
+	width: 120px;
+	height: 120px;
+	animation: spin 1s linear infinite;
+	margin: auto;
+	margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}*/
+
+hr
+{
+	border: 0;
+  clear:both;
+  display:block;
+  width: 96%;
+  background-color:#FFFF00;
+  height: 1px;
+}
