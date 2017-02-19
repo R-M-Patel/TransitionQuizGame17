@@ -16,7 +16,8 @@
     </footer>
 
     <!-- jQuery -->  
-    <script src="../public/static/js/jquery.js"></script>
+    <!-- moved to header -->
+    <!-- <script src="../public/static/js/jquery.js"></script> -->
 
     <!-- Bootstrap -->
     <script src="../public/static/js/bootstrap.min.js"></script>
@@ -25,8 +26,15 @@
     <script src="../public/static/js/jquery.easing.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="../public/static/js/grayscale.js"></script>
-  <!-- COMMENTING THIS OUT BECAUSE I DON'T KNOW WHAT IT IS.
-   </homebody> -->
+    <!-- Commented this out, not sure it is needed. -->
+    <!-- <script src="../public/static/js/grayscale.js"></script> -->
+
 </body>
 </html>
+
+<?php
+    // always close connection
+    if (isset($connection)) {
+      mysqli_close($connection);
+    }
+?>

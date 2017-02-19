@@ -18,11 +18,12 @@
   <link rel="stylesheet" href="../public/static/css/bootstrap.min.css">
   <link rel="stylesheet" href="../public/static/css/grayscale1.css">
   <!-- Custom CSS - from index.html -->
-  <link rel="stylesheet" href="../public/static/css/grayscale.css">
+  <link rel="stylesheet" href="../public/static/css/grayscale.css">  
 
   <!-- Fonts -->
   <link rel="stylesheet" href="../public/static/css/font-awesome.min.css" type="text/css">
   <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
   <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
-</head>
+  <!-- JQuery -->
+  <script src="../public/static/js/jquery.js"></script>
