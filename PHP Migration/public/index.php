@@ -1,9 +1,16 @@
+<?php session_start(); ?>
 <?php require_once("../includes/db_connection.php"); ?>
 <?php require_once("../includes/functions.php"); ?>
 
-<?php $username = "mjb236"; ?>
-<?php if (!is_user_active($username)) $username = null; ?>
-<?php $admin = is_user_admin($username); ?>
+<?php 
+	$user = attempt_login("mjb236", "default"); 
+	if ($user) {
+		$_SESSION["username"] = $user["username"];
+		$_SESSION["active_flag"] = $user["active_flag"];
+		$_SESSION["admin_flag"] = $user["admin_flag"];
+		$_SESSION["owner_flag"] = $user["owner_flag"];
+	}
+?>
 
 <?php include("../includes/header.php"); ?>
 </head>
@@ -12,7 +19,7 @@
   <homebody>
     <!-- <homebody> -->
     <!-- Navigation -->
-    <?php echo get_navbar($username, $admin); ?>
+    <?php echo get_navbar(); ?>
     <!-- Intro Header -->
     <header id="top" class="intro">
         <div class="intro-body">
@@ -21,7 +28,7 @@
                 <p class="intro-text">An easy, fun way to help pharmacy
                 students learn and study.<br>Get started now!</p>
 
-                <?php echo get_play_button_display($username); ?>
+                <?php echo get_play_button_display(); ?>
 
             </div>           
         </div>

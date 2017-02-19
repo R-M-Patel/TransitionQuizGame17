@@ -11,7 +11,7 @@
 
     <footer>
         <div class="container text-center">
-            <p>Copyright &copy; PharmGenius 2016, All Rights Reserved</p>
+            <p>Copyright &copy; PharmGenius 2016-2017, All Rights Reserved</p>
         </div>
     </footer>
 
@@ -26,8 +26,7 @@
     <script src="../public/static/js/jquery.easing.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <!-- Commented this out, not sure it is needed. -->
-    <!-- <script src="../public/static/js/grayscale.js"></script> -->
+    <script src="../public/static/js/grayscale.js"></script>
 
 </body>
 </html>

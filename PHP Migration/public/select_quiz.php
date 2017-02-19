@@ -1,14 +1,13 @@
+<?php session_start(); ?>
 <?php require_once("../includes/db_connection.php"); ?>
 <?php require_once("../includes/functions.php"); ?>
 
-<?php $username = "mjb236"; ?>
-<?php if (!is_user_active($username)) $username = null; ?>
-<?php $admin = is_user_admin($username); ?>
-<?php $category_set = get_all_categories(true); ?>
+<?php confirm_login_status(); ?>
 
 <?php include("../includes/header.php"); ?>
 
 <script>
+	// This function handles updating the quiz drop down based on the category selected.
 	$(document).ready(function() {
 	  $("#category").change(function() {
 	  	$("#quiz").empty();
@@ -23,7 +22,7 @@
   <homebody>
     <!-- <homebody> -->
     <!-- Navigation -->
-    <?php echo get_navbar($username, $admin); ?>
+    <?php echo get_navbar(); ?>
     <!-- Intro Header -->
     <header id="top" class="intro">
       <div class="intro-body">
@@ -36,7 +35,7 @@
                     <br /><br />
                 </div>
                 <div class="container col-xs-12">
-                  <?php echo get_initial_dropdowns($category_set); ?>
+                  <?php echo get_initial_dropdowns(); ?>
                   <div class="col-sm-6 quiz-text">
                     Number of Questions:
                   </div>
@@ -74,7 +73,6 @@
                     <button style="color:black" type='submit' id="startQuiz">Start Quiz</button>
                 </div>
             </form>
-            </div>
         </div>
       </div>
     </header>
