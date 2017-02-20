@@ -2,16 +2,6 @@
 <?php require_once("../includes/db_connection.php"); ?>
 <?php require_once("../includes/functions.php"); ?>
 
-<?php 
-	$user = attempt_login("mjb236", "default"); 
-	if ($user) {
-		$_SESSION["username"] = $user["username"];
-		$_SESSION["active_flag"] = $user["active_flag"];
-		$_SESSION["admin_flag"] = $user["admin_flag"];
-		$_SESSION["owner_flag"] = $user["owner_flag"];
-	}
-?>
-
 <?php include("../includes/header.php"); ?>
 </head>
 

@@ -266,6 +266,38 @@ function get_quizzes_for_category($category_id, $active_only) {
   return $quiz_set;
 }
 
+// get questions for the quiz
+function get_questions_for_quiz($quiz_id, $active_only) {
+  global $connection;
+
+  $safe_quiz_id = mysql_prep($quiz_id);
+  $query = "SELECT question_id, question_text, times_answered, times_correctly_answered ";
+  $query .= "FROM question ";
+  $query .= "WHERE quiz_id = {$safe_quiz_id} ";
+  if ($active_only) {
+      $query .= "AND active_flag = 'Y' ";
+  }
+
+  $question_set = mysqli_query($connection, $query);
+  confirm_query($question_set);
+
+  return $question_set;
+}
+
+// get questions for the quiz
+function get_answers_for_question($question_id) {
+  global $connection;
+
+  $safe_question_id = mysql_prep($question_id);
+  $query = "SELECT answer_id, answer_text, correct_flag, times_chosen ";
+  $query .= "FROM answer ";
+  $query .= "WHERE question_id = {$safe_question_id} ";
+
+  $answer_set = mysqli_query($connection, $query);
+  confirm_query($answer_set);
+
+  return $answer_set;
+}
 
 // **************************************************
 // LOGIN/PASSWORD FUNCTIONS
@@ -362,6 +394,25 @@ function logout() {
   $_SESSION["active_flag"] = null;
   $_SESSION["admin_flag"] = null;
   $_SESSION["owner_flag"] = null;
+}
+
+// **************************************************
+// VALIDATION FUNCTIONS
+// **************************************************
+
+// returns true if the value is set and not an empty string
+function has_presence($value) {
+  return isset($value) && $value !== "";
+}
+
+// get the message from sessage and delete it afterwards
+function get_session_message() {
+  $message = "";
+  if (isset($_SESSION["message"])) {
+    $message = $_SESSION["message"];
+    $_SESSION["message"] = null;
+  }
+  return $message;
 }
 
 ?>
