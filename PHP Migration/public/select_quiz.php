@@ -27,7 +27,7 @@
     <header id="top" class="intro">
       <div class="intro-body">
         <div id="dropdown" class="container col-xs-8 col-xs-offset-2"> <!-- Took "take-quiz" out of the class. could not get it to unhide -->
-            <form action="/takeQuiz">
+            <form action="../public/take_quiz.php" method="post">
                 <div class="container col-xs-12">
                     <a href="index.php" id ="on-back">
                         <i style="color:white; cursor:pointer; fontWeight:bold" class="fa fa-arrow-left animated fa-3x">&nbsp;<h1 style="display:inline">Go Back</h1></i>
