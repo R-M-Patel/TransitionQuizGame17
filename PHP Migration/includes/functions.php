@@ -245,6 +245,7 @@ function get_all_categories($active_only) {
   return $category_set;
 }
 
+
 // get quiz_ids and quiz_names for specified category
 // if active_only is true, only active quizzes will be returned
 function get_quizzes_for_category($category_id, $active_only) {
@@ -416,19 +417,19 @@ function get_session_message() {
 }
 
 // **************************************************
-// LEADERBOARD FUNCITONS
+// LEADERBOARD FUNCTIONS
 // **************************************************
 
 function get_leaderboard_view(){
-  $conn = new mysqli("localhost", "root", "", "pharm_genius");
+  global $connection;
   $query = "SELECT username, score ";
   $query .= "FROM vw_alluserscores";
   
-  if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
   }
   
-  $result = $conn->query($query);
+  $result = $connection->query($query);
   
   if ($result->num_rows > 0) {
     // output data of each row
@@ -439,7 +440,7 @@ function get_leaderboard_view(){
     }
   }
   
-  return "";
+  return true;
 }
 
 ?>
