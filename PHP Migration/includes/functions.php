@@ -415,4 +415,31 @@ function get_session_message() {
   return $message;
 }
 
+// **************************************************
+// LEADERBOARD FUNCITONS
+// **************************************************
+
+function get_leaderboard_view(){
+  $conn = new mysqli("localhost", "root", "", "pharm_genius");
+  $query = "SELECT username, score ";
+  $query .= "FROM vw_alluserscores";
+  
+  if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
+  
+  $result = $conn->query($query);
+  
+  if ($result->num_rows > 0) {
+    // output data of each row
+    $rank = 1;
+    while($row = $result->fetch_assoc()) {
+      echo "<tr><td>" . $rank . "</td><td>" . $row["username"] ."</td><td>" . $row["score"] ."</td></tr>";
+      $rank++;
+    }
+  }
+  
+  return "";
+}
+
 ?>

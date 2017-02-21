@@ -13,7 +13,14 @@
 	  	$("#quiz").empty();
 	  	$("#quiz").load("../includes/dropdown_handler.php?category=" + $("#category").val());
 	  });
+    
+    $(document).ready(function() {
+      $("#quiz").empty();
+      $("#quiz").load("../includes/dropdown_handler.php?category=" + $("#category").val());
+    });
 	});
+  
+  
 </script>
 
 </head>
@@ -77,5 +84,4 @@
       </div>
     </header>
   </homebody>
-
 <?php include("../includes/footer.php") ?>
