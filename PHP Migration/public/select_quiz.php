@@ -6,23 +6,7 @@
 
 <?php include("../includes/header.php"); ?>
 
-<script>
-	// This function handles updating the quiz drop down based on the category selected.
-	$(document).ready(function() {
-	  $("#category").change(function() {
-	  	$("#quiz").empty();
-	  	$("#quiz").load("../includes/dropdown_handler.php?category=" + $("#category").val());
-	  });
-    
-    $(document).ready(function() {
-      $("#quiz").empty();
-      $("#quiz").load("../includes/dropdown_handler.php?category=" + $("#category").val());
-    });
-	});
-  
-  
-</script>
-
+<script src="static/js/dropdowns.js"></script>
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
