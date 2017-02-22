@@ -4,34 +4,114 @@
 
 <?php confirm_login_status(); ?>
 
-This is take_quiz.php
+<?php include("../includes/header.php"); ?>
 
-<pre>
-<?php
-	var_dump($_POST);
+<script src="../public/static/js/jquery.easing.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+<script src="../public/static/js/w2ui-1.4.3.min.js"></script>
+<script>
+  var the_quiz;   // will store our quiz data
 
-	$question_array = array();
+  // This function found on stackoverflow - gets the GET variables out of the URL
+  // http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+  function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
 
-	$question_set = get_questions_for_quiz($_POST["quiz"], true);
-	while($question = mysqli_fetch_assoc($question_set)) {
-		$this_question = array();
-		$this_question["question_text"] = $question["question_text"];
-		$this_question["question_id"] = $question["question_id"];
-		$answer_set = get_answers_for_question($question["question_id"]);
-		$answer_num = 0;
-		while($answer = mysqli_fetch_assoc($answer_set)) {
-			$this_question["answer_".$answer_num] = $answer["answer_text"];
-			$this_question["answer_".$answer_num."_id"] = $answer["answer_id"];
-			$this_question["answer_".$answer_num."_chosen"] = $answer["times_chosen"];
-			if ($answer["correct_flag"] === "Y") {
-				$this_question["correct_answer"] = $answer["answer_id"];
-			}
-			$answer_num++;
-		}
-		$question_array[] = $this_question;
-	}
+  function displayGetReadyDialog() {
+    $("#getready").modal({ backdrop: 'static', keyboard: false });
+    if (the_quiz.questions.length > 0) {
+      alert(the_quiz.questions[0].question_text);
 
-	var_dump($question_array);
+      $("#ready_title").html("Are you ready?");
+      $("#questions_found").html((the_quiz.questions.length == 1) ? 
+          "Found " + 1 + " question!" : 
+          "Found " + the_quiz.questions.length + "questions!");
+      $("#time_limit").html(the_quiz.questions.time_per_question == 0 ? 
+          "You have unlimited time per question to choose the correct answer." : 
+          "You have " + the_quiz.questions.time_per_question + " seconds per question to choose the correct answer.");
+      $(".no-questions").css("display","none");
+    }
+    else {
+      $("#ready_title").html = "No Questions Found";
+      $("#gobutton").css("display","none");
+    }
+  }  
+  
+  //alert("Quiz:" + quiz_id + "\nNumber: " + num_questions + "\nTimed: " + timed + "\nMine: " + mine);
+  $(document).ready(function() {
+    var quiz_id = getParameterByName("quiz");
+    var num_questions = getParameterByName("number");
+    var timed = getParameterByName("timed");
+    var mine = getParameterByName("mine");
 
-?>
-</pre>
+    $.ajax({
+      type: "POST",
+      url: "get_quiz.php",
+      data: {
+        "quiz": quiz_id,
+        "timed": timed,
+        "number": num_questions,
+        "mine": mine
+      },
+      dataType: "text",
+      success: function(data) {
+        console.log(data);
+        the_quiz = JSON.parse(data);
+        
+        displayGetReadyDialog();
+      },
+      error: function(jqXHR, textStatus, error) { }
+    });
+  });
+
+  
+
+</script>
+</head>
+<body id="main">
+  <?php echo get_navbar(); ?>
+
+  <div style="z-index:2147483646;" class="modal fade" id="getready" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="text-align:center">
+            <h1 style="display:inline" id="ready_title"></h1>
+        </div>
+        <div class="modal-body" style="text-align:center">
+          <span id="questions_found"></span>
+          <br /><br />
+          <button class="btn btn-success" style="border-radius: 25px;" onclick="runQuestion()" id="gobutton">
+            <h2 class="link-button">Start</h2>
+          </button>
+          <br /><br />
+          <span id="time_limit"></span>
+          <br /><br />
+          <a href="/submitNew" class="btn btn-info no-questions" style="border-radius: 25px;">
+            <h2 class="link-button">Submit New Questions</h2>
+          </a>
+          <br /><br />
+          <a href="/ReviewNewQuestions" class="btn btn-warning no-questions" style="border-radius: 25px;">
+            <h2 class="link-button">Review New Questions</h2>
+          </a>
+          <br /><br />
+          <span class="no-questions"> Questions must have a user rating of 5 or administrative permission to be active.</span>
+          <br />
+          <a href="index.php">
+            <h5 style="display:inline"><br>Return Home</h5>
+          </a>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+<?php include("../includes/footer.php"); ?>

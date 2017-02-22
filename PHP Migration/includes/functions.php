@@ -144,7 +144,7 @@ function get_about_button()  {
 function get_initial_dropdowns() {
   $html = "<div class=\"col-sm-6 quiz-text\">Select a Category:</div>";
   $html .= "<div class=\"col-sm-6 quiz-select\">";
-  $html .= "<select style=\"color:black\" id=\"category\" name=\"category\" method=\"POST\">";
+  $html .= "<select style=\"color:black\" id=\"category\">";
 
   // get all active categories
   $category_set = get_all_categories(true);
@@ -170,7 +170,7 @@ function get_initial_dropdowns() {
 function get_quiz_dropdown($category_id) {
   $html = "<div class=\"col-sm-6 quiz-text\">Select a Quiz:</div>";
   $html .= "<div class=\"col-sm-6 quiz-select\">";
-  $html .= "<select style=\"color:black\" id=\"quiz\" name=\"quiz\" method=\"POST\">"; 
+  $html .= "<select style=\"color:black\" id=\"quiz\" name=\"quiz\" method=\"GET\">"; 
 
   $quiz_set = get_quizzes_for_category($category_id, true);
    
@@ -267,22 +267,78 @@ function get_quizzes_for_category($category_id, $active_only) {
   return $quiz_set;
 }
 
-// get questions for the quiz
-function get_questions_for_quiz($quiz_id, $active_only) {
+// This function will get any quiz by its quiz id
+// NOTE: select_quiz.php should only display active quizzes
+//       so when this function is called, the passed in quiz_id
+//       should only be for an active quiz
+function get_quiz($quiz_id) {
   global $connection;
 
   $safe_quiz_id = mysql_prep($quiz_id);
-  $query = "SELECT question_id, question_text, times_answered, times_correctly_answered ";
+
+  $query = "SELECT quiz_id, quiz_name, description, created_by ";
+  $query .= "FROM quiz ";
+  $query .= "WHERE quiz_id = {$safe_quiz_id} ";
+  $query .= "LIMIT 1";
+
+  $quiz_set = mysqli_query($connection, $query);
+  confirm_query($quiz_set);
+
+  return quiz_set_to_array($quiz_set);
+}
+
+// takes a quiz_set result resource retrieved from the database and 
+// changes it into an array with a blank array for storing the questions
+function quiz_set_to_array($quiz_set) {
+  // should only return one result
+  if ($quiz = mysqli_fetch_assoc($quiz_set)) {
+    $quiz["questions"] = array();
+  } else {
+    // get_quiz returned no results
+    return null;
+  }  
+
+  return $quiz;
+}
+
+// get questions for the quiz
+function get_questions_for_quiz($quiz_id, $num_questions, $username, $active_only) {
+  global $connection;
+
+  $safe_quiz_id = mysql_prep($quiz_id);
+  $query = "SELECT question_id, question_text, explanation, times_answered, times_correctly_answered, created_by ";
   $query .= "FROM question ";
   $query .= "WHERE quiz_id = {$safe_quiz_id} ";
   if ($active_only) {
-      $query .= "AND active_flag = 'Y' ";
+    $query .= "AND active_flag = 'Y' ";
+  }
+  if ($username != null) {
+    $safe_user_name = mysql_prep($username);
+    $query .= "AND created_by = '{$safe_user_name}' ";
   }
 
   $question_set = mysqli_query($connection, $query);
   confirm_query($question_set);
 
-  return $question_set;
+  return question_set_to_array($question_set, $num_questions);
+}
+
+// takes a question set and transforms it into an shuffled array of questions
+// containing the specified number of questions
+function question_set_to_array($question_set, $num_questions) {
+  $questions = array(); //questions will be an array of arrays
+
+  $i = 0;
+  while ($question = mysqli_fetch_assoc($question_set)) {
+    $question["answers"] = array();
+    $questions[$i] = $question;
+    $i++;
+  }
+
+  // shuffle the array
+  shuffle($questions);
+
+  return array_slice($questions, 0, $num_questions);
 }
 
 // get questions for the quiz
@@ -293,11 +349,27 @@ function get_answers_for_question($question_id) {
   $query = "SELECT answer_id, answer_text, correct_flag, times_chosen ";
   $query .= "FROM answer ";
   $query .= "WHERE question_id = {$safe_question_id} ";
+  $query .= "LIMIT 4 "; // there should only be 4 anyway
 
   $answer_set = mysqli_query($connection, $query);
   confirm_query($answer_set);
 
-  return $answer_set;
+  return answer_set_to_array($answer_set);
+}
+
+// returns the answers in an array that has been shuffled
+function answer_set_to_array($answer_set) {
+  $answers = array();
+
+  $i = 0;
+  while ($answer = mysqli_fetch_assoc($answer_set)) {
+    $answers[$i] = $answer;
+    $i++;
+  }
+
+  shuffle($answers);
+
+  return $answers;
 }
 
 // **************************************************
