@@ -17,8 +17,6 @@
   <link rel="stylesheet" href="../public/static/css/style.css">
   <link rel="stylesheet" href="../public/static/css/bootstrap.min.css">
   <link rel="stylesheet" href="../public/static/css/grayscale1.css">
-  <!-- Custom CSS - from index.html -->
-  <link rel="stylesheet" href="../public/static/css/grayscale.css">  
 
   <!-- Fonts -->
   <link rel="stylesheet" href="../public/static/css/font-awesome.min.css" type="text/css">

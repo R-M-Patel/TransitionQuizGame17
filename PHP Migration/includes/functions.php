@@ -306,7 +306,7 @@ function get_questions_for_quiz($quiz_id, $num_questions, $username, $active_onl
   global $connection;
 
   $safe_quiz_id = mysql_prep($quiz_id);
-  $query = "SELECT question_id, question_text, explanation, times_answered, times_correctly_answered, created_by ";
+  $query = "SELECT question_id, question_text, score, explanation, times_answered, times_correctly_answered, created_by ";
   $query .= "FROM question ";
   $query .= "WHERE quiz_id = {$safe_quiz_id} ";
   if ($active_only) {

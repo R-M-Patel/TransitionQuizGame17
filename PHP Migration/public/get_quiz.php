@@ -37,8 +37,6 @@
   // tell php this is JSON data
   header("Content-Type: application/json");
 
-  //$the_quiz["questions"] = json_encode($the_quiz["questions"]);
-
   // our quiz is built - echo the JSON for retrieval from take_quiz.php
   echo json_encode($the_quiz);
 
