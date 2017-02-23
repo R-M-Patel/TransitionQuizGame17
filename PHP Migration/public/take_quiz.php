@@ -160,7 +160,7 @@
         </a><br /><br />
       </div>
       <div class="col-sm-6">
-        <a href="/play" class="btn btn-info" style="border-radius: 25px;">
+        <a href="/TransitionQuizGame17\PHP Migration\public\select_quiz.php" class="btn btn-info" style="border-radius: 25px;">
           <h3 class="link-button">New Quiz</h3>
         </a><br/><br/>
       </div>
@@ -236,7 +236,7 @@
       modalAnswers[i].innerHTML = (theAnswers[i].answer_text + " (" + percentages[i] + "%)");
     }
 
-    if (answerNumber = correctAnswerNum) {
+    if (answerNumber == correctAnswerNum) {
       $("#title").html("<h3 style='color:green; display:inline;'>Correct (+" + score + " pts)</h3>");
       $('#results').modal('show');
     } else {
