@@ -33,8 +33,9 @@
 
     // store the text of the given answer or a timeout message if the timer ran out
     var givenAnswer = (answerNumber == 5) ? "<i class=\"fa fa-clock-o\" aria-hidden=\"true\"> </i> Timeout" 
-                                          : thisQuestion.answers[answerNumber].answerText;
+                                          : thisQuestion.answers[answerNumber].answer_text;
 
+		
     if (answerNumber == correctAnswerNum) {
       var newResline2 = "</span><span class='aligncenterleft' style='color:green;'>"; 
       newResline2 = newResline2.concat(givenAnswer);
@@ -59,7 +60,6 @@
 		clearTimeout(timerId);    // stop the timer
 
     //alert("Placeholder for question results.");
-
     var thisQuestion = theQuiz.questions[questionNum];
     var correctAnswerNum = -1;
     var totalAnswers = 1;     // start at one to account for the answer just submitted
@@ -85,7 +85,7 @@
     }
 
     //alert(percentages);
-
+		
     updateFinalResultsScreen(answerNumber, correctAnswerNum);
     questionNum++;
     runQuestion(); 
