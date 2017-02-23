@@ -30,15 +30,20 @@
       newResLine1 = newResLine1.concat(thisQuestion.explanation);
       newResLine1 = newResLine1.concat('</span>');
     }
-    if (thisQuestion.answers[answerNumber].correct_flag == "Y") {
+
+    // store the text of the given answer or a timeout message if the timer ran out
+    var givenAnswer = (answerNumber == 5) ? "<i class=\"fa fa-clock-o\" aria-hidden=\"true\"> </i> Timeout" 
+                                          : thisQuestion.answers[answerNumber].answerText;
+
+    if (answerNumber == correctAnswerNum) {
       var newResline2 = "</span><span class='aligncenterleft' style='color:green;'>"; 
-      newResline2 = newResline2.concat(thisQuestion.answers[answerNumber].answer_text);
+      newResline2 = newResline2.concat(givenAnswer);
       var newResline3 = "</span><span class='alignright' style='color:green;'>+";
       newResline3 = newResline3.concat(thisQuestion.score);
       var newResline4 = "&nbsp;&nbsp;&nbsp;</span></br></div>";
     } else {
       var newResline2 = "</span><span class='aligncenterleft' style='color:red;'>";
-      newResline2 = newResline2.concat(thisQuestion.answers[answerNumber].answer_text);
+      newResline2 = newResline2.concat(givenAnswer);
       var newResline3 = "</span><span class='alignright' style='color:red;'>";
       newResline3 = newResline3.concat("0");
       var newResline4 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></br></div>";
@@ -51,7 +56,10 @@
   }
 
   function submitAnswer(answerNumber) {
-    clearTimeout(timerId);    // stop the timer
+		clearTimeout(timerId);    // stop the timer
+
+    //alert("Placeholder for question results.");
+
     var thisQuestion = theQuiz.questions[questionNum];
     var correctAnswerNum = -1;
     var totalAnswers = 1;     // start at one to account for the answer just submitted
@@ -75,8 +83,6 @@
       percentages[i] = Math.round((timesChosen / totalAnswers) * 100);
       percentages[i] = (isNaN(percentages[i]) || percentages[i] < 0) ? 0 : percentages[i]; // set to 0 if NaN or negative
     }
-
-
 
     //alert(percentages);
 
@@ -111,7 +117,8 @@
 
   function updateTimer() {
     timeLeft -= 1;
-    $("timer").html("<p>" + timeLeft + "</p>");
+    console.log("In updateTimer timer: Time left: " + timeLeft);
+    $("#timer").html("<p>" + timeLeft + "</p>");
 
     if (timeLeft <= 0) {
       clearTimeout(timerId);
@@ -121,13 +128,14 @@
 
   // get time per question and update the timer area.
   function setUpTimer() {
-    timeLeft = theQuiz.time_per_question;
+    timeLeft = parseInt(theQuiz.time_per_question);
+    console.log("In setup timer: Time left: " + timeLeft);
 
     if (timeLeft == 0) {
       // no time chosen
-      $("timer").html("<p>&#x221E;</p>");
+      $("#timer").html("<p>&#x221E;</p>");
     } else {
-      $("timer").html("<p>" + timeLeft + "</p>"); // start timer at max
+      $("#timer").html("<p>" + timeLeft + "</p>"); // start timer at max
       // set up the timer
       timerId = setInterval(updateTimer, 1000); // 1 second interval
     }
@@ -150,9 +158,6 @@
       displaySummaryStats();
       $('#quizResults').show();
     }
-
-
-
   }
  
   // This function found on stackoverflow - gets the GET variables out of the URL
