@@ -1,0 +1,381 @@
+{% extends "_base.html" %}
+{% block bodycontent %}
+<!DOCTYPE html>
+<html>
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    <!-- Bowen - google charts api - not sure yet what this is providing -->
+<script src="/static/js/w2ui-1.4.3.min.js"></script>   <!-- Bowen - w2ui js api - not sure yet what this is providing -->
+
+<script type="text/javascript">
+    var timeLeft;
+    var counter = -1; // Bowen - is incremented to 0 before first question
+    var curr;
+    var timerId;
+    var ratingNum;
+    var ratingDiv;
+    var questkey;
+    var userid = "{{user_id}}";
+    var score = 0;                          // Bowen - Score earned on the current question
+    var totalScore = 0;                     // Bowen - total score earned during quiz
+    var maxTime = {{ timed }};
+    var userResults = [];
+    var correctCount = 0;
+    var numAnswered = 0;
+    function result(){  //none of these constructor values should remain after proper code executes
+        this.qTxt = "Question Text Goes Here";
+        this.uAns = "Timeout by default";
+        this.points = 0;
+        this.correct = false;
+    }
+    function runQuestion(){
+        try{
+            clearTimeout(timerId);          // Bowen - reset timer
+            $("#getready").modal('hide');   // Bowen - hide the getready popup
+        }
+        catch(err){ }
+
+        timeLeft = {{ timed }} - 1;         // Bowen - timed supplied in the args from main.py, which is sent via url parameters (GET)
+        var elem = document.getElementById('timer');    // Bowen - gets the timer element so that it can be updated with remaining time
+        
+        // Bowen - the return value of setInterval function is the ID of the timer - this needs to be stored so that the timer can 
+        //         be stopped by calling clearTimeout(timerId);
+        timerId = setInterval(function() {
+              elem.innerHTML = "<p>" + {% ifequal timed '0' %} "&#x221E;" {% else %} timeLeft {% endifequal %} + "</p>"; // Bowen - updates the timer in the UI (uses infinity symbol if timed not set)
+              {% ifequal timed '0' %}       // Bowen - skip this section if timed == '0'
+              {% else %}
+                if (timeLeft <= 0) {        
+                  clearTimeout(timerId);    // Bowen - stop the time if it's reached 0 
+                  submit(5);                // Bowen - submit(5) calls the submit function from submitQ.js with value of 5, telling the function that no answer was chosen
+                } else {
+                      timeLeft--;           // Bowen - decrement timeLeft if there is still time remaining
+                }
+              {% endifequal %}
+            }, 1000);                       // Bowen - 1000 is milliseconds, hence this function is set to operate every second
+        var count = document.getElementById('counter'); //question number
+        counter+=1; //increments at each question   // Bowen - this increments the counter from -1 to 0 before first question
+        if( (counter) == "{{num}}"){        // Bowen - num provided in args from main.py, which is sent via url parameters (GET)
+            document.getElementById('content').innerHTML = "";  // Bowen - resets the content of 'content' (removes all of the question elements)
+            var cnt = 0;
+            var correctString = "";
+            correctString = correctString.concat(correctCount);             // Bowen - build a string telling how many user got correct out of number answered
+            correctString = correctString.concat(" out of ");
+            correctString = correctString.concat(counter);
+            correctString = correctString.concat(" questions correct!");
+            document.getElementById('correctBox').innerHTML = correctString;    // Bowen - store in correctBox element - see div id='quizResults'
+            var scoreString = "You scored ";
+            scoreString = scoreString.concat(totalScore);                   // Bowen - string to display the number of points earned
+            scoreString = scoreString.concat(" points!");
+            document.getElementById('pointsBox').innerHTML = scoreString;   // Bowen - store in pointsBox element - see div id='quizResults'
+            $('#quizResults').show();                                       // Bowen - displays the quizResults element - see div id='quizResults' - initially set to display=none
+            /*while (cnt < counter+1){
+            }*/
+            //instead of sending the results off the page, just clear the page and construct the new one here,
+            //can have an already set up div here and just fill it in as well
+            //window.location.href = "/";
+            return;
+        }
+        count.innerHTML = "Total Score: " + totalScore; //prints out the question number // Bowen - actually prints out the score
+        elem.innerHTML = "<p>" + {% ifequal timed '0' %} "&#x221E;" {% else %} {{ timed }} {% endifequal %} + "</p>";  // Bowen - Initial set of the timer display? timed is gathered in main.py from GET
+	$('#img').css("display","none");       // Bowen - hides the image
+        //code for retrieving and printing the question
+        var quest = document.getElementById("question");    // Bowen - store the elements for question and answers to fill with data (text retrieved from question_list gathered in main.py)
+        var ans1 = document.getElementById("answer1");
+        var ans2 = document.getElementById("answer2");
+        var ans3 = document.getElementById("answer3");
+        var ans4 = document.getElementById("answer4");
+	// curr[counter] == current question
+	// urlkey or image_urlQ
+        ratingDiv = document.getElementById("numVotes");
+        curr = {{question_list|safe}};  // Bowen - the question list sent in from main.py
+	$('#img').attr("src","/imageQ?urlkey=" + curr[counter].urlkey);    // Bowen - get image url for current question
+	if (curr[counter].image_urlQ != null){
+		$('#img').css("display","inline");        // Bowen - displays the image if an image source was provide
+	}
+        ratingNum = curr[counter].rating;         // Bowen - current rating
+        questkey = curr[counter].urlkey;          // Bowen - current quesiton id
+        quest.innerHTML = (counter+1) + ") "  + curr[counter].question ;    // Bowen - creates the question text, prepended with question number and )
+
+        // Put Quiz answers in a random order
+        // Bowen - this seems like a lot of extra work - the randomization algorithm looks like it could use a lot more cycles than necessary e.g. if the random number it
+        //         it pulled was 0 over and over again. I am thinking we can just randomize this data in PHP when the answers are pulled for the question. move the processing
+        //         onto the server instead of the client
+        var unique = [];
+        var options = [ans1, ans2, ans3, ans4];
+        var answers = [curr[counter].answer1, curr[counter].answer2, curr[counter].answer3, curr[counter].answer4];
+        while(unique.length != 4)
+        {
+          // Get random number between 0-3 (inclusive)
+          var rand = Math.floor(Math.random() * 4);
+
+          // If that number isn't already used
+          if($.inArray(rand, unique) === -1)
+          {
+            // Use it
+            //alert("Answer: " + answers[rand] + "     Submit: " + (rand+1));
+            options[unique.length].innerHTML = answers[rand];                                           // Bowen - put the answer text into the HTML of the answer button chosen
+            options[unique.length].setAttribute("onclick", "javascript: submit("+ (rand+1) +");");      // Bowen - register an onclick event - though not sure why done this way really
+            options[unique.length].value = rand+1;
+            unique.push(rand);
+          }
+        }
+
+        ratingDiv.innerHTML = "&nbspRating: " + ratingNum;
+        ratingDiv.style.color = "black";
+    }
+    function calcScore(timeRemaining,percentCorrect){
+        // New Scoring System:
+        // Score = +100
+        return 100;
+
+        // Old Scoring System
+        /*var value = 50;
+        value = value * (timeRemaining+1)/maxTime;
+        value = value * ((100-percentCorrect)/100);
+        value = +value.toFixed(1);
+        value+= 50;
+        value = value * 10;
+        return value;
+        */
+    }
+</script>
+
+<body>
+    <br><br><br><br>
+    <div class="container" id="content">
+        <div class = "container" style= "text-align:center; position:relative;">
+            <h4 id = "question" style="text-align:center"></h4>
+        </div>
+
+        <!-- Bowen - This DIV is always shown, but the below DIVs are set to modal (can't click out of), so this section is effectively hidden when another section is shown -->
+        <!--Quiz-->
+        <font size = 5>
+          <div class ="container">
+            <div class="large-lg-12 text-center">
+                    <img style="display:none;" id="img" src="" style= "text-align:center;" class="smaller-image img-rounded"></img>
+            </div><br/>
+
+            <div class = "col-lg-3"></div>
+            <div class="col-lg-3" style= "text-align:center; position:relative;">
+                <button onclick="submit(1)" id="answer1" type="submit" name="userAnswer" value=1 class="btn btn-danger submit-a-button" style="border-radius: 15px;"></button><br/><br/>
+            </div>
+            <div class="col-lg-3" style= "text-align:center; position:relative;">
+                <button onclick="submit(2)" id="answer2" type="submit" name="userAnswer" value=2 class="btn btn-info submit-a-button" style="border-radius: 15px;"></button><br/><br/>
+            </div>
+            <div class="col-lg-3"></div>
+          </div>
+          <div class ="container">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-3" style= "text-align:center; position:relative;">
+                <button onclick="submit(3)" id="answer3" type="submit" name="userAnswer" value=3 class="btn btn-success submit-a-button" style="border-radius: 15px;"></button><br/><br/>
+              </div>
+              <div class="col-lg-3" style= "text-align:center; position:relative;">
+                <button onclick="submit(4)" id="answer4" type="submit" name="userAnswer" value=4 class="btn btn-warning submit-a-button" style="border-radius: 15px;"></button>
+              </div>
+              <div class="col-lg-3"></div>
+          </div>
+            <button type="hidden submit" id="submit" name="userAnswer" style="visibility: hidden" value=0></button>
+        </font>
+
+        <!-- &#x221E == The Infinity Symbol -->
+        <div class="container" id="timer" style="text-align:center"><p>{% ifequal timed '0' %} &#x221E; {% else %} {{ timed }} {% endifequal %}</p></div>
+        <div class="container" style="text-align:center"><h4 style="display:inline;" id="counter"></h4></div>
+    </div>
+
+    <!-- Bowen - this DIV is shown when when the question is answered - see submitQ.js. Then hidden once the Next Question button is clicked - see runNextQuestion function -->
+    <!--Results Modal-->
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id ="results" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" id="title" style="text-align:center;">
+                    <span style="color:red" id="popupHead"></span>
+                </div>
+                <div class="modal-body">
+                    <div style=" font-size: 24px; line-height: 110%; text-align:left;">
+                        <h3 style="display:inline">Results: </h3>
+                        <ol id="list">
+                            <li style="color: #f44336;" id='popupAns1'></li>
+                            <li style="color: #f44336;" id='popupAns2'></li>
+                            <li style="color: #f44336;" id='popupAns3'></li>
+                            <li style="color: #f44336;" id='popupAns4'></li>
+                        </ol>
+                        <h3 style="display:inline">Explanation: </h3>
+                        <p id='explanation'></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="vote(1)" class="btn btn-success pull-left"><i class = "fa fa-arrow-up"></i></button>
+                    <button onclick="vote(0)" class="btn btn-danger pull-left"><i class = "fa fa-arrow-down"></i></button>
+
+                    <p style="display:inline" class="pull-left" id="numVotes"></p>
+                    <a class="btn btn-info" id="report" href="#sendreport" data-toggle="modal"><i class="fa fa-flag" aria-hidden="true"></i></a>
+                    <button class="btn btn-primary text-right" id="nextquestionbutton" onclick="runNextQuestion()">Next Question</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bowen - this div is shown when the user clicks the flag button (see id="report" in Results modal). Then hidden in sendReport() function -->
+    <!--Report Modal-->
+    <div style="z-index:2147483646;" class="modal fade" id="sendreport" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+                <div class="modal-header">
+                    <he5>Report Question</he5>
+                </div>
+                <div class="modal-body">
+                    Describe the problem:<br><br>
+                    <textarea class="form-control" rows="3" cols="40" id="comment" name="comment" maxlength="350" required ></textarea>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default text-right" data-dismiss="modal">Close</a>
+                    <button class="btn btn-primary" onclick="sendReport()">Submit</button>
+                </div>
+			</div>
+		</div>
+	</div>
+
+    <!-- Bowen - this div is shown when the page loads (see window.onload function below) - upcate the conditionals here to check $_GET with PHP instead.-->
+    <!--Get Ready Modal-->
+    <div style="z-index:2147483646;" class="modal fade" id="getready" role="dialog">
+  		<div class="modal-dialog">
+  			<div class="modal-content">
+          <div class="modal-header" style="text-align:center">
+              {% if num != 0 %}
+              <h1 style="display:inline">Are You Ready?</h1>
+              {% else %}
+              <h1 style="display:inline">No Questions Found!</h1>
+              {% endif %}
+          </div>
+          <div class="modal-body" style="text-align:center">
+              {% if num != 0 %}
+                {% if num == 1 %}
+                    <span> {{num}} Questions Found!</span><br/>
+                {% else %}
+                    <span> {{num}} Questions Found!</span><br/>
+                {% endif %}
+                <br/><button class="btn btn-success" style="border-radius: 25px;" onclick= "runQuestion()" id="gobutton"><h2 class="link-button">Start</h2></button><br/>
+                <br/><span> You have {% ifequal timed '0' %} unlimited time {% else %} {{ timed }} seconds {% endifequal %} to click on the button with the correct answer. </span><br/>
+              {% else %}
+              <br/><a href = "/submitNew" class="btn btn-info" style="border-radius: 25px;"><h2 class="link-button">Submit New Questions</h2></a><br/>
+              <br/><a href = "/ReviewNewQuestions" class="btn btn-warning" style="border-radius: 25px;"><h2 class="link-button">Review New Questions</h2></a><br/>
+              <br/><span> Questions must have a user rating of 5 or administrative permission to be active. </span><br/>
+              {% endif %}
+              <a href = "/"><h5 style="display:inline"><br>Return Home</h5></a>
+              <br>
+          </div>
+  			</div>
+  		</div>
+  	</div>
+
+    <!-- Bowen - this div is displayed at the end of the quiz (shown when counter = number of questions -->
+    <div class = "container" id="quizResults" style="text-align:center; display:none">
+        <div class = "container">
+        <h2 id="correctBox" style="text-align:center"></h2>
+        <h4 id="pointsBox" style="text-align:center"></h4>
+        <div class="col-sm-6"><a href="javascript:window.location.href=window.location.href" class="btn btn-success" style="border-radius: 25px;"><h3 class="link-button">Play Again</h3></a><br/><br/></div>
+        <div class="col-sm-6"><a href="/play" class="btn btn-info" style="border-radius: 25px;"><h3 class="link-button">New Quiz</h3></a><br/><br/></div>
+        <span class="alignleft">Question</span>
+        <span class="aligncenterleft">Your Answer</span>
+        <span class="aligncenterright">Correct Answer</span>
+        <span class="alignright">Points&nbsp;</span>
+        <br/><br>
+    </div>
+	</div>
+</body>
+
+<script>
+    window.onload = $("#getready").modal({ backdrop: 'static',keyboard: false });
+
+    // Bowen - I am thinking that instead of submitting the vote on click, we store the data for the vote and submit when Next Question is clicked.
+    //         This should save multiple calls to the database, and allow us to remove a vote if user clicks up then down, or vice versa
+    //         Create a vote array (can you do assoc arrays in JS?) that links vote value to quesiton_id - insert this on vote up or down, or remove if one is already there
+    function vote(direction){
+        var urlkey = curr[counter].urlkey;
+        if (direction == 1){
+            $.ajax({
+                        type: "POST",
+                        url: "/addVoteQuiz",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({"urlkey": urlkey}),
+                        dataType: 'json',
+                        success : function(text){
+                            if (text.incced >0){
+                                ratingNum+=text.incced;
+                                ratingDiv.innerHTML = "&nbspRating: " + ratingNum;
+                            }
+                            else{
+                                alert("You have already upvoted this.");
+                            }
+                        },
+                   });
+        }
+        if (direction == 0){
+            $.ajax({
+                        type: "POST",
+                        url: "/decVoteQuiz",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({"urlkey": urlkey}),
+                        success : function(text){
+                            if (text.decced > 0){
+                                ratingNum-=text.decced;
+                                ratingDiv.innerHTML = "&nbspRating: " + ratingNum;
+                            }
+                            else{
+                                alert("You have already downvoted this.");
+                            }
+                        }
+                       });
+        }
+        return;
+    }
+    $.getScript("/static/js/submitQ.js", function(){});     // Bowen - imports the JS from submitQ.js
+    function runNextQuestion(){     // Bowen - just resets the styles on the question result screen to RED and runs a new question
+        //hide and reset modal
+        $('#results').modal('hide');
+        var popAns1 = document.getElementById('popupAns1');
+        var popAns2 = document.getElementById('popupAns2');
+        var popAns3 = document.getElementById('popupAns3');
+        var popAns4 = document.getElementById('popupAns4');
+        //Set all of the styles back to normal
+        popAns1.style.color = "#f44336";
+        popAns2.style.color = "#f44336";
+        popAns3.style.color = "#f44336";
+        popAns4.style.color = "#f44336";
+        popAns1.style.fontWeight = "normal";
+        popAns2.style.fontWeight = "normal";
+        popAns3.style.fontWeight = "normal";
+        popAns4.style.fontWeight = "normal";
+        runQuestion();
+    }
+    //AJAX
+    function sendReport(){      // Bowen - I think we can write a PHP script that can be POSTed to when the submit button is clicked - see how the dropdown_handler works
+        $('#sendreport').modal('hide');
+        var comment = document.getElementById('comment').value;
+        //clear report question text box
+        document.getElementById('comment').value= "";
+        var urlkey = curr[counter].urlkey;
+        $.ajax({
+                    type: "POST",
+                    url: "/reportQuiz",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"comment": comment, "urlkey": urlkey})
+               });
+        confirm('Report Sent'); //maybe do something else here dunno what   // Bowen - update the results modal with a message stating report was sent?
+    }
+    function sendAnswer(userID, questKey, userAnswer, score){   // Bowen - again, I think we can write a PHP script that can be POSTed to when the submit button is clicked - see dropdown_handler
+        try{
+                $.ajax({
+                    type: "POST",
+                    url: "/answerSingle",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"userID": userID, "qKey": questKey, "userSelection": userAnswer, "score": score})
+              });
+          }
+          catch(err){
+              window.alert(err.message);
+          }
+    }
+</script>
+</html>
+{% endblock %}
