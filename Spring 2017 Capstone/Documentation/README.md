@@ -23,3 +23,9 @@ which explanations about what can be found in each file and their purpose.
 
 PharmGenius Walkthrough.docx - A high level overview of the site, as well as a basic
 walkthrough of the current state of the application. Inludes pictures of most pages.
+
+Pharmacy Quiz Game Proposal.docx - Initial proposal for changes made by the Spring
+2017 capstone group.
+
+Evaluation.docx - some thoughts about the project that were compiled prior to work
+being done by Spring 2017.
